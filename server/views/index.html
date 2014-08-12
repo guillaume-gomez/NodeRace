@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Cars Online</title>
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <script src="js/jaws.js"></script>
+        <script src="js/game.js"></script>
+    </head>
+ 
+    <body>       
+        <header>
+            <h1>Le super jeu en HTML5 </h1>
+        </header>
+        
+
+        <div>
+            <form action="/" method="post" id="formulaire">
+                <fieldset>
+                    Login: <input type="text" name="user" id="login">
+                </br>
+                    Voiture: <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                </br>
+                    Circuit: <select>
+                                <option value="track1">track1</option>
+                                <option value="track2">track2</option>
+                                <option value="track3">track3</option>
+                                <option value="track4">track4</option>
+                            </select>
+                    <!-- Ajouter le nb de tours le nombre max de concurrents -->
+                </br>
+                    <input type="submit" value="Submit" id="submit">
+                </fieldset>
+            </form>
+        </div>
+            </br>
+
+        <canvas id="gameCanvas" width="900" height="400">
+            Votre navigateur n'est pas compatible !
+        </canvas>
+        </br>
+        </br>
+        <div id="live_info"></div>
+        </br>
+
+        <div id="debug"></div>
+        
+        <h3>jaws log</h3>
+        <div id="jaws-log"></div>
+
+
+        <!-- Chargement du jeu -->
+        <script>
+            window.onload = function()
+            {
+                jaws.unpack();
+                jaws.assets.root = "assets/";
+                jaws.assets.add(["droid_11x15.png","block.bmp"])
+                jaws.start(Game);
+            }
+        </script>
+
+        <footer>
+            Un jeu developpé par Adrien Jarretier et Gomez Guillaume.
+            Designé par Corenthin . ... 
+        </footer>
+
+
+
+
+        <!-- la partie websocket qui permet la communication avec node.js -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+        <script>
+            var socket = io.connect('http://localhost:8080');
+
+            socket.on('messageServeur', function(position) {
+                //prevenir le jeu qu'un nouveau joueur
+                alert('hihi');
+            });
+
+
+            socket.on('position', function(position) {
+                //on reception les positions des autres joueurs de maniere asynchrone
+                alert(position);
+            });
+
+            // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
+            $('#formulaire').submit(function () {
+                var log = $('#login').val();
+                socket.emit('login', log); // Transmet le message aux autres
+                return false; // Permet de bloquer l'envoi "classique" du formulaire
+            });
+
+            var myVar=setInterval(function(){myTimer()},100000);
+
+            function myTimer() {
+                 var myPosition = {'x' : 133 , 'y' : 45};
+                socket.emit('position', JSON.stringify(myPosition));
+            }
+
+
+        </script>
+    </body>
+</html> 
