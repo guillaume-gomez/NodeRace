@@ -5,7 +5,9 @@
         <title>Cars Online</title>
         <link rel="stylesheet" type="text/css" href="/css/style.css">
         <script src="js/jaws.js"></script>
+        <script src="js/cars.js"></script>
         <script src="js/game.js"></script>
+
     </head>
  
     <body>       
@@ -40,10 +42,11 @@
         </div>
             </br>
 
+        <div id="info"></div>
+
         <canvas id="gameCanvas" width="900" height="400">
             Votre navigateur n'est pas compatible !
         </canvas>
-        </br>
         </br>
         <div id="live_info"></div>
         </br>
@@ -53,25 +56,24 @@
         <h3>jaws log</h3>
         <div id="jaws-log"></div>
 
-
-        <!-- Chargement du jeu -->
-        <script>
-            window.onload = function()
-            {
-                jaws.unpack();
-                jaws.assets.root = "assets/";
-                jaws.assets.add(["droid_11x15.png","block.bmp"])
-                jaws.start(Game);
-            }
-        </script>
-
+        </br>
         <footer>
             Un jeu developpé par Adrien Jarretier et Gomez Guillaume.
             Designé par Corenthin . ... 
         </footer>
 
 
-
+        <!-- Chargement du jeu -->
+        <script>
+        var game;
+            window.onload = function()
+            {
+                jaws.unpack();
+                jaws.assets.root = "assets/cars/";
+                jaws.assets.add(["Viper.png"]);
+            }
+        </script>
+        
 
         <!-- la partie websocket qui permet la communication avec node.js -->
         <script src="/socket.io/socket.io.js"></script>
@@ -82,26 +84,31 @@
 
             socket.on('messageServeur', function(position) {
                 //prevenir le jeu qu'un nouveau joueur
-                alert('hihi');
+                var message = $('#info').html("Un nouveau joueur vient de se connecter");
+
             });
 
 
             socket.on('position', function(position) {
-                //on reception les positions des autres joueurs de maniere asynchrone
-                alert(position);
+                //on reception les positions des autres joueurs de maniere asynchrone;
+                game.setPosition(1,position.x, position.y, 1.3);
             });
 
             // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
             $('#formulaire').submit(function () {
                 var log = $('#login').val();
                 socket.emit('login', log); // Transmet le message aux autres
+
+                //on lance le jeu
+                game = new Game();
+                jaws.start(game);
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             });
 
-            var myVar=setInterval(function(){myTimer()},100000);
+            var myVar=setInterval(function(){myTimer()},1000);
 
             function myTimer() {
-                 var myPosition = {'x' : 133 , 'y' : 45};
+                var myPosition = {'x' : game.getMyPositionX() , 'y' : game.getMyPositionY(), 'ag': game.getMyAg()};
                 socket.emit('position', JSON.stringify(myPosition));
             }
 
