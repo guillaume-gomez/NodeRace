@@ -35,9 +35,9 @@ io.sockets.on('connection', function (socket) {
         //on envoit les coordonnées aux autres joueurs
         socket.broadcast.emit('position', pos);
 
-       /* socket.get('id', function (error, id) {
+        socket.get('id', function (error, id) {
             console.log(id + ' me parle ! Il me dit : ' + position);
-        });*/
+        });
     });
 });
 

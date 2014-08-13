@@ -15,7 +15,8 @@ function Car(image, frame_width, frame_height, frame_duration)
 	var Amax;
 	var m_carFilename;
 	//this variable define your position by the algorithm made in the track class
-	var score;
+	var m_score;
+	var m_isIA;
 
 	
 	
@@ -38,8 +39,10 @@ function Car(image, frame_width, frame_height, frame_duration)
 		m_car.ag = 0;
 		
 		Vmax = Math.floor((Math.random() * VMAX) + 1);
-		Amax = Math.floor((Math.random() * VMAX) + 1);
+		Amax = Math.floor((Math.random() * AMAX) + 1);
 		m_speed = 2;
+
+		m_isIA = false;
     }
 
 	/**
@@ -127,6 +130,18 @@ function Car(image, frame_width, frame_height, frame_duration)
 	this.getAcceleration = function()
 	{
 		return m_car.ag;
+	}
+
+	this.switchToIA = function()
+	{
+
+
+	}
+
+	this.switchToPlayer = function()
+	{
+
+
 	}
 
 //end of class

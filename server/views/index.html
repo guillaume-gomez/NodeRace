@@ -84,7 +84,7 @@
 
             socket.on('messageServeur', function(position) {
                 //prevenir le jeu qu'un nouveau joueur
-                var message = $('#info').html("Un nouveau joueur vient de se connecter");
+                var message = $('#info').html("<p>Un nouveau joueur vient de se connecter</p>");
 
             });
 
@@ -100,12 +100,12 @@
                 socket.emit('login', log); // Transmet le message aux autres
 
                 //on lance le jeu
-                game = new Game();
+                game = new Game(myId);
                 jaws.start(game);
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             });
 
-            var myVar=setInterval(function(){myTimer()},1000);
+            var myVar=setInterval(function(){myTimer()},500);
 
             function myTimer() {
                 var myPosition = {'x' : game.getMyPositionX() , 'y' : game.getMyPositionY(), 'ag': game.getMyAg()};

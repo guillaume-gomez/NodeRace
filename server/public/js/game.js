@@ -1,7 +1,7 @@
 /**
 * @brief : Classe principal du jeu
 **/
-function Game ()
+function Game (myId)
 {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Attributs
@@ -10,6 +10,7 @@ function Game ()
 	var nbCarsPlayed;
 	var m_viewport;
 	var m_cars;
+	var m_myId;
 
 	///////////////////////////////////////////////////////////////////////////////////
 	// Méthodes
@@ -24,6 +25,7 @@ function Game ()
 		cell_size = 30;
 		gravity = 0.4;
 
+		m_myId = myId;
 		nbCars = 0;
 		nbCarsPlayed = 0;
 
@@ -54,9 +56,16 @@ function Game ()
 	**/
 	this.update = function () 
 	{
-		
-		m_cars[0].update();
-		m_cars[0].move();
+		for(var i = 0; i < m_cars.length; i++)
+		{
+			//to allowed the movement only in your car
+			if(i == m_myId) 
+			{
+				m_cars[i].update();
+				m_cars[i].move();
+			}
+			
+		}
 		//reset
 		if ( jaws.pressed('r') )
 		{
@@ -100,7 +109,7 @@ function Game ()
 
 	this.setPosition =  function (index, x, y, ag)
 	{
-		if(index > m_cars.length)
+		if(index > m_cars.length && index != m_myId)
 		{
 			alert("Restart the game because an error was detected");
 		}
