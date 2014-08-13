@@ -80,7 +80,7 @@
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 
         <script>
-            var socket = io.connect('http://localhost:8080');
+            var socket = io.connect('http://192.168.0.31:8080');
 
             socket.on('messageServeur', function(position) {
                 //prevenir le jeu qu'un nouveau joueur
@@ -105,7 +105,7 @@
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             });
 
-            var myVar=setInterval(function(){myTimer()},500);
+            var myVar=setInterval(function(){myTimer()},50);
 
             function myTimer() {
                 var myPosition = {'x' : game.getMyPositionX() , 'y' : game.getMyPositionY(), 'ag': game.getMyAg()};
