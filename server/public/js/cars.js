@@ -1,7 +1,7 @@
 /**
 * @brief : Classe qui gere la voiture 
 **/
- VMAX = 10;
+ VMAX = 300;
  AMAX = 5;
 
 function Car(image, frame_width, frame_height, frame_duration)
@@ -11,14 +11,10 @@ function Car(image, frame_width, frame_height, frame_duration)
 	/////////////////////////////////////////////////////////////
 	var m_car;
 	var m_speed;
-	var Vmax;
-	var Amax;
 	var m_carFilename;
 	//this variable define your position by the algorithm made in the track class
 	var m_score;
 	var m_isIA;
-
-	
 	
 	///////////////////////////////////////////////////////////////
 	// Méthodes
@@ -37,10 +33,6 @@ function Car(image, frame_width, frame_height, frame_duration)
 		//creating 3 new variables for the sprite
 		m_car.vx = m_car.vy = 0;
 		m_car.agx = m_car.agy = 0;
-		
-		Vmax = Math.floor((Math.random() * VMAX) + 1);
-		Amax = Math.floor((Math.random() * AMAX) + 1);
-		m_speed = 2;
 
 		m_isIA = false;
     }
@@ -57,21 +49,21 @@ function Car(image, frame_width, frame_height, frame_duration)
 		//Si touche gauche enfoncé
 	    if (jaws.pressed("left"))
 		{ 
-			m_car.agx -= m_speed;
+			m_car.agx = -VMAX;
 		}
 		if(jaws.pressed("right"))
 		{
-			m_car.agx += m_speed;	
+			m_car.agx = VMAX;	
 		}
 
 		if(jaws.pressed("up"))
 		{
-			m_car.agy -= m_speed;	
+			m_car.agy = -VMAX;	
 		}
 
 		if(jaws.pressed("down"))
 		{
-			m_car.agy += m_speed;	
+			m_car.agy = VMAX;	
 		}
 
     }
@@ -82,8 +74,11 @@ function Car(image, frame_width, frame_height, frame_duration)
 
 	this.move = function (/*tile_map*/ elapsedTime)
 	{
-		m_car.vx += elapsedTime * m_car.agx;
-		m_car.vy += elapsedTime * m_car.agy;
+		// m_car.vx += elapsedTime * m_car.agx;
+		// m_car.vy += elapsedTime * m_car.agy;
+
+		m_car.vx = m_car.agx;
+		m_car.vy = m_car.agy;
 
 		m_car.move(elapsedTime * m_car.vx , elapsedTime * m_car.vy);
 		//debug = document.getElementById("debug");

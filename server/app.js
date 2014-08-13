@@ -29,7 +29,7 @@ io.sockets.on('connection', function (socket) {
         socket.emit('id', index);
         index++;
         
-        console.log(login + ' vient de se connecter');
+        // console.log(login + ' vient de se connecter');
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
 
     }); 
