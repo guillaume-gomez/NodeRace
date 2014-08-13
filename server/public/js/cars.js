@@ -36,7 +36,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 
 		//creating 3 new variables for the sprite
 		m_car.vx = m_car.vy = 0;
-		m_car.ag = 0;
+		m_car.agx = m_car.agy = 0;
 		
 		Vmax = Math.floor((Math.random() * VMAX) + 1);
 		Amax = Math.floor((Math.random() * AMAX) + 1);
@@ -52,36 +52,40 @@ function Car(image, frame_width, frame_height, frame_duration)
     this.update = function() 
 	{
 		this.show();
+		m_car.agx = m_car.agy = 0;
+
 		//Si touche gauche enfoncé
 	    if (jaws.pressed("left"))
 		{ 
-			m_car.vx -= m_speed;
+			m_car.agx -= m_speed;
 		}
 		if(jaws.pressed("right"))
 		{
-			m_car.vx += m_speed;	
+			m_car.agx += m_speed;	
 		}
 
 		if(jaws.pressed("up"))
 		{
-			m_car.vy -= m_speed;	
+			m_car.agy -= m_speed;	
 		}
-
 
 		if(jaws.pressed("down"))
 		{
-			m_car.vy += m_speed;	
+			m_car.agy += m_speed;	
 		}
+
     }
 	 
 	 /**
 	 *@brief : Permet de mouvement du perso
 	 **/
 
-	this.move = function (/*tile_map*/)
+	this.move = function (/*tile_map*/ elapsedTime)
 	{
-		m_car.move(m_car.vx, m_car.vy);
-		m_car.vx = m_car.vy = 0;
+		m_car.vx += elapsedTime * m_car.agx;
+		m_car.vy += elapsedTime * m_car.agy;
+
+		m_car.move(elapsedTime * m_car.vx , elapsedTime * m_car.vy);
 		//debug = document.getElementById("debug");
 		//debug.innerHTML = "<p> move "+this.getX()+" ;;; "+this.getY()+"</p>";
 	}

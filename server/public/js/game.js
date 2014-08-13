@@ -11,6 +11,7 @@ function Game (socket, myId)
 	var nbCarsPlayed;
 	var m_viewport;
 	var m_cars;
+	var m_date;
 
 	var m_myId;
 	var m_ping;
@@ -32,6 +33,7 @@ function Game (socket, myId)
 		m_myId = myId;
 		nbCars = 0;
 		nbCarsPlayed = 0;
+		m_date = new Date();
 
 		//Viewport
 		m_viewport = new jaws.Viewport({max_x: jaws.width*1.5, max_y: jaws.height*1.5});
@@ -63,7 +65,7 @@ function Game (socket, myId)
        		var msec = Date.parse(position.clientDate);
         	var dateTemp = new Date(msec);
         	var date = new Date();
-        	m_ping = date.getMilliseconds() - dateTemp.getMilliseconds();
+        	m_ping = date.getTime() - dateTemp.getTime();
         });
 
 
@@ -79,8 +81,14 @@ function Game (socket, myId)
 	**/
 	this.update = function () 
 	{
+		var oldDate = m_date;
+		m_date = new Date();
+	
+		var elapsedTime = (m_date.getTime() -	oldDate.getTime()) / 1000;
+			
+
 		m_cars[m_myId].update();
-		m_cars[m_myId].move();
+		m_cars[m_myId].move(elapsedTime);
 
 		//reset
 		if ( jaws.pressed('r') )
