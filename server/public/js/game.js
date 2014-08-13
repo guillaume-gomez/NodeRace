@@ -1,7 +1,8 @@
 /**
 * @brief : Classe principal du jeu
 **/
-function Game (socket)
+
+function Game (socket, myId)
 {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Attributs
@@ -10,7 +11,10 @@ function Game (socket)
 	var nbCarsPlayed;
 	var m_viewport;
 	var m_cars;
+
 	var m_myId;
+	var m_ping;
+
 
 	///////////////////////////////////////////////////////////////////////////////////
 	// Méthodes
@@ -38,11 +42,30 @@ function Game (socket)
 		var y = Math.floor((Math.random() * jaws.height) + 1);
 		m_cars[0] = new Car("Viper.png", 697, 312, 50);
 		m_cars[0].constructor();
-		m_cars[0].setPosition(x, y);
+		m_cars[0].setPosition(50, 50);
 
 		m_cars[1] = new Car("Viper.png", 697, 312, 50);
 		m_cars[1].constructor();
 		m_cars[1].setPosition(50, 50);
+
+		m_cars[m_myId].setPosition(x, y);
+
+
+        socket.on('position', function(position) {
+        	//on reception les positions des autres joueurs de maniere asynchrone;
+        	game.setPosition(position.id ,position.x, position.y, position.ag);
+        });
+
+        socket.on('myPosition', function(position) {
+        	//on reception sa nouvelle position
+        	game.setPosition(position.id ,position.x, position.y, position.ag);
+       
+       		var msec = Date.parse(position.clientDate);
+        	var dateTemp = new Date(msec);
+        	var date = new Date();
+        	m_ping = date.getMilliseconds() - dateTemp.getMilliseconds();
+        });
+
 
 		//m_level = new TileSet(m_viewport, cell_size , tilesInvisible );
 		//m_level.constructor();
@@ -56,23 +79,18 @@ function Game (socket)
 	**/
 	this.update = function () 
 	{
-		for(var i = 0; i < m_cars.length; i++)
-		{
-			//to allowed the movement only in your car
-			if(i == m_myId) 
-			{
-				m_cars[i].update();
-				m_cars[i].move();
-			}
-			
-		}
+		m_cars[m_myId].update();
+		m_cars[m_myId].move();
+
 		//reset
 		if ( jaws.pressed('r') )
 		{
 		}
+
+		this.updateGameSocket();
 			
 		//Infos
-		live_info.innerHTML = "<p>"+jaws.game_loop.fps + " fps</p>";//. Player: " ;+ parseInt(m_perso.getX()) + "/" + parseInt(m_perso.getY()) + ". ";
+		live_info.innerHTML = "<p>"+jaws.game_loop.fps + " fps</p>" + this.displayPing();//. Player: " ;+ parseInt(m_perso.getX()) + "/" + parseInt(m_perso.getY()) + ". ";
        //	live_info.innerHTML /*+*/= "Viewport: " + parseInt(m_viewport.x) + "/" + parseInt(m_viewport.y) + ".";
 	}
 	
@@ -92,19 +110,26 @@ function Game (socket)
 		//	m_viewport.draw(m_perso.getBalls());
 	}
 
+	this.updateGameSocket = function()
+	{
+		var date = new Date();
+        var myPosition = {'x' : this.getMyPositionX() , 'y' : this.getMyPositionY(), 'ag': this.getMyAg(), 'clientDate' : date};
+        socket.emit('position', JSON.stringify(myPosition));
+	}
+
 	this.getMyPositionY = function()
 	{
-		return m_cars[0].getY();
+		return m_cars[m_myId].getY();
 	}
 
 	this.getMyPositionX = function()
 	{
-		return m_cars[0].getX();
+		return m_cars[m_myId].getX();
 	}
 
 	this.getMyAg = function()
 	{
-		return m_cars[0].getAcceleration();
+		return m_cars[m_myId].getAcceleration();
 	}
 
 	this.setPosition =  function (index, x, y, ag)
@@ -115,9 +140,16 @@ function Game (socket)
 		}
 		else
 		{
+			console.log(x+", "+y+", "+index);
 			m_cars[index].setPosition(x, y);
 			m_cars[index].setAcceleration(ag);
 		}
+	}
+
+
+	this.displayPing = function()
+	{
+		return "<p> Ping : "+m_ping+" ms</p>";	
 	}
 		
 //end of class

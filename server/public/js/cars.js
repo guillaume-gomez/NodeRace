@@ -143,6 +143,5 @@ function Car(image, frame_width, frame_height, frame_duration)
 
 
 	}
-
 //end of class
 }
