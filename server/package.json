@@ -1,11 +1,11 @@
 {
-    "name": "super-chat",
+    "name": "cars_dependencies",
     "version": "0.1.0",
     "dependencies": {
         "express": "~3.3.4",
         "socket.io": "~1.0.0",
         "ent": "~0.1.0"
     },
-    "author": "Guillaume Gomez <guillaume.gomez@email.com>",
+    "author": "Guillaume Gomez <guillaume.gomez@email.com>, Jarretier Adrien <jarretier.adrien@gmail.com>",
     "description": "Un super Chat temps réel avec socket.io"
 }
