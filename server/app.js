@@ -14,8 +14,6 @@ var io = require('socket.io').listen(server);
 //var arrayGames = new Array();
 //var game = new Game();
 var index = 0;
-//on stocke la date pour les différents calculs de mouvement
-var date = new Date();
 
 var config = JSON.parse(fs.readFileSync("public/config.json").toString());
 
@@ -24,8 +22,10 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('login', function(login) {
         //on recupere le login ainsi que l'id de le voiture dans la partie
-        socket.set('login', login);
-        socket.set('id', index);
+        //socket.set('login', login);
+        socket['login'] = login;
+        socket['id'] = index;
+        //socket.set('id', index);
         socket.emit('id', index);
         index++;
         
@@ -39,14 +39,16 @@ io.sockets.on('connection', function (socket) {
         //position.x position.y
         var pos = JSON.parse(position);
 
-        
-        socket.get('id', function(error,id) {
+        pos.id = socket.id;
+        /*socket.get('id', function(error,id) {
             pos.id = id;
-        });
-            pos.serveurDate = date;
+        });*/
+
+        var date = new Date();
+        pos.serveurDate = date;
         //on modifie les positions par le calcul de colission
 
-
+        
         socket.emit('myPosition', pos);
         //on envoit les coordonnées aux autres joueurs
         socket.broadcast.emit('position', pos);

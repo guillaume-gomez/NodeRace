@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "dependencies": {
         "express": "~3.3.4",
-        "socket.io": "~0.9.16",
+        "socket.io": "~1.0.0",
         "ent": "~0.1.0"
     },
     "author": "Guillaume Gomez <guillaume.gomez@email.com>",

@@ -72,11 +72,8 @@ function Car(image, frame_width, frame_height, frame_duration)
 	 *@brief : Permet de mouvement du perso
 	 **/
 
-	this.move = function (/*tile_map*/ elapsedTime)
+	this.move = function (elapsedTime /*,tile_map*/ )
 	{
-		// m_car.vx += elapsedTime * m_car.agx;
-		// m_car.vy += elapsedTime * m_car.agy;
-
 		m_car.vx = m_car.agx;
 		m_car.vy = m_car.agy;
 
