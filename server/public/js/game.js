@@ -1,7 +1,7 @@
 /**
 * @brief : Classe principal du jeu
 **/
-function Game (myId)
+function Game (socket)
 {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Attributs

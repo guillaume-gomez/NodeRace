@@ -16,6 +16,8 @@ var io = require('socket.io').listen(server);
 //var game = new Game();
 var index = 0;
 
+var config = JSON.parse(fs.readFileSync("public/config.json").toString());
+
 // Quand on client se connecte
 io.sockets.on('connection', function (socket) {
 
@@ -42,7 +44,6 @@ io.sockets.on('connection', function (socket) {
 });
 
 
-
 app.get('/', function(req, res) 
 { 
    res.sendfile('index.html');
@@ -54,5 +55,4 @@ app.use(function(req, res, next)
     res.send(404, 'Page introuvable !');
 });
 
-
-server.listen(8080, "192.168.0.31");
+server.listen(config.port, config.address);
