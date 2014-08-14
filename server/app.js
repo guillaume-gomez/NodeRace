@@ -35,6 +35,8 @@ io.sockets.on('connection', function (socket) {
     }); 
 
 
+        socket.vx = 0; 
+        socket.vy = 0;
     socket.on('position', function(position) {
         /*
             'x'  : this.getMyPositionX(),
@@ -47,8 +49,6 @@ io.sockets.on('connection', function (socket) {
 
         socket.posx = pos.x;
         socket.posy = pos.y;
-        socket.vx = 0; 
-        socket.vy = 0;
 
         pos.id = socket.id;
         /*socket.get('id', function(error,id) {
