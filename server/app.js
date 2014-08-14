@@ -5,14 +5,14 @@ var http = require('http');
 var fs = require('fs');
 
 //le moteur de jeu
-var gameEngine = require('./public/js/engine');
+var gameEngine = require('./js/engine');
 
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
 
 
-function myTimer(socket) {
+function tick(socket) {
     var position = new Object();
     //on met à jour la date coté serveur
     var date = new Date();
@@ -52,7 +52,8 @@ io.sockets.on('connection', function (socket) {
         socket.agy = 0;
         // console.log(login + ' vient de se connecter');
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
-        var myVar=setInterval(function(){myTimer(socket)},50);
+        
+        var functionTicked = setInterval(function(){tick(socket)},50);
 
     }); 
 
