@@ -60,11 +60,13 @@ function Game (socket, myId)
         socket.on('myPosition', function(position) {
         	//on reception sa nouvelle position
         	game.setPosition(position.id ,position.x, position.y);
-       
-       		var msec = Date.parse(position.clientDate);
-        	var dateTemp = new Date(msec);
-        	var date = new Date();
-        	m_ping = date.getTime() - dateTemp.getTime();
+        });
+
+        socket.on('ping', function(ping) {
+        	var msec = Date.parse(ping.clientDate);
+	    	var dateTemp = new Date(msec);
+	    	var date = new Date();
+	    	m_ping = date.getTime() - dateTemp.getTime();
         });
 
 
@@ -93,8 +95,11 @@ function Game (socket, myId)
 		{
 		}
 
-		this.updateGameSocket();
-			
+		//if(this.isNeededToUpdate())
+		//{
+			this.updateGameSocket();
+		//}
+
 		//Infos
 		live_info.innerHTML = "<p>"+jaws.game_loop.fps + " fps</p>" + this.displayPing();//. Player: " ;+ parseInt(m_perso.getX()) + "/" + parseInt(m_perso.getY()) + ". ";
        //	live_info.innerHTML /*+*/= "Viewport: " + parseInt(m_viewport.x) + "/" + parseInt(m_viewport.y) + ".";
@@ -116,15 +121,19 @@ function Game (socket, myId)
 		//	m_viewport.draw(m_perso.getBalls());
 	}
 
+	this.isNeededToUpdate = function()
+	{
+		return m_cars[m_myId].haveToSend();
+	}
+
 	this.updateGameSocket = function()
 	{
-		var date = new Date();
         var myPosition = {
         		'x' : this.getMyPositionX(),
         		'y' : this.getMyPositionY(),
         		'agx': this.getMyAgX(),
-        		'agy': this.getMyAgY(), 
-        		'clientDate' : date};
+        		'agy': this.getMyAgY()
+        	};
         socket.emit('position', JSON.stringify(myPosition));
 	}
 
@@ -159,13 +168,17 @@ function Game (socket, myId)
 		{
 			m_cars[index].setPosition(x, y);
 			debug = document.getElementById("debug");
-			debug.innerHTML = "<p> move "+this.getMyAgX()+" :: "+this.getMyAgY()+"</p>";
+			debug.innerHTML = "<p> move "+this.getMyPositionX()+" :: "+this.getMyPositionY()+"</p>";
 		}
 	}
 
 
 	this.displayPing = function()
 	{
+		var date = new Date();
+        var ping = {'clientDate' : date};
+
+		socket.emit('ping',  JSON.stringify(ping));
 		return "<p> Ping : "+m_ping+" ms</p>";	
 	}
 		

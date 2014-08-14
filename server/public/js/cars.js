@@ -15,6 +15,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 	//this variable define your position by the algorithm made in the track class
 	var m_score;
 	var m_isIA;
+	var pushed;
 	
 	///////////////////////////////////////////////////////////////
 	// Méthodes
@@ -35,6 +36,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 		m_car.agx = m_car.agy = 0;
 
 		m_isIA = false;
+		pushed = false;
     }
 
 	/**
@@ -45,27 +47,31 @@ function Car(image, frame_width, frame_height, frame_duration)
 	{
 		this.show();
 		m_car.agx = m_car.agy = 0;
+		pushed = false;
 
 		//Si touche gauche enfoncé
 	    if (jaws.pressed("left"))
 		{ 
 			m_car.agx = -VMAX;
+			pushed = true;
 		}
 		if(jaws.pressed("right"))
 		{
-			m_car.agx = VMAX;	
+			m_car.agx = VMAX;
+			pushed = true;	
 		}
 
 		if(jaws.pressed("up"))
 		{
-			m_car.agy = -VMAX;	
+			m_car.agy = -VMAX;
+			pushed = true;	
 		}
 
 		if(jaws.pressed("down"))
 		{
-			m_car.agy = VMAX;	
+			m_car.agy = VMAX;
+			pushed = true;	
 		}
-
     }
 	 
 	 /**
@@ -91,6 +97,11 @@ function Car(image, frame_width, frame_height, frame_duration)
 		{
 			m_car.setImage( m_car.go_right.next() );
 		}*/			
+	}
+
+	this.haveToSend = function ()
+	{
+		return pushed;
 	}
 
 	/**

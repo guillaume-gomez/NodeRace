@@ -105,6 +105,12 @@
                 socket.emit('login', log); // Transmet le message aux autres
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             });
+
+            $( window ).unload(function() {
+                alert( "Handler for .unload() called." );
+                socket.emit('deconnexion', 'deconnexion');
+            });
+            
         </script>
     </body>
 </html> 

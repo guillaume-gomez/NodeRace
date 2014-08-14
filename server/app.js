@@ -11,6 +11,23 @@ var gameEngine = require('./public/js/engine');
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
 
+
+function myTimer(socket) {
+    var position = new Object();
+    //on met à jour la date coté serveur
+    var date = new Date();
+    gameEngine.updateTime(date);
+    //on modifie les positions par le calcul de colission
+    gameEngine.updateMove(socket);
+    position.id = socket.id;
+    position.x = socket.posx;
+    position.y = socket.posy;
+    socket.emit('myPosition', position);
+    //on envoit les coordonnées aux joueurs
+    socket.broadcast.emit('position', position);
+    //console.log(position.id+" "+position.x+" "+position.y);
+}
+
 // Chargement de socket.io
 var io = require('socket.io').listen(server);
 
@@ -29,46 +46,46 @@ io.sockets.on('connection', function (socket) {
         socket.emit('id', index);
         index++;
         
+        socket.vx = 0; 
+        socket.vy = 0;
+        socket.agx = 0;
+        socket.agy = 0;
         // console.log(login + ' vient de se connecter');
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
+        var myVar=setInterval(function(){myTimer(socket)},50);
 
     }); 
 
-
-        socket.vx = 0; 
-        socket.vy = 0;
+    //quand le client envoit son acceleration
     socket.on('position', function(position) {
         /*
             'x'  : this.getMyPositionX(),
             'y'  : this.getMyPositionY(),
             'agx': this.getMyAgX(),
-            'agy': this.getMyAgY(), 
-            'clientDate' : date
+            'agy': this.getMyAgY()
         */
         var pos = JSON.parse(position);
-
         socket.posx = pos.x;
         socket.posy = pos.y;
-
         pos.id = socket.id;
-        /*socket.get('id', function(error,id) {
-            pos.id = id;
-        });*/
 
-        //on met à jour la date coté serveur
-        var date = new Date();
-        gameEngine.updateTime(date);
-        pos.serveurDate = date;
-
-        //on modifie les positions par le calcul de colission
-        gameEngine.updateMove(socket, pos);
-        pos.x = socket.posx;
-        pos.y = socket.posy;
-
-        socket.emit('myPosition', pos);
-        //on envoit les coordonnées aux autres joueurs
-        socket.broadcast.emit('position', pos);
+        socket.agx = pos.agx;
+        socket.agy = pos.agy;
     });
+
+
+    socket.on('ping', function(ping) {
+        var date = new Date();
+        var message = JSON.parse(ping);
+        message.clientDate = date;
+        socket.emit('ping', message);
+    });
+
+    socket.on('deconnexion', function(message) {
+        console.log(socket.login+" s'est deconnecté");
+    })
+
+
 });
 
 

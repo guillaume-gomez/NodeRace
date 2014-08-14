@@ -10,16 +10,16 @@ var oldDate = new Date();
 
 exports.updateMove = function (socket, userData)
 {
-	socket.vx += userData.agx * elaspedTime; 
-	socket.vy += userData.agy * elaspedTime;
+	socket.vx += socket.agx * elaspedTime; 
+	socket.vy += socket.agy * elaspedTime;
 
  	socket.posx += socket.vx * elaspedTime;
  	socket.posy += socket.vy * elaspedTime;
 
- 	//on met à jour les données envoyées au client
- 	//userData.x = socket.posx;
- 	//userData.y = socket.posy;
-
+ 	if(socket.posx < 0) 
+ 	{
+ 		socket.posx = 0;
+ 	}
 }
 
 exports.updateTime = function (currentDate)
