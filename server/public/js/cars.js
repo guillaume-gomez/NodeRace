@@ -30,7 +30,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 		//m_car.animation = new jaws.Animation({sprite_sheet: jaws.assets.get(image), frame_size: [frame_width,frame_height], frame_duration: frame_duration , orientation :"right"});
 		//m_car.setImage(m_car.animation.frames[1]);
 
-		//creating 3 new variables for the sprite
+		//creating 4 new variables for the sprite
 		m_car.vx = m_car.vy = 0;
 		m_car.agx = m_car.agy = 0;
 
@@ -78,8 +78,8 @@ function Car(image, frame_width, frame_height, frame_duration)
 		m_car.vy = m_car.agy;
 
 		m_car.move(elapsedTime * m_car.vx , elapsedTime * m_car.vy);
-		//debug = document.getElementById("debug");
-		//debug.innerHTML = "<p> move "+this.getX()+" ;;; "+this.getY()+"</p>";
+		debug = document.getElementById("debug");
+		debug.innerHTML = "<p> move "+this.getX()+" :: "+this.getY()+"</p>";
 	}
 	
 	/**
@@ -105,7 +105,6 @@ function Car(image, frame_width, frame_height, frame_duration)
 	{
 		m_car.x = x;
 		m_car.y = y;
-		console.log("setPositionBitch");
 	}
 
 	this.getX = function()
@@ -118,14 +117,24 @@ function Car(image, frame_width, frame_height, frame_duration)
 		return m_car.y;
 	}
 
-	this.setAcceleration = function(ag)
+	this.setAccelerationX = function(agx)
 	{
-		m_car.ag = ag;
+		m_car.agx = agx;
 	}
 
-	this.getAcceleration = function()
+	this.setAccelerationY = function(agy)
 	{
-		return m_car.ag;
+		m_car.agy = agy;
+	}	
+
+	this.getAccelerationX = function()
+	{
+		return m_car.agx;
+	}
+
+	this.getAccelerationY = function()
+	{
+		return m_car.agy;
 	}
 
 	this.switchToIA = function()
