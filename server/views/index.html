@@ -5,8 +5,12 @@
         <title>Cars Online</title>
         <link rel="stylesheet" type="text/css" href="/css/style.css">
         <script src="js/jaws.js"></script>
+        <script src="js/jaws-sprite_list.js"></script>
+        <script src="js/jaws-tile_map.js"></script>
         <script src="js/cars.js"></script>
         <script src="js/game.js"></script>
+        <script src="js/tile.js"></script>
+        <script src="js/tileset.js"></script>
 
     </head>
  
@@ -58,7 +62,7 @@
         </br>
         <footer>
             Un jeu developpé par Adrien Jarretier et Gomez Guillaume.
-            Designé par Corenthin . ... 
+            Design par Corenthin . ... 
         </footer>
 
 
@@ -68,8 +72,10 @@
             window.onload = function()
             {
                 jaws.unpack();
-                jaws.assets.root = "assets/cars/";
+                jaws.assets.root = "assets/";
                 jaws.assets.add(["Viper.png"]);
+                jaws.assets.add(["floor.png"]);
+                jaws.assets.add(["level1.json"]);
             }
         </script>
         

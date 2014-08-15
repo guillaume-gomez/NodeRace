@@ -856,7 +856,7 @@ function handleMouseDown(e) {
   event = (e) ? e : window.event  
   var human_name = mousebuttoncode_to_string[event.button] // 0 1 2
   if (navigator.appName == "Microsoft Internet Explorer"){
-	  human_name = ie_mousebuttoncode_to_string[event.button];
+    human_name = ie_mousebuttoncode_to_string[event.button];
   }
   pressed_keys[human_name] = true
   if(on_keydown_callbacks[human_name]) { 
@@ -874,7 +874,7 @@ function handleMouseUp(e) {
   var human_name = mousebuttoncode_to_string[event.button]  
 
   if (navigator.appName == "Microsoft Internet Explorer"){
-	  human_name = ie_mousebuttoncode_to_string[event.button];
+    human_name = ie_mousebuttoncode_to_string[event.button];
   }
   pressed_keys[human_name] = false
   if(on_keyup_callbacks[human_name]) { 
@@ -887,11 +887,11 @@ function handleMouseUp(e) {
  * handle event "touchstart" by remembering what button was pressed
  */
 function handleTouchStart(e) {
-	event = (e) ? e : window.event  
-	pressed_keys["left_mouse_button"] = true
-	jaws.mouse_x = e.touches[0].pageX - jaws.canvas.offsetLeft;
-	jaws.mouse_y = e.touches[0].pageY - jaws.canvas.offsetTop;
-	//e.preventDefault()
+  event = (e) ? e : window.event  
+  pressed_keys["left_mouse_button"] = true
+  jaws.mouse_x = e.touches[0].pageX - jaws.canvas.offsetLeft;
+  jaws.mouse_y = e.touches[0].pageY - jaws.canvas.offsetTop;
+  //e.preventDefault()
 }
 
 /** @private
@@ -900,8 +900,8 @@ function handleTouchStart(e) {
 function handleTouchEnd(e) {
   event = (e) ? e : window.event  
   pressed_keys["left_mouse_button"] = false
-	jaws.mouse_x = undefined;
-	jaws.mouse_y = undefined;
+  jaws.mouse_x = undefined;
+  jaws.mouse_y = undefined;
 
 }
 
@@ -1854,8 +1854,8 @@ jaws.Sprite.prototype.set = function(options) {
   if(!this.image && this.color && this.width && this.height) {
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
-	  canvas.width = this.width;
-  	canvas.height = this.height;
+    canvas.width = this.width;
+    canvas.height = this.height;
     context.fillStyle = this.color;
     context.fillRect(0, 0, this.width, this.height);
     this.image = canvas;
@@ -3137,7 +3137,7 @@ var jaws = (function(jaws) {
       } 
       else {
         initx = -(this.camera_x / layer.damping)
-      }		
+      }   
 
       if (this.repeat_y) {
         layer.y = -((this.camera_y / layer.damping) % layer.height);

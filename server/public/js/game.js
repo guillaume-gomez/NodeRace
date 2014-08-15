@@ -15,6 +15,7 @@ function Game (socket, myId)
 
 	var m_myId;
 	var m_ping;
+	var m_tile;
 
 
 	///////////////////////////////////////////////////////////////////////////////////
@@ -49,8 +50,12 @@ function Game (socket, myId)
 		m_cars[1].constructor();
 		m_cars[1].setPosition(50, 50);
 
-		m_cars[m_myId].setPosition(x, y);
+		m_cars[m_myId].setPosition(100, 100);
 
+		m_level = new TileSet(m_viewport, cell_size);
+		m_level.constructor();
+
+		m_tile = new Tile({ image: "floor.png",x:10, y: 10 , anchor:"left_bottom"});
 
         socket.on('position', function(position) {
         	//on reception les positions des autres joueurs de maniere asynchrone;
@@ -68,11 +73,7 @@ function Game (socket, myId)
 	    	var date = new Date();
 	    	m_ping = date.getTime() - dateTemp.getTime();
         });
-
-
-		//m_level = new TileSet(m_viewport, cell_size , tilesInvisible );
-		//m_level.constructor();
-			
+	
 		//Empêche les touches de bouger la fenetre du navigateur
 		jaws.preventDefaultKeys(["up", "down", "left", "right", "space"]);
 	}
@@ -89,6 +90,7 @@ function Game (socket, myId)
 			
 		m_cars[m_myId].update();
 		//m_cars[m_myId].move(elapsedTime);
+		m_viewport.centerAround(m_cars[m_myId].getSprite());
 
 		//reset
 		if ( jaws.pressed('r') )
@@ -111,14 +113,18 @@ function Game (socket, myId)
 	this.draw = function ()
 	{
 		jaws.clear();	
-		jaws.fill("rgba(0,0,0,0.5");
-		//m_viewport.draw( m_level.getSpriteListInvisible() );
-		//m_viewport.drawTileMap( m_level.getTileMap() ) ;
+		jaws.fill("rgba(255,255,255,0.5");
+
+		m_viewport.draw(m_tile);
+		m_viewport.drawTileMap( m_level.getTileMap());
+		m_viewport.draw(m_cars[m_myId].getSprite());
 		for(var i = 0; i < m_cars.length; i++)
 		{
-			m_viewport.draw(m_cars[i].getSprite());
+			if(i != m_myId)
+			{
+				m_viewport.draw(m_cars[i].getSprite());
+			}
 		}
-		//	m_viewport.draw(m_perso.getBalls());
 	}
 
 	this.isNeededToUpdate = function()
