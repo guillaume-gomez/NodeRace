@@ -27,19 +27,42 @@ Tile.prototype = jaws.Sprite.prototype
 
 
 //only used in the editor in order to make track with the rail points
-Tile.prototype.loadCurves = function(listPoint)
+Tile.prototype.loadCurves = function(points)
 {
-	this.listPoint = listPoint;
-	//console.log(listPoint);
-	var that = this;
+	this.listPoint = [];
 
-	function translateValues(element, index, array) {
-		element.x += that.x;
-		element.y += that.y;
-    	//console.log("a[" + index + "] = " + element.x + ", " + element.y);
-    }
+	//disgusting but it works
+	for(var i = 0; i < points.length; i++)
+	{
+		var point = {x:points[i].x, y:points[i].y};
+		this.listPoint.push(point);
+		this.listPoint[ i ].x += this.x;
+		this.listPoint[ i ].y += this.y;
+	}
 
-    this.listPoint.forEach(translateValues);
+	if(this.angle == 90 || this.angle == -270)
+	{
+		this.listPoint.forEach(toNinetyDegree);
+		console.log(90);
+	}
+	else if (this.angle == 180)
+	{
+		this.listPoint.reverse(); 
+		console.log(180);
+	}
+	else if (this.angle == 270 || this.angle == -90)
+	{
+		this.listPoint.reverse();
+		this.listPoint.forEach(toNinetyDegree);
+		console.log(270);
+	}
+
+	function toNinetyDegree(element, index, array) {
+		var temp = element.x;
+		element.x = element.y;
+		element.y = temp;
+    	//console.log("a[" + index + "] = " + element);
+	}
 }
 
 //only for the editor
@@ -57,7 +80,7 @@ Tile.prototype.toJSON = function(){
 	if(object['image'] == null )
 	{
 		//to set the right url image
-		console.log(this.m_image);
+		//console.log(this.m_image);
 		this.setImage(this.image);
 		object['image'] = this.m_image;
 	}

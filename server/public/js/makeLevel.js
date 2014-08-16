@@ -73,14 +73,19 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 			//environnement
 			if ( isValid()  )
 			{
-					temp = new Tile({x: ( jaws.mouse_x + viewport.x) - (jaws.mouse_x + viewport.x)% cell_size , y :  (jaws.mouse_y + viewport.y) - (jaws.mouse_y + viewport.y) % cell_size, image: m_currentImg[ m_indiceIMG ], scale:document.getElementById('scale').value});
+					var tangle = document.getElementById('rotate').value || 0;
+					tangle = parseInt(tangle);
+					temp = new Tile({x: ( jaws.mouse_x + viewport.x) - (jaws.mouse_x + viewport.x)% cell_size , y :  (jaws.mouse_y + viewport.y) - (jaws.mouse_y + viewport.y) % cell_size, image: m_currentImg[ m_indiceIMG ],
+									scale:document.getElementById('scale').value,
+									angle: tangle
+								});
 					temp.setMyImage( m_currentImg[ m_indiceIMG ] );
 
 					for(var i = 0; i < ArrayTileInfo.cases.length ; i++)
 					{
 						if(ArrayTileInfo.cases[i].url == m_currentImg[ m_indiceIMG ])
 						{
-							temp.loadCurves(ArrayTileInfo.cases[i].ListPoint);
+							var list = temp.loadCurves(ArrayTileInfo.cases[i].ListPoint);
 							break;
 						}
 					}
