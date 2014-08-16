@@ -7,25 +7,37 @@ var fs = require('fs');
 //le moteur de jeu
 var gameEngine = require('./js/engine');
 
-
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
 
+var cars = [];
 
-function tick(socket) {
-    var position = new Object();
+function tick(socket, carInfos) {
+
     //on met à jour la date coté serveur
-    var date = new Date();
-    gameEngine.updateTime(date);
+    var currentDate = new Date();
+
+    elapsedTime = (currentDate.getTime() - carInfos.lastTimeUpdate) / 1000;
+    carInfos.lastTimeUpdate = currentDate;
+
     //on modifie les positions par le calcul de colission
-    gameEngine.updateMove(socket);
-    position.id = socket.id;
-    position.x = socket.posx;
-    position.y = socket.posy;
-    socket.emit('myPosition', position);
+    gameEngine.updateMove(carInfos, elapsedTime);
+
+    var infos = {
+                    id: carInfos.id,
+                    speed: carInfos.speed,
+                    position: carInfos.position,
+                    angle: carInfos.angle
+                   }
+
+    socket.emit('myPosition', infos);
+
     //on envoit les coordonnées aux joueurs
-    socket.broadcast.emit('position', position);
-    //console.log(position.id+" "+position.x+" "+position.y);
+    socket.broadcast.emit('position', infos);
+
+    // console.log("DEBUG  tick  ::::::::::::::::::::::::::::::::::::::::::: ")
+    // console.log(carInfos);
+    // console.log("DEBUG  tick  =========================================== ")
 }
 
 // Chargement de socket.io
@@ -36,50 +48,48 @@ var config = JSON.parse(fs.readFileSync("public/config.json").toString());
 
 // Quand on client se connecte
 io.sockets.on('connection', function (socket) {
-
     socket.on('login', function(login) {
+
         //on recupere le login ainsi que l'id de le voiture dans la partie
         //socket.set('login', login);
-        socket.login = login;
-        socket.id = index;
+
         //socket.set('id', index);
         socket.emit('id', index);
-        index++;
         
-        socket.vx = 0; 
-        socket.vy = 0;
-        socket.agx = 0;
-        socket.agy = 0;
         // console.log(login + ' vient de se connecter');
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
         
-        var functionTicked = setInterval(function(){tick(socket)},50);
+        var car = 
+        {
+            id: index,
+            nickname: login,
+            accel : 0,  // percentage
+            speed: 0,
+            velocity : {x: 0, y: 0},
+            position : {x: 70, y: 20+index*40},
+            angle: 0,
+            lastTimeUpdate: new Date(),
+            nextTrajectoryIndex: 1
+        }
 
+        cars.push(car);
+
+        setInterval(tick, 8, socket, cars[index]);
+        index++;
     }); 
 
     //quand le client envoit son acceleration
-    socket.on('position', function(position) {
-        /*
-            'x'  : this.getMyPositionX(),
-            'y'  : this.getMyPositionY(),
-            'agx': this.getMyAgX(),
-            'agy': this.getMyAgY()
-        */
-        var pos = JSON.parse(position);
-        socket.posx = pos.x;
-        socket.posy = pos.y;
-        pos.id = socket.id;
+    socket.on('accel', function(accel) {
 
-        socket.agx = pos.agx;
-        socket.agy = pos.agy;
+        cars[accel.id].accel = accel.percent;
+
+        // console.log("DEBUG  ::::::::::::::::::::::::::::::::::::::::::: ")
+        // console.log(cars[accel.id]);
+        // console.log("DEBUG  =========================================== ")
     });
 
-
-    socket.on('ping', function(ping) {
-        var date = new Date();
-        var message = JSON.parse(ping);
-        message.clientDate = date;
-        socket.emit('ping', message);
+    socket.on('ping', function(clientDate) {
+        socket.emit('ping', clientDate);
     });
 
     socket.on('deconnexion', function(message) {

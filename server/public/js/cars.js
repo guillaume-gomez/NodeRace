@@ -1,8 +1,6 @@
 /**
 * @brief : Classe qui gere la voiture 
 **/
- VMAX = 300;
- AMAX = 5;
 
 function Car(image, frame_width, frame_height, frame_duration)
 {
@@ -27,7 +25,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 	{
 		m_carFilename = image;
 		//on définie la valeur des variables
-		m_car = new jaws.Sprite({ image: m_carFilename, scale_image: 0.10 ,x:100, y: 200 , anchor:"left_bottom"});
+		m_car = new jaws.Sprite({ image: m_carFilename, scale_image: 0.10, anchor_x:0.25, anchor_y:0.5, angle:180});
 		//m_car.animation = new jaws.Animation({sprite_sheet: jaws.assets.get(image), frame_size: [frame_width,frame_height], frame_duration: frame_duration , orientation :"right"});
 		//m_car.setImage(m_car.animation.frames[1]);
 
@@ -37,41 +35,6 @@ function Car(image, frame_width, frame_height, frame_duration)
 
 		m_isIA = false;
 		pushed = false;
-    }
-
-	/**
-	* @brief : Gestion des touches
-	* @note : gravity est une variable globale
-	**/
-    this.update = function() 
-	{
-		this.show();
-		m_car.agx = m_car.agy = 0;
-		pushed = false;
-
-		//Si touche gauche enfoncé
-	    if (jaws.pressed("left"))
-		{ 
-			m_car.agx = -VMAX;
-			pushed = true;
-		}
-		if(jaws.pressed("right"))
-		{
-			m_car.agx = VMAX;
-			pushed = true;	
-		}
-
-		if(jaws.pressed("up"))
-		{
-			m_car.agy = -VMAX;
-			pushed = true;	
-		}
-
-		if(jaws.pressed("down"))
-		{
-			m_car.agy = VMAX;
-			pushed = true;	
-		}
     }
 	 
 	 /**
@@ -91,13 +54,13 @@ function Car(image, frame_width, frame_height, frame_duration)
 	/**
 	* @brief : gestion des sprites
 	**/
-	this.show = function () 
-	{	
-		/*if ( m_goRight )
-		{
-			m_car.setImage( m_car.go_right.next() );
-		}*/			
-	}
+	// this.show = function () 
+	// {	
+	// 	if ( m_goRight )
+	// 	{
+	// 		m_car.setImage( m_car.go_right.next() );
+	// 	}			
+	// }
 
 	this.haveToSend = function ()
 	{
@@ -112,10 +75,10 @@ function Car(image, frame_width, frame_height, frame_duration)
 		return m_car;
 	}
 
-	this.setPosition = function (x, y)
+	this.setPosition = function (carInfos)
 	{
-		m_car.x = x;
-		m_car.y = y;
+		m_car.moveTo(carInfos.position.x, carInfos.position.y);
+		m_car.rotateTo(-carInfos.angle/Math.PI*180-90);
 	}
 
 	this.getX = function()

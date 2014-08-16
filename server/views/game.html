@@ -53,7 +53,9 @@
         <div id="live_info"></div>
         </br>
 
-        <div id="debug"></div>
+        <div id="debug">
+        </div>
+            <div id="speed"></div>
         
         <h3>jaws log</h3>
         <div id="jaws-log"></div>
@@ -61,7 +63,7 @@
         </br>
         <footer>
             Un jeu developpé par Adrien Jarretier et Gomez Guillaume.
-            Design par Corenthin . ... 
+            Designed par Corenthin . ... 
         </footer>
 
 
@@ -72,7 +74,8 @@
             {
                 jaws.unpack();
                 jaws.assets.root = "assets/";
-                jaws.assets.add(["Viper.png"]);
+                jaws.assets.add(["cars/Viper.png", "cars/Cobra.png",
+                "cars/Firebird1980.png", "cars/Herbie.png"]);
                 jaws.assets.add(["floor.png"]);
                 jaws.assets.add(["level1.json"]);
             }

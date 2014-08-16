@@ -2,6 +2,8 @@
 * @brief : Classe principal du jeu
 **/
 
+var VMAX = 200;
+
 function Game (socket, myId)
 {
 	//////////////////////////////////////////////////////////////////////////////////
@@ -12,11 +14,16 @@ function Game (socket, myId)
 	var m_viewport;
 	var m_cars;
 	var m_date;
+	var m_speed = 0;
 
 	var m_myId;
 	var m_ping;
-	var m_tile;
+	var accel = {
+					id: 0,
+					percent: 0
+				}
 
+	var rails = [];
 
 	///////////////////////////////////////////////////////////////////////////////////
 	// Méthodes
@@ -29,9 +36,9 @@ function Game (socket, myId)
 	{
 		live_info = document.getElementById("live_info");
 		cell_size = 30;
-		gravity = 0.4;
 
 		m_myId = myId;
+		accel.id = myId;
 		nbCars = 0;
 		nbCarsPlayed = 0;
 		m_date = new Date();
@@ -40,36 +47,58 @@ function Game (socket, myId)
 		m_viewport = new jaws.Viewport({max_x: jaws.width*1.5, max_y: jaws.height*1.5});
 		m_cars = new Array();
 
-		var x = Math.floor((Math.random() * jaws.width) + 1);
-		var y = Math.floor((Math.random() * jaws.height) + 1);
-		m_cars[0] = new Car("Viper.png", 697, 312, 50);
+		// var x = Math.floor((Math.random() * jaws.width) + 1);
+		// var y = Math.floor((Math.random() * jaws.height) + 1);
+		m_cars[0] = new Car("cars/Firebird1980.png", 700, 300, 50);
 		m_cars[0].constructor();
-		m_cars[0].setPosition(50, 50);
 
-		m_cars[1] = new Car("Viper.png", 697, 312, 50);
+		m_cars[1] = new Car("cars/Cobra.png", 700, 300, 50);
 		m_cars[1].constructor();
-		m_cars[1].setPosition(50, 50);
-
-		m_cars[m_myId].setPosition(100, 100);
 
 		m_level = new TileSet(m_viewport, cell_size);
 		m_level.constructor();
 
-        socket.on('position', function(position) {
+		for(var j=0; j<2; j++)
+		{
+			for(var i=0; i<80; i++)
+			{
+				rail = {
+							x: 70+i*6, 
+							y: 20+j*40
+					   }
+				rails.push(rail);
+			}
+			for(var i=0; i<180; i++)
+			{
+				rail = {
+							x: 70+80*6+(50+40*(1-j))*Math.cos((90-i)/180*Math.PI),
+							y: 20+40+50-(50+40*(1-j))*Math.sin((90-i)/180*Math.PI)
+					   }
+				rails.push(rail);
+			}
+		}
+        socket.on('position', function(carInfos) {
         	//on reception les positions des autres joueurs de maniere asynchrone;
-        	game.setPosition(position.id ,position.x, position.y);
+        	game.setPosition(carInfos);
         });
 
-        socket.on('myPosition', function(position) {
+        socket.on('myPosition', function(carInfos) {
         	//on reception sa nouvelle position
-        	game.setPosition(position.id ,position.x, position.y);
+
+        	game.setPosition(carInfos);
         });
 
-        socket.on('ping', function(ping) {
-        	var msec = Date.parse(ping.clientDate);
-	    	var dateTemp = new Date(msec);
+	 	setInterval(function()
+	 				{
+      					var date = new Date();
+	 					socket.emit('ping',  date.getTime());
+	 				},
+	 				1000
+	 			   );
+
+        socket.on('ping', function(oldTime) {
 	    	var date = new Date();
-	    	m_ping = date.getTime() - dateTemp.getTime();
+	    	m_ping = date.getTime() - oldTime;
         });
 	
 		//Empêche les touches de bouger la fenetre du navigateur
@@ -81,12 +110,53 @@ function Game (socket, myId)
 	**/
 	this.update = function () 
 	{
+		jaws.on_keydown(["up","space"], function()
+				{
+					accel.percent = 1;
+        			socket.emit('accel', accel);
+				}
+			)
+		jaws.on_keydown("right", function()
+				{
+					if(jaws.pressed(["up","space","shift"]))
+						accel.percent = 1;
+					else
+						accel.percent = 0.5;
+					
+        			socket.emit('accel', accel);
+				}
+			)
+		jaws.on_keydown("shift", function()
+				{
+					if(jaws.pressed(["right"]))
+						accel.percent = 1;
+					
+        			socket.emit('accel', accel);
+				}
+			)
+
+		if(jaws.pressed('w'))
+			m_cars[m_myId].getSprite().rotate(5);
+
+		jaws.on_keyup(["right","up","space","shift"], function()
+				{
+					if(jaws.pressed(["up","space"]) || jaws.pressed(["right","shift"], true))
+						accel.percent = 1;
+					else if(jaws.pressed("right"))
+						accel.percent = 0.5;
+					else
+						accel.percent = 0;
+
+        			socket.emit('accel', accel);
+				}
+			)
+
 		var oldDate = m_date;
 		m_date = new Date();
 	
 		var elapsedTime = (m_date.getTime() -	oldDate.getTime()) / 1000;
 			
-		m_cars[m_myId].update();
+		// m_cars[m_myId].update();
 		//m_cars[m_myId].move(elapsedTime);
 		m_viewport.centerAround(m_cars[m_myId].getSprite());
 
@@ -95,13 +165,8 @@ function Game (socket, myId)
 		{
 		}
 
-		//if(this.isNeededToUpdate())
-		//{
-			this.updateGameSocket();
-		//}
-
 		//Infos
-		live_info.innerHTML = "<p>"+jaws.game_loop.fps + " fps</p>" + this.displayPing();//. Player: " ;+ parseInt(m_perso.getX()) + "/" + parseInt(m_perso.getY()) + ". ";
+		live_info.innerHTML = "<p>"+jaws.game_loop.fps + " fps</p>" + "<p> Ping : "+m_ping+" ms</p>";//. Player: " ;+ parseInt(m_perso.getX()) + "/" + parseInt(m_perso.getY()) + ". ";
        //	live_info.innerHTML /*+*/= "Viewport: " + parseInt(m_viewport.x) + "/" + parseInt(m_viewport.y) + ".";
 	}
 	
@@ -111,10 +176,21 @@ function Game (socket, myId)
 	this.draw = function ()
 	{
 		jaws.clear();	
-		jaws.fill("rgba(255,255,255,0.5");
+		jaws.fill("rgba(200,200,200,1");
 			
 		m_viewport.drawTileMap( m_level.getTileMap());
 		m_viewport.draw(m_cars[m_myId].getSprite());
+
+		m_viewport.apply(function ()
+			 {
+				for(var i=0; i<rails.length; i++)
+				{
+					jaws.context.fillStyle="grey";
+					jaws.context.fillRect(rails[i].x,rails[i].y-3,6,6);
+				}
+			 }
+		)
+
 		for(var i = 0; i < m_cars.length; i++)
 		{
 			if(i != m_myId)
@@ -129,16 +205,10 @@ function Game (socket, myId)
 		return m_cars[m_myId].haveToSend();
 	}
 
-	this.updateGameSocket = function()
-	{
-        var myPosition = {
-        		'x' : this.getMyPositionX(),
-        		'y' : this.getMyPositionY(),
-        		'agx': this.getMyAgX(),
-        		'agy': this.getMyAgY()
-        	};
-        socket.emit('position', JSON.stringify(myPosition));
-	}
+	// this.updateGameSocket = function()
+	// {
+ //        socket.emit('accel', JSON.stringify(accel));
+	// }
 
 	this.getMyPositionY = function()
 	{
@@ -160,30 +230,36 @@ function Game (socket, myId)
 		return m_cars[m_myId].getAccelerationY();
 	}
 		
-	this.setPosition =  function (index, x, y)
+	this.setPosition =  function (carInfos)
 	{
 		//alert(index+", "+ x+", "+y);
-		if(index > m_cars.length && index != m_myId)
+		if(carInfos.id > m_cars.length && carInfos.id != m_myId)
 		{
 			alert("Restart the game because an error was detected");
 		}
 		else
 		{
-			m_cars[index].setPosition(x, y);
+			if(m_myId == carInfos.id)
+				m_speed=carInfos.speed;
+				
+			speed = document.getElementById("speed");
+			speed.innerHTML = "<p>speed : "+m_speed+"</p>";
+
+			m_cars[carInfos.id].setPosition(carInfos);
+
 			debug = document.getElementById("debug");
 			debug.innerHTML = "<p> move "+this.getMyPositionX()+" :: "+this.getMyPositionY()+"</p>";
 		}
 	}
 
 
-	this.displayPing = function()
-	{
-		var date = new Date();
-        var ping = {'clientDate' : date};
+	// this.displayPing = function()
+	// {
+	// 	var date = new Date();
 
-		socket.emit('ping',  JSON.stringify(ping));
-		return "<p> Ping : "+m_ping+" ms</p>";	
-	}
+	// 	socket.emit('ping',  date);
+	// 	return "<p> Ping : "+m_ping+" ms</p>";	
+	// }
 		
 //end of class
 }
