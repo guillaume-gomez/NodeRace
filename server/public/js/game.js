@@ -23,7 +23,7 @@ function Game (socket, myId)
 					percent: 0
 				}
 
-	var rails = [];
+	// var rails = [];
 
 	///////////////////////////////////////////////////////////////////////////////////
 	// Méthodes
@@ -58,25 +58,25 @@ function Game (socket, myId)
 		m_level = new TileSet(m_viewport, cell_size);
 		m_level.constructor();
 
-		for(var j=0; j<2; j++)
-		{
-			for(var i=0; i<80; i++)
-			{
-				rail = {
-							x: 70+i*6, 
-							y: 20+j*40
-					   }
-				rails.push(rail);
-			}
-			for(var i=0; i<180; i++)
-			{
-				rail = {
-							x: 70+80*6+(50+40*(1-j))*Math.cos((90-i)/180*Math.PI),
-							y: 20+40+50-(50+40*(1-j))*Math.sin((90-i)/180*Math.PI)
-					   }
-				rails.push(rail);
-			}
-		}
+		// for(var j=0; j<2; j++)
+		// {
+		// 	for(var i=0; i<80; i++)
+		// 	{
+		// 		rail = {
+		// 					x: 70+i*6, 
+		// 					y: 20+j*40
+		// 			   }
+		// 		rails.push(rail);
+		// 	}
+		// 	for(var i=0; i<180; i++)
+		// 	{
+		// 		rail = {
+		// 					x: 70+80*6+(50+40*(1-j))*Math.cos((90-i)/180*Math.PI),
+		// 					y: 20+40+50-(50+40*(1-j))*Math.sin((90-i)/180*Math.PI)
+		// 			   }
+		// 		rails.push(rail);
+		// 	}
+		// }
         socket.on('position', function(carInfos) {
         	//on reception les positions des autres joueurs de maniere asynchrone;
         	game.setPosition(carInfos);
@@ -179,24 +179,20 @@ function Game (socket, myId)
 		jaws.fill("rgba(200,200,200,1");
 			
 		m_viewport.drawTileMap( m_level.getTileMap());
-		m_viewport.draw(m_cars[m_myId].getSprite());
 
-		m_viewport.apply(function ()
-			 {
-				for(var i=0; i<rails.length; i++)
-				{
-					jaws.context.fillStyle="grey";
-					jaws.context.fillRect(rails[i].x,rails[i].y-3,6,6);
-				}
-			 }
-		)
+		// m_viewport.apply(function ()
+		// 	 {
+		// 		for(var i=0; i<rails.length; i++)
+		// 		{
+		// 			jaws.context.fillStyle="grey";
+		// 			jaws.context.fillRect(rails[i].x,rails[i].y-3,6,6);
+		// 		}
+		// 	 }
+		// )
 
 		for(var i = 0; i < m_cars.length; i++)
 		{
-			if(i != m_myId)
-			{
-				m_viewport.draw(m_cars[i].getSprite());
-			}
+			m_viewport.draw(m_cars[i].getSprite());
 		}
 	}
 

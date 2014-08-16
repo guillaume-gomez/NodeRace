@@ -66,7 +66,8 @@ io.sockets.on('connection', function (socket) {
             accel : 0,  // percentage
             speed: 0,
             velocity : {x: 0, y: 0},
-            position : {x: 70, y: 20+index*40},
+            position: {x: gameEngine.getStart(0).x, y: gameEngine.getStart(0).y},
+            // position : {x: 70, y: 20+index*40},
             angle: 0,
             lastTimeUpdate: new Date(),
             nextTrajectoryIndex: 1
