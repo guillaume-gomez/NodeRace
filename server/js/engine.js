@@ -27,8 +27,8 @@ for(var j=0; j<2; j++)
 	}
 }
 
-var VMAX = 200; // u/sec
-var VMAX_STABLE = 150;
+var VMAX = 1000; // u/sec
+var VMAX_STABLE = 900;
 var FACTOR = 3;
 // var ACCEL_FACTOR = 3;
 // var SLOWDOWN_FACTOR = 3;
