@@ -55,8 +55,6 @@ function Game (socket, myId)
 		m_level = new TileSet(m_viewport, cell_size);
 		m_level.constructor();
 
-		m_tile = new Tile({ image: "floor.png",x:10, y: 10 , anchor:"left_bottom"});
-
         socket.on('position', function(position) {
         	//on reception les positions des autres joueurs de maniere asynchrone;
         	game.setPosition(position.id ,position.x, position.y);
@@ -114,8 +112,7 @@ function Game (socket, myId)
 	{
 		jaws.clear();	
 		jaws.fill("rgba(255,255,255,0.5");
-
-		m_viewport.draw(m_tile);
+			
 		m_viewport.drawTileMap( m_level.getTileMap());
 		m_viewport.draw(m_cars[m_myId].getSprite());
 		for(var i = 0; i < m_cars.length; i++)

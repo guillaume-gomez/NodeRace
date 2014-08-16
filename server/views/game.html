@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Cars Online</title>
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <script src="js/jaws.js"></script>
+        <script src="js/cars.js"></script>
+        <script src="js/game.js"></script>
+        <script src="js/tile.js"></script>
+        <script src="js/tileset.js"></script>
+        <script src="js/jaws-sprite_list.js"></script>
+        <script src="js/jaws-tile_map.js"></script>
+    </head>
+ 
+    <body>       
+        <header>
+            <h1>Le super jeu en HTML5 </h1>
+        </header>        
+
+        <div>
+            <form action="/" method="post" id="formulaire">
+                <fieldset>
+                    Login: <input type="text" name="user" id="login" autocomplete="off" autofocus>
+                </br>
+                    Voiture: <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                </br>
+                    Circuit: <select>
+                                <option value="track1">track1</option>
+                                <option value="track2">track2</option>
+                                <option value="track3">track3</option>
+                                <option value="track4">track4</option>
+                            </select>
+                    <!-- Ajouter le nb de tours le nombre max de concurrents -->
+                </br>
+                    <input type="submit" value="Submit" id="submit">
+                </fieldset>
+            </form>
+        </div>
+            </br>
+
+        <div id="info"></div>
+
+        <canvas id="gameCanvas" width="900" height="400">
+            Votre navigateur n'est pas compatible !
+        </canvas>
+        </br>
+        <div id="live_info"></div>
+        </br>
+
+        <div id="debug"></div>
+        
+        <h3>jaws log</h3>
+        <div id="jaws-log"></div>
+
+        </br>
+        <footer>
+            Un jeu developpé par Adrien Jarretier et Gomez Guillaume.
+            Design par Corenthin . ... 
+        </footer>
+
+
+        <!-- Chargement du jeu -->
+        <script>
+        var game;
+            window.onload = function()
+            {
+                jaws.unpack();
+                jaws.assets.root = "assets/";
+                jaws.assets.add(["Viper.png"]);
+                jaws.assets.add(["floor.png"]);
+                jaws.assets.add(["level1.json"]);
+            }
+        </script>
+        
+
+        <!-- la partie websocket qui permet la communication avec node.js -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+        <script>
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open("GET", "config.json", false);
+            xmlhttp.send();
+            var config = JSON.parse(xmlhttp.responseText);
+
+            var socket = io.connect('http://'+config.address+':'+config.port);
+
+            socket.on('messageServeur', function(position) {
+                //prevenir le jeu qu'un nouveau joueur
+                var message = $('#info').html("<p>Un nouveau joueur vient de se connecter</p>");
+
+            });
+
+            socket.on('id', function(id) {
+                //on lance le jeu quand on a recuperer l'id de connexion
+                game = new Game(socket, id);
+                jaws.start(game);
+            });
+
+            // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
+            $('#formulaire').submit(function () {
+                var log = $('#login').val();
+                socket.emit('login', log); // Transmet le message aux autres
+                return false; // Permet de bloquer l'envoi "classique" du formulaire
+            });
+
+            $( window ).unload(function() {
+                alert( "Handler for .unload() called." );
+                socket.emit('deconnexion', 'deconnexion');
+            });
+            
+        </script>
+    </body>
+</html> 
