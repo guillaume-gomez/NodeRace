@@ -45,7 +45,7 @@ for(var i=0; i<tiles.length; i++)
 	}
 }
 
- console.log(rails[0]);
+ // console.log(rails[0]);
 
 var VMAX = 500; // u/sec
 var VMAX_STABLE = 900;
