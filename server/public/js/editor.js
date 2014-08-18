@@ -1,6 +1,49 @@
 /**
 * @brief : Classe principal de l'editeur
 **/
+
+function drawListImage ()
+{
+	var path = 'assets/';
+	var insert = '';
+
+	// 	</canvas> 
+	// 	<canvas id="myCanvas1" width="30" height="30">
+	// 	<canvas id="myCanvas2" width="30" height="30"></canvas> 
+	// for ( var i = 0 ; i < m_listImgURL.length ; i++ )
+	// {
+	// 	var url = path + m_listImgURL[i] ;
+	// 	insert += '<canvas id="myCanvas'+i+'" width="30" height="30">';
+	// 	insert += '<img class="img" src="'+url+'" id="'+i+'" onClick="(function(){m_level.setIndice('+i+');m_level.drawImageCurrent();}());">';
+	// 	insert += '</canvas>';
+	// }
+	// insert += '';
+	// liste_image.innerHTML = insert;
+	for ( var i = 0 ; i < m_listImgURL.length ; i++ )
+	{
+		insert += '<canvas id="myCanvas'+i+'" width="30" height="30" onclick="(function(){m_level.setIndice('+i+');m_level.drawImageCurrent();}());">';
+		insert += '</canvas>';
+	}
+	liste_image.innerHTML = insert;
+	for ( var i = 0 ; i < m_listImgURL.length ; i++ )
+	{
+		var url = path + m_listImgURL[i] ;
+		var c = document.getElementById("myCanvas"+i);
+		var ctx = c.getContext("2d");
+		var img = document.createElement("IMG"); 
+		ctx.clearRect ( 0 , 0 , c.width , c.height );
+		ctx.translate(c.width/2, c.height/2);
+		img.src=url;
+		img.onclick="(function(){m_level.setIndice('+i+');m_level.drawImageCurrent();}());";
+
+		ctx.rotate(Math.PI*(document.getElementById('rotate').value)/180);
+		// console.log(document.getElementById('rotate').value-oldAngle);
+		ctx.translate(-c.width/2, -c.height/2);
+		ctx.drawImage(img,0,0);
+	}
+	oldAngle = document.getElementById('rotate').value;
+}
+
 function Editor ( )
 {
 	//////////////////////////////////////////////////////////////////////////////////
@@ -27,7 +70,7 @@ function Editor ( )
 		//on recupere les  html
 		live_info = document.getElementById("live_info");
 		liste_image = document.getElementById("liste-image");
-		image_courante_souris = document.getElementById('image-courrante-souris');
+		image_courante_souris = document.getElementById('image-courante-souris');
 					
 		//Viewport
 		m_viewport = new jaws.Viewport({max_x: jaws.width*1.5, max_y: jaws.height*1.5});
@@ -64,18 +107,45 @@ function Editor ( )
 		m_indiceIMG = i;
 	}
 	
-	function drawListImage ()
-	{
-		var path = 'assets/';
-		var insert = '';
-		for ( var i = 0 ; i < m_listImgURL.length ; i++ )
-		{
-			var url = path + m_listImgURL[i] ;
-			  insert += '<a href="#"><img class="img" src="'+url+'" id="'+i+'" onClick="(function(){m_level.setIndice('+i+');m_level.drawImageCurrent();}());"></a>';
-		}
-		insert += '';
-		liste_image.innerHTML = insert;
-	}
+	// function drawListImage ()
+	// {
+	// 	var path = 'assets/';
+	// 	var insert = '';
+
+	// 	// 	</canvas> 
+	// 	// 	<canvas id="myCanvas1" width="30" height="30">
+	// 	// 	<canvas id="myCanvas2" width="30" height="30"></canvas> 
+	// 	// for ( var i = 0 ; i < m_listImgURL.length ; i++ )
+	// 	// {
+	// 	// 	var url = path + m_listImgURL[i] ;
+	// 	// 	insert += '<canvas id="myCanvas'+i+'" width="30" height="30">';
+	// 	// 	insert += '<img class="img" src="'+url+'" id="'+i+'" onClick="(function(){m_level.setIndice('+i+');m_level.drawImageCurrent();}());">';
+	// 	// 	insert += '</canvas>';
+	// 	// }
+	// 	// insert += '';
+	// 	// liste_image.innerHTML = insert;
+	// 	for ( var i = 0 ; i < m_listImgURL.length ; i++ )
+	// 	{
+	// 		insert += '<canvas id="myCanvas'+i+'" width="30" height="30">';
+	// 		insert += '</canvas>';
+	// 	}
+	// 	liste_image.innerHTML = insert;
+	// 	for ( var i = 0 ; i < m_listImgURL.length ; i++ )
+	// 	{
+	// 		var url = path + m_listImgURL[i] ;
+	// 		var c = document.getElementById("myCanvas"+i);
+	// 		var ctx = c.getContext("2d");
+	// 		var img = document.createElement("IMG"); 
+	// 		ctx.clearRect ( 0 , 0 , c.width , c.height );
+	// 		ctx.translate(c.width/2, c.height/2);
+	// 		img.src=url;
+
+	// 		ctx.rotate(Math.PI*(document.getElementById('rotate').value-oldAngle)/180);
+	// 		oldAngle = document.getElementById('rotate').value;
+	// 		ctx.translate(-c.width/2, -c.height/2);
+	// 		ctx.drawImage(img,c.width/2-img.width/2,c.height/2-img.height/2);
+	// 	}
+	// }
 	
 	
 	function moveCamera ()

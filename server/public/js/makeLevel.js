@@ -32,7 +32,7 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 			saveName = leveljson;
 		}
 
-		image_courrante = document.getElementById('image-courrante');
+		image_courante = document.getElementById('image-courante');
 	
 		m_currentImg = new Array();
 		
@@ -57,6 +57,63 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 		m_tile_map = new jaws.TileMap({size : [m_viewport.max_x/cell_size+10,m_viewport.max_y/cell_size+10] , cell_size: [cell_size,cell_size]});
 		
 		this.drawImageCurrent();
+		
+		//Dessine une tile
+		// if ( jaws.pressed("left_mouse_button") )
+		jaws.on_keydown("left_mouse_button", function()
+		{
+			//environnement
+			if ( isValid()  )
+			{
+				var tangle = document.getElementById('rotate').value;
+			console.log(tangle);
+				tangle = parseInt(tangle);
+				temp = new Tile({x: ( jaws.mouse_x + viewport.x) - 
+									(jaws.mouse_x + viewport.x)% cell_size , 
+								
+								y :  (jaws.mouse_y + viewport.y) - (jaws.mouse_y + viewport.y)
+								% cell_size, 
+
+								image: m_currentImg[ m_indiceIMG ],
+
+								scale:document.getElementById('scale').value,
+								angle: tangle
+							});
+
+				//yurk but haven't got so much time
+				if(tangle == 90 )
+				{
+					temp.x += cell_size;
+				}
+				else if (tangle == 180 || tangle == 380)
+				{
+					temp.x += cell_size;
+					temp.y += cell_size;
+				}
+				else if (tangle == 270 || tangle == -90)
+				{
+					temp.y += cell_size;
+				}
+
+				temp.setMyImage( m_currentImg[ m_indiceIMG ] );
+
+				for(var i = 0; i < ArrayTileInfo.cases.length ; i++)
+				{
+					if(ArrayTileInfo.cases[i].url == m_currentImg[ m_indiceIMG ])
+					{
+						var list = temp.loadCurves(ArrayTileInfo.cases[i].ListPoint);
+						break;
+					}
+				}
+				m_spriteList.push( temp );
+			}
+		} )
+
+		//Supprime la dernière tile
+		jaws.on_keydown("z",function() {m_spriteList.pop();} );
+		
+		//Sauvegarde la tilemap
+		jaws.on_keydown("s",this.sauvegarder);
 	}
 	
 
@@ -65,36 +122,6 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 	**/
 	this.update = function (viewport)
 	{
-		
-	
-		//Dessine une tile
-		if ( jaws.pressed("left_mouse_button") )
-		{
-			//environnement
-			if ( isValid()  )
-			{
-					var tangle = document.getElementById('rotate').value || 0;
-					tangle = parseInt(tangle);
-					temp = new Tile({x: ( jaws.mouse_x + viewport.x) - (jaws.mouse_x + viewport.x)% cell_size , y :  (jaws.mouse_y + viewport.y) - (jaws.mouse_y + viewport.y) % cell_size, image: m_currentImg[ m_indiceIMG ],
-									scale:document.getElementById('scale').value,
-									angle: tangle
-								});
-					temp.setMyImage( m_currentImg[ m_indiceIMG ] );
-
-					for(var i = 0; i < ArrayTileInfo.cases.length ; i++)
-					{
-						if(ArrayTileInfo.cases[i].url == m_currentImg[ m_indiceIMG ])
-						{
-							var list = temp.loadCurves(ArrayTileInfo.cases[i].ListPoint);
-							break;
-						}
-					}
-					m_spriteList.push( temp );
-			}
-		}
-
-		//Supprime la dernière tile
-		jaws.on_keydown("z",function() {m_spriteList.pop();} );
 
 		//Supprime la tile sélectionnée
 		if ( jaws.pressed("right_mouse_button") )
@@ -128,10 +155,6 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 		
 		m_tile_map.clear();
 		m_tile_map.push(m_spriteList);
-		
-		//Sauvegarde la tilemap
-		jaws.on_keydown("s",this.sauvegarder);
-
 	}
 	
 	/**
@@ -183,7 +206,7 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 		var _scale = document.getElementById('scale');
 		_scale.value = ratio  ;
 		
-		image_courrante.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'">';
+		image_courante.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'">';
 		image_courante_souris.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'" >';
 	}
 	
@@ -264,9 +287,12 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 			// si on est en dehors de l'ecran 
 		
 			if( _x >= 0 && _x < viewport.max_x && _y >= 0 && _y < viewport.max_y)
+			{
 				if (!m_tile_map.at(jaws.mouse_x + viewport.x,jaws.mouse_y + viewport.y)[0])//New!!
+				{
 					return true ;
-					
+				}
+			}	
 		return false ;
 	}
 //end of class

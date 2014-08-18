@@ -18,7 +18,6 @@ Tile = function Tile(options) {
   	if(typeof options.image !== 'undefined')
   	{
   		this.m_image = options.image;
-  		console.log(this.m_image);
   	}
     
  }
@@ -30,31 +29,41 @@ Tile.prototype = jaws.Sprite.prototype
 Tile.prototype.loadCurves = function(points)
 {
 	this.listPoint = [];
+	var offsetX = 30 / points.length;
+	var offsetY = 30 / points.length;
 
 	//disgusting but it works
 	for(var i = 0; i < points.length; i++)
 	{
 		var point = {x:points[i].x, y:points[i].y};
 		this.listPoint.push(point);
-		this.listPoint[ i ].x += this.x;
-		this.listPoint[ i ].y += this.y;
 	}
 
-	if(this.angle == 90 || this.angle == -270)
+	for(var i=0; i<this.listPoint.length; i++)
 	{
-		this.listPoint.forEach(toNinetyDegree);
-		console.log(90);
+		if(this.angle == 90 || this.angle == -270)
+		{
+			var tempX = this.listPoint[i].x;
+			this.listPoint[i].x = -this.listPoint[i].y;
+			this.listPoint[i].y = tempX;
+		}
+		else if (this.angle == 180 || this.angle == -180)
+		{
+			this.listPoint[i].x = -this.listPoint[i].x;
+			this.listPoint[i].y = -this.listPoint[i].y;
+		}
+		else if (this.angle == 270 || this.angle == -90)
+		{
+			var tempX = this.listPoint[i].x;
+			this.listPoint[i].x = this.listPoint[i].y;
+			this.listPoint[i].y = -tempX;
+		}
 	}
-	else if (this.angle == 180)
+
+	for(var i = 0; i < points.length; i++)
 	{
-		this.listPoint.reverse(); 
-		console.log(180);
-	}
-	else if (this.angle == 270 || this.angle == -90)
-	{
-		this.listPoint.reverse();
-		this.listPoint.forEach(toNinetyDegree);
-		console.log(270);
+		this.listPoint[ i ].x = this.listPoint[ i ].x*offsetX + this.x;
+		this.listPoint[ i ].y = this.listPoint[ i ].y*offsetY + this.y;
 	}
 
 	function toNinetyDegree(element, index, array) {

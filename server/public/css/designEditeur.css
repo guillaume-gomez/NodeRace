@@ -42,7 +42,7 @@ width : 300px;
 	box-shadow: 10px 10px 12px #000;
 }
 
-#image-courrante
+#image-courante
 {
 	position : relative;
 	background-image : url(button.png);
@@ -67,7 +67,7 @@ border: 10px outset #c0c0c0;
 background-color :black;
 }
 
-#image-courrante-souris
+#image-courante-souris
 {
 	position:absolute;
 	display:block;

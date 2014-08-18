@@ -45,7 +45,9 @@ for(var i=0; i<tiles.length; i++)
 	}
 }
 
-var VMAX = 1000; // u/sec
+ console.log(rails[0]);
+
+var VMAX = 500; // u/sec
 var VMAX_STABLE = 900;
 var FACTOR = 3;
 // var ACCEL_FACTOR = 3;
@@ -64,6 +66,8 @@ exports.updateMove = function (carInfos, elapsedTime)
 	var x = rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
 	var y = rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
 
+	// console.log("out x : "+x+" ; y "+y);
+
 	distance -= Math.sqrt(x*x+y*y);
 
 	while(distance>0)
@@ -75,6 +79,8 @@ exports.updateMove = function (carInfos, elapsedTime)
 
 		x = rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
 		y = rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
+	
+		// console.log("in x : "+x+" ; y "+y);
 
 		distance -= Math.sqrt(x*x+y*y);
 	}
@@ -95,29 +101,4 @@ exports.updateMove = function (carInfos, elapsedTime)
 
 	carInfos.position.x += distance*x; 
 	carInfos.position.y += distance*y;
-
- 	if(carInfos.position.x < 0) 
- 	{
- 		carInfos.position.x = 0;
- 		carInfos.velocity.x = 0;
- 		carInfos.velocity.y = 0;
- 	}
- 	if(carInfos.position.x > 800) 
- 	{
- 		carInfos.position.x = 800;
- 		carInfos.velocity.x = 0;
- 		carInfos.velocity.y = 0;
- 	}
- 	if(carInfos.position.y < 0) 
- 	{
- 		carInfos.position.y = 0;
- 		carInfos.velocity.x = 0;
- 		carInfos.velocity.y = 0;
- 	}
- 	if(carInfos.position.y > 350) 
- 	{
- 		carInfos.position.y = 350;
- 		carInfos.velocity.x = 0;
- 		carInfos.velocity.y = 0;
- 	}
 }
