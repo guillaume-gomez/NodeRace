@@ -13,7 +13,12 @@ function Car(image, frame_width, frame_height, frame_duration)
 	//this variable define your position by the algorithm made in the track class
 	var m_score;
 	var m_isIA;
+	var m_username;
 	var pushed;
+	var accel = {
+					id: 0,
+					percent: 0
+				}
 	
 	///////////////////////////////////////////////////////////////
 	// Méthodes
@@ -28,7 +33,8 @@ function Car(image, frame_width, frame_height, frame_duration)
 		m_car = new jaws.Sprite({ image: m_carFilename, scale_image: 0.10, anchor_x:0.25, anchor_y:0.5, angle:180});
 		//m_car.animation = new jaws.Animation({sprite_sheet: jaws.assets.get(image), frame_size: [frame_width,frame_height], frame_duration: frame_duration , orientation :"right"});
 		//m_car.setImage(m_car.animation.frames[1]);
-
+		m_username = new jaws.Text({ text: "player", x: 0, y: 0, fontSize: 12, color: "Black", wordWrap:true});
+		console.log(m_username.toJSON());
 		//creating 4 new variables for the sprite
 		m_car.vx = m_car.vy = 0;
 		m_car.agx = m_car.agy = 0;
@@ -49,6 +55,61 @@ function Car(image, frame_width, frame_height, frame_duration)
 		m_car.move(elapsedTime * m_car.vx , elapsedTime * m_car.vy);
 		debug = document.getElementById("debug");
 		debug.innerHTML = "<p> move "+this.getX()+" :: "+this.getY()+"</p>";
+	}
+
+	this.update = function (socket)
+	{
+		jaws.on_keydown(["up","space"], function()
+		{
+			accel.percent = 1;
+			socket.emit('accel', accel);
+		})
+
+		jaws.on_keydown("right", function()
+				{
+					if(jaws.pressed(["up","space","shift"]))
+						accel.percent = 1;
+					else
+						accel.percent = 0.5;
+					
+        			socket.emit('accel', accel);
+				}
+			)
+		jaws.on_keydown("shift", function()
+				{
+					if(jaws.pressed(["right"]))
+						accel.percent = 1;
+					
+        			socket.emit('accel', accel);
+				}
+			)
+
+		if(jaws.pressed('w'))
+			m_car.rotate(5);
+
+		jaws.on_keyup(["right","up","space","shift"], function()
+				{
+					if(jaws.pressed(["up","space"]) || jaws.pressed(["right","shift"], true))
+						accel.percent = 1;
+					else if(jaws.pressed("right"))
+						accel.percent = 0.5;
+					else
+						accel.percent = 0;
+
+        			socket.emit('accel', accel);
+				}
+			)
+	}
+
+	this.setMyID = function(_id)
+	{
+		accel.id = _id;
+	}
+
+	this.draw = function (viewport)
+	{
+		viewport.draw(m_car);
+		viewport.draw(m_username);
 	}
 	
 	/**
@@ -79,6 +140,8 @@ function Car(image, frame_width, frame_height, frame_duration)
 	{
 		m_car.moveTo(carInfos.position.x, carInfos.position.y);
 		m_car.rotateTo(-carInfos.angle/Math.PI*180-90);
+		m_username.x = carInfos.position.x - 5;
+		m_username.y = carInfos.position.y - 20;
 	}
 
 	this.getX = function()
@@ -109,6 +172,12 @@ function Car(image, frame_width, frame_height, frame_duration)
 	this.getAccelerationY = function()
 	{
 		return m_car.agy;
+	}
+
+	this.setUsername = function(user)
+	{
+		m_username.text = user;
+		
 	}
 
 	this.switchToIA = function()

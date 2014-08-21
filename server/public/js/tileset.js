@@ -11,6 +11,7 @@ function TileSet (viewport, cell_size)
 	var m_spriteList;
 	var m_currentLevel;
 	var m_tile_map;
+	var m_rails;
 	
 	//////////////////////////////////////////////////////////////////////////////////
 	// Méthodes
@@ -26,6 +27,7 @@ function TileSet (viewport, cell_size)
 		m_tile_map = new jaws.TileMap({size : [m_viewport.max_x/cell_size+10,m_viewport.max_y/cell_size+10] , cell_size: [cell_size,cell_size]});
 		
 		m_spriteList = new jaws.SpriteList();
+		m_rails = [];
 		this.loadLevel();
 	
 	}
@@ -105,7 +107,7 @@ function TileSet (viewport, cell_size)
 		 
 		m_tile_map = new jaws.TileMap({size : [m_viewport.max_x/cell_size+10,m_viewport.max_y/cell_size+10] ,cell_size: [cell_size,cell_size]});
 		m_tile_map.push(m_spriteList);
+		
 	}
-	
 //end of class	
 }

@@ -21,7 +21,7 @@
         <div>
             <form action="/" method="post" id="formulaire">
                 <fieldset>
-                    Login: <input type="text" name="user" id="login" autocomplete="off" autofocus>
+                    Login: <input type="text" name="user" id="login" autocomplete="on" autofocus>
                 </br>
                     Voiture: <select>
                                 <option value="volvo">Volvo</option>
@@ -31,12 +31,24 @@
                             </select>
                 </br>
                     Circuit: <select>
-                                <option value="track1">track1</option>
-                                <option value="track2">track2</option>
-                                <option value="track3">track3</option>
-                                <option value="track4">track4</option>
+                                <option value="id56">track1</option>
+                                <option value="id68">track2</option>
+                                <option value="id24">track3</option>
+                                <option value="id32">track4</option>
                             </select>
-                    <!-- Ajouter le nb de tours le nombre max de concurrents -->
+                </br>
+                <input type="Checkbox" id="host" name="host" value="false">Hôte d'une partie
+                </br>
+                <input type="Checkbox" id="private" name="private" value="false">Partie Privé
+                
+                <div id="subMenu">
+                    Password: <input type="text" name="user" id="password" autocomplete="on">
+                    </br>
+                    Nombre de participants min <input type="range" id="minCar" value="2" max="8" min="2" step="1">
+                    </br>
+                    Nombre de participants max <input type="range" id="maxCar" value="8" max="8" min="3" step="1">   
+                    </br>
+                </div>
                 </br>
                     <input type="submit" value="Submit" id="submit">
                 </fieldset>
@@ -84,7 +96,7 @@
 
         <!-- la partie websocket qui permet la communication avec node.js -->
         <script src="/socket.io/socket.io.js"></script>
-        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="js/jquery-1.11.1.min.js"></script>
 
         <script>
             var xmlhttp = new XMLHttpRequest();
@@ -101,17 +113,38 @@
 
             });
 
+            socket.on('erreur', function(message) {
+                alert(message);
+            });
+
             socket.on('id', function(id) {
+                var username = $('#login').val();
                 //on lance le jeu quand on a recuperer l'id de connexion
-                game = new Game(socket, id);
+                game = new Game(socket, id, username);
                 jaws.start(game);
             });
 
             // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
             $('#formulaire').submit(function () {
                 var log = $('#login').val();
-                socket.emit('login', log); // Transmet le message aux autres
+                var passwd = $('#password').val();
+                var minCar = $('#minCar').val();
+                var maxCar = $('#maxCar').val();
+                var isHost = ($('#host').is(":checked"));
+                var isPrivate = ($('#private').is(":checked"));
+
+                var message = {login:log, minCar:minCar, maxCar:maxCar, host:isHost, private: isPrivate, password: passwd};
+                socket.emit('login', message);
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
+            });
+
+            socket.on('depart', function(message) {
+                var demarre = true;
+                console.log("COUCOU tu veux voir ma ...");
+            });
+
+            socket.on('deconnexionPartie', function(message) {
+                alert(message);
             });
 
             $( window ).unload(function() {
