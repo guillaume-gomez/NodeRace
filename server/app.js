@@ -7,6 +7,7 @@ var fs = require('fs');
 //le moteur de jeu
 var gameEngine = require('./js/engine');
 var tools = require('./js/tools');
+var chatF = require('./js/chat');
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
@@ -18,19 +19,21 @@ var config = JSON.parse(fs.readFileSync("public/config.json").toString());
 //les variables
 var instances = [];
 var cars = [];
-var datePing = new Date();
 var indexPartie = 0;
 
 function tick(socket, carInfos) {
     //on met à jour la date coté serveur
     var currentDate = new Date();
-
     if(
-        instances[ carInfos.indexPartie ].islaunched 
-    &&  (currentDate.getTime() - datePing.getTime()) > 5000)
+        instances[ socket.indexPartie ].launched &&
+         (currentDate.getTime() - socket.datePing.getTime()) > 5000)
     {
         console.log("Il est parti sans rien dire le client");
-        tools.disconnect(socket, io, instances[socket.indexPartie] );
+
+        if( tools.disconnect(socket, io, instances[socket.indexPartie]) == 0 )
+        {
+            chatF.deleteChatInstance( socket.indexPartie );
+        }
     }
 
     elapsedTime = (currentDate.getTime() - carInfos.lastTimeUpdate) / 1000;
@@ -54,9 +57,10 @@ function tick(socket, carInfos) {
 // Quand on client se connecte
 io.sockets.on('connection', function (socket) {
     //connextion du futur module de chat
-
+    chatF.getChatMessage(socket);
 
     socket.on('login', function(message) {
+        socket.datePing = new Date();
         //on recupere le login et on enverra l'id de le voiture dans la partie
         var index;
         if(message.host == true)
@@ -80,6 +84,7 @@ io.sockets.on('connection', function (socket) {
                                 launched: false
                             };
             instances.push(newInstance);
+            chatF.addChatInstance(indexPartie);
             
             socket.indexPartie = indexPartie;
             console.log(socket.indexPartie)
@@ -104,7 +109,6 @@ io.sockets.on('connection', function (socket) {
             instances[ indexPart ].nbCars++;
         }
         //on emet l'id au client
-
         socket.emit('id', index);
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
 
@@ -132,8 +136,11 @@ io.sockets.on('connection', function (socket) {
         
         //on teste si la partie doit demarrer
         tools.checkLaunch(instances[ socket.indexPartie ], io);
-
         setInterval(tick, 8, socket, car);
+
+        //on gere le chat
+        socket.login = message.login;
+        chatF.getOldMessages(socket);
     }); 
 
     //quand le client envoit son acceleration
@@ -143,6 +150,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('ping', function(clientDate) {
         datePing = new Date();
+        socket.datePing = datePing;
         socket.emit('ping', clientDate);
     });
 

@@ -84,6 +84,7 @@ exports.disconnect = function(socket, io, instance)
                 io.to( instance.cars[ i ].sock ).emit('deconnexionPartie', "L'hote à quitter la partie");
             }
             delete instance;
+            return 0;
 
         }
         else
@@ -92,9 +93,11 @@ exports.disconnect = function(socket, io, instance)
             {
                 if(instance.cars[ i ].sock == socket.id)
                 {
-                    delete cars[ i ];
+                    delete instance.cars[ i ];
+                    return 1;
                 }
             }
         }
+    return -1;
 }
 

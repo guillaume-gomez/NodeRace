@@ -11,14 +11,32 @@
         <script src="js/tileset.js"></script>
         <script src="js/jaws-sprite_list.js"></script>
         <script src="js/jaws-tile_map.js"></script>
+        <script src="js/manageChat.js"></script>
     </head>
  
     <body>       
         <header>
             <h1>Le super jeu en HTML5 </h1>
-        </header>        
+        </header>  
 
-        <div>
+        <div id="colonne1">
+        <legend>Chat Room</legend>
+        <hr>    
+            <div>
+                
+                    Message: <input type="text" name="user" id="message" placeholder="votre message">
+                    <input type="submit" value="Submit" id="submit">
+                </form>
+            </div>
+
+            <div id="oldMessages"></div>
+
+            <div id="listMessage"></div>
+        </br>
+        </div>
+
+
+        <div id="centre">
             <form action="/" method="post" id="formulaire">
                 <fieldset>
                     Login: <input type="text" name="user" id="login" autocomplete="on" autofocus>
@@ -53,24 +71,24 @@
                     <input type="submit" value="Submit" id="submit">
                 </fieldset>
             </form>
-        </div>
             </br>
 
-        <div id="info"></div>
+            <div id="info"></div>
 
-        <canvas id="gameCanvas" width="900" height="400">
-            Votre navigateur n'est pas compatible !
-        </canvas>
-        </br>
-        <div id="live_info"></div>
-        </br>
+            <canvas id="gameCanvas" width="900" height="400">
+                Votre navigateur n'est pas compatible !
+            </canvas>
+            </br>
+            <div id="live_info"></div>
+            </br>
 
-        <div id="debug">
-        </div>
-            <div id="speed"></div>
-        
-        <h3>jaws log</h3>
-        <div id="jaws-log"></div>
+            <div id="debug">
+            </div>
+                <div id="speed"></div>
+            
+            <h3>jaws log</h3>
+            <div id="jaws-log"></div>
+            </div>
 
         </br>
         <footer>
@@ -135,6 +153,8 @@
 
                 var message = {login:log, minCar:minCar, maxCar:maxCar, host:isHost, private: isPrivate, password: passwd};
                 socket.emit('login', message);
+
+                manageChat(socket);
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             });
 

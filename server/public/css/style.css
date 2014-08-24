@@ -4,6 +4,30 @@ margin: 0;
 padding: 0;
 }
 
+header,
+footer {
+	text-align: center;
+}
+
+legend
+{
+	text-align: center;
+}
+
+div#colonne1 {
+    float: left;
+    font-style: bold;
+    width: 22%;
+    margin-right: 10px;
+	font: 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+
+div#centre {
+    overflow: hidden;
+}
+
+
 canvas{
 background-color: black;
 border:2px solid #d3d3d3;
@@ -29,7 +53,6 @@ font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
 line-height: 1.4em;
 background: #eaeaea url('bg.png');
 color: #4d4d4d;
-width: 550px;
 margin: 0 auto;
 -webkit-font-smoothing: antialiased;
 -moz-font-smoothing: antialiased;
