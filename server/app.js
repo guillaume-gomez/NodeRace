@@ -49,10 +49,10 @@ function tick(socket, carInfos) {
     //renvoit la position sur le circuit
     gameModel.getTrackPosition(instances[ socket.indexPartie ], io);
 
-    if( gameModel.isFinish(instances[ socket.indexPartie ]) )
+    /*if( gameModel.isFinish(instances[ socket.indexPartie ]) )
     {
         console.log("la partie est officielement terminé");
-    }
+    }*/
 
     var infos = {
                     id: carInfos.id,

@@ -47,9 +47,10 @@ exports.isFinish = function (instance)
 
 exports.getTrackPosition = function (instance, io) 
 {
+	//nextTrajectoryIndex + 1 est utilisé pour eviter la multiplication par zero quand on recommence un niveau
 	var sorting = function (a, b) {
-		var valA = a.lap * a.nextTrajectoryIndex;
-		var valB = b.lap * b.nextTrajectoryIndex;
+		var valA = a.lap * (a.nextTrajectoryIndex + 1);
+		var valB = b.lap * (b.nextTrajectoryIndex + 1);
 		return valB - valA;
 	}
 
