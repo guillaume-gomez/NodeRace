@@ -4,13 +4,18 @@ var server = require('http').createServer(app);
 var http = require('http');
 var fs = require('fs');
 
-//le moteur de jeu
-var gameEngine = require('./js/engine');
-var tools = require('./js/tools');
-var chatF = require('./js/chat');
-
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
+
+
+var gameModel = require('./js/levelModel')
+//le moteur de jeu
+var gameEngine = require('./js/engine');
+//fonction de gestion de serveur
+var tools = require('./js/tools');
+//fonction pour la gestion de chat
+var chatF = require('./js/chat');
+
 
 // Chargement de socket.io
 var io = require('socket.io').listen(server);
@@ -28,7 +33,7 @@ function tick(socket, carInfos) {
         instances[ socket.indexPartie ].launched &&
          (currentDate.getTime() - socket.datePing.getTime()) > 5000)
     {
-        console.log("Il est parti sans rien dire le client");
+        console.log("Suppression d'un client");
 
         if( tools.disconnect(socket, io, instances[socket.indexPartie]) == 0 )
         {
@@ -41,12 +46,20 @@ function tick(socket, carInfos) {
 
     //on modifie les positions par le calcul de colission
     gameEngine.updateMove(carInfos, elapsedTime);
+    //renvoit la position sur le circuit
+    gameModel.getTrackPosition(instances[ socket.indexPartie ], io);
+
+    if( gameModel.isFinish(instances[ socket.indexPartie ]) )
+    {
+        console.log("la partie est officielement terminé");
+    }
 
     var infos = {
                     id: carInfos.id,
                     speed: carInfos.speed,
                     position: carInfos.position,
-                    angle: carInfos.angle
+                    angle: carInfos.angle,
+                    lap: carInfos.lap
                    }
 
     socket.emit('myPosition', infos);
@@ -77,6 +90,7 @@ io.sockets.on('connection', function (socket) {
                                 password: passwd,
                                 //track.id sera l'id du circuit
                                 track: 56,
+                                nbLaps: message.laps,
                                 cars: [],
                                 nbCars:1,
                                 minCar: message.minCar,
@@ -104,7 +118,7 @@ io.sockets.on('connection', function (socket) {
             } 
             socket.indexPartie = indexPart;
             //on recupere un id de connexion
-            index = instances[ indexPart ].nbCars - 1;
+            index = instances[ indexPart ].nbCars;
             //on incremente le nombre de voiture
             instances[ indexPart ].nbCars++;
         }
@@ -113,7 +127,6 @@ io.sockets.on('connection', function (socket) {
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
 
         console.log(message.login + ' vient de se connecter');
-        console.log(message.login +  socket.indexPartie);
         
         var car = 
         {
@@ -124,10 +137,11 @@ io.sockets.on('connection', function (socket) {
             accel : 0,  // percentage
             speed: 0,
             velocity : {x: 0, y: 0},
-            position: {x: gameEngine.getStart(0).x, y: gameEngine.getStart(0).y},
+            position: {x: gameEngine.getStart( index ).x, y: gameEngine.getStart( index ).y},
             angle: 0,
             lastTimeUpdate: new Date(),
-            nextTrajectoryIndex: 1
+            nextTrajectoryIndex: 1,
+            lap: 1,
         }
 
         //on ajoute la voiture à la bonne partie

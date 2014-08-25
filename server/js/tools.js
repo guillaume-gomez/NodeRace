@@ -87,7 +87,8 @@ exports.disconnect = function(socket, io, instance)
             return 0;
 
         }
-        else
+        //not necessary right now !
+        /*else
         {
             for(var i = 0; i < instance.nbCars; i++)
             {
@@ -97,7 +98,8 @@ exports.disconnect = function(socket, io, instance)
                     return 1;
                 }
             }
-        }
+        }*/
+    return -1;
     return -1;
 }
 

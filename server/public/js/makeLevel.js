@@ -63,8 +63,8 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 		jaws.on_keydown("left_mouse_button", function()
 		{
 			//environnement
-			if ( isValid()  )
-			{
+			//if ( isValid()  )
+			//{
 				var tangle = document.getElementById('rotate').value;
 			console.log(tangle);
 				tangle = parseInt(tangle);
@@ -101,12 +101,13 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 				{
 					if(ArrayTileInfo.cases[i].url == m_currentImg[ m_indiceIMG ])
 					{
+						console.log(JSON.stringify(ArrayTileInfo.cases[i].ListPoint));
 						var list = temp.loadCurves(ArrayTileInfo.cases[i].ListPoint);
 						break;
 					}
 				}
 				m_spriteList.push( temp );
-			}
+			//}
 		} )
 
 		//Supprime la dernière tile

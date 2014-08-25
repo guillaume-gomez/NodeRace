@@ -1,7 +1,6 @@
 /**
 *@brief : Classe Tile qui gere un sprite
 **/
-
 Tile = function Tile(options) {
 	var listPoint = new Array();
 	if(typeof options.listPoint !== 'undefined')
@@ -19,7 +18,6 @@ Tile = function Tile(options) {
   	{
   		this.m_image = options.image;
   	}
-    
  }
 
 Tile.prototype = jaws.Sprite.prototype
@@ -64,13 +62,6 @@ Tile.prototype.loadCurves = function(points)
 	{
 		this.listPoint[ i ].x = this.listPoint[ i ].x*offsetX + this.x;
 		this.listPoint[ i ].y = this.listPoint[ i ].y*offsetY + this.y;
-	}
-
-	function toNinetyDegree(element, index, array) {
-		var temp = element.x;
-		element.x = element.y;
-		element.y = temp;
-    	//console.log("a[" + index + "] = " + element);
 	}
 }
 

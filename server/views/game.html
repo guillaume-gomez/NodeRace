@@ -55,6 +55,8 @@
                                 <option value="id32">track4</option>
                             </select>
                 </br>
+                Nombre de tours <input type="range" id="laps" value="3" max="10" min="1" step="1">   
+                </br>
                 <input type="Checkbox" id="host" name="host" value="false">Hôte d'une partie
                 </br>
                 <input type="Checkbox" id="private" name="private" value="false">Partie Privé
@@ -79,16 +81,13 @@
                 Votre navigateur n'est pas compatible !
             </canvas>
             </br>
+            <div id="speed"></div>
             <div id="live_info"></div>
-            </br>
+            <div id="debug"> </div>
 
-            <div id="debug">
-            </div>
-                <div id="speed"></div>
-            
             <h3>jaws log</h3>
             <div id="jaws-log"></div>
-            </div>
+        </div>
 
         </br>
         <footer>
@@ -150,8 +149,9 @@
                 var maxCar = $('#maxCar').val();
                 var isHost = ($('#host').is(":checked"));
                 var isPrivate = ($('#private').is(":checked"));
+                var lap = $('#laps').val();
 
-                var message = {login:log, minCar:minCar, maxCar:maxCar, host:isHost, private: isPrivate, password: passwd};
+                var message = {login:log, minCar:minCar, maxCar:maxCar, host:isHost, private: isPrivate, password: passwd, laps: lap};
                 socket.emit('login', message);
 
                 manageChat(socket);

@@ -20,7 +20,7 @@ function Game (socket, myId, username)
 	var m_myId;
 	var m_ping;
 	var m_decompteTxt;
-	// var rails = [];
+	var m_positionTxt;
 
 	///////////////////////////////////////////////////////////////////////////////////
 	// Méthodes
@@ -45,6 +45,9 @@ function Game (socket, myId, username)
 		m_decompteTxt.color = "Red";
 		m_decompteTxt.fontSize = 54;
 
+		m_positionTxt = new jaws.Text({ text: "Position", x: jaws.width - 150, y: jaws.height - 10, style: "bold"});
+		m_positionTxt.fontSize = 18;
+
 		//Viewport
 		m_viewport = new jaws.Viewport({max_x: jaws.width*1.5, max_y: jaws.height*1.5});
 		m_cars = new Array();
@@ -53,11 +56,12 @@ function Game (socket, myId, username)
 		// var y = Math.floor((Math.random() * jaws.height) + 1);
 		m_cars[0] = new Car("cars/Firebird1980.png", 700, 300, 50);
 		m_cars[0].constructor();
-		m_cars[0].setMyID(m_myId);
-		m_cars[0].setUsername(username);
 
 		m_cars[1] = new Car("cars/Cobra.png", 700, 300, 50);
 		m_cars[1].constructor();
+
+		m_cars[m_myId].setMyID(m_myId);
+		m_cars[m_myId].setUsername(username);
 
 		m_level = new TileSet(m_viewport, cell_size);
 		m_level.constructor();
@@ -96,6 +100,11 @@ function Game (socket, myId, username)
         	//on reception sa nouvelle position
         	game.setPosition(carInfos);
         });
+
+        socket.on('trackPosition', function(position) {
+        	console.log("ma place "+position);
+        	m_positionTxt.text = "Position : "+position+" / 2";
+        })
 
 	 	setInterval(function()
 	 				{
@@ -153,8 +162,9 @@ function Game (socket, myId, username)
 		{
 			m_decompteTxt.draw();
 		}
-		m_viewport.drawTileMap( m_level.getTileMap());
+		m_positionTxt.draw();
 
+		m_viewport.drawTileMap( m_level.getTileMap());
 		for(var i = 0; i < m_cars.length; i++)
 		{
 			m_cars[ i ].draw(m_viewport);
@@ -199,12 +209,12 @@ function Game (socket, myId, username)
 				m_speed = carInfos.speed;
 				
 			speed = document.getElementById("speed");
-			speed.innerHTML = "<p>speed : "+m_speed+"</p>";
+			speed.innerHTML = "<p>speed : "+m_speed.toFixed(2)+"</p>";
 
 			m_cars[carInfos.id].setPosition(carInfos);
 
 			debug = document.getElementById("debug");
-			debug.innerHTML = "<p> move "+this.getMyPositionX()+" :: "+this.getMyPositionY()+"</p>";
+			debug.innerHTML = "<p> move "+this.getMyPositionX().toFixed(2)+" :: "+this.getMyPositionY().toFixed(2)+"</p>";
 		}
 	}
 		
