@@ -156,6 +156,7 @@ io.sockets.on('connection', function (socket) {
         //on ajoute la voiture à la bonne partie
         instances[ socket.indexPartie ].cars.push(car);
         console.log(JSON.stringify(instances[ socket.indexPartie ]));
+        console.log(gameEngine.getStart( index ).x +"  "+gameEngine.getStart( index ).y);
         
         //on teste si la partie doit demarrer
         tools.checkLaunch(instances[ socket.indexPartie ], io);

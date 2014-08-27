@@ -30,7 +30,7 @@ function Game (socket, myId, username)
 	this.setup = function () 
 	{
 		live_info = document.getElementById("live_info");
-		cell_size = 30;
+		cell_size = 50;
 
 		m_decompte = -1;
 		m_speed = 0;
@@ -53,10 +53,10 @@ function Game (socket, myId, username)
 
 		// var x = Math.floor((Math.random() * jaws.width) + 1);
 		// var y = Math.floor((Math.random() * jaws.height) + 1);
-		m_cars[0] = new Car("cars/Firebird1980.png", 700, 300, 50);
+		m_cars[0] = new Car("cars/Firebird1980.png", 0, 0, 50);
 		m_cars[0].constructor();
 
-		m_cars[1] = new Car("cars/Cobra.png", 700, 300, 50);
+		m_cars[1] = new Car("cars/Cobra.png", 0, 0, 50);
 		m_cars[1].constructor();
 
 		m_cars[m_myId].setMyID(m_myId);

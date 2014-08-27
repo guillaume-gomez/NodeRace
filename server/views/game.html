@@ -77,7 +77,7 @@
 
             <div id="info"></div>
 
-            <canvas id="gameCanvas" width="900" height="400">
+            <canvas id="gameCanvas" width="1000" height="500">
                 Votre navigateur n'est pas compatible !
             </canvas>
             </br>
@@ -136,6 +136,8 @@
 
             socket.on('id', function(id) {
                 var username = $('#login').val();
+               // window.location += '#gameCanvas';
+                console.log(window.location += '#gameCanvas');
                 //on lance le jeu quand on a recuperer l'id de connexion
                 game = new Game(socket, id, username);
                 jaws.start(game);
@@ -160,12 +162,12 @@
                 socket.emit('login', message);
 
                 manageChat(socket);
+                console.log(window.location);
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             });
 
             socket.on('depart', function(message) {
                 var demarre = true;
-                console.log("COUCOU tu veux voir ma ...");
             });
 
             socket.on('deconnexionPartie', function(message) {

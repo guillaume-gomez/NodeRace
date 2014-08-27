@@ -54,7 +54,7 @@ function Editor ( )
 	var m_background;
 	this.copyLevel;
 	var cameraSpeed = 5;
-	var cell_size = 30;
+	var cell_size = 50;
 	background = new jaws.Sprite({image : ''});
 
 
