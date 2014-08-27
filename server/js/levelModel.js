@@ -3,7 +3,7 @@ Ce module charge la partie modele du niveau
 */
 var fs = require('fs');
 
-var NB_RAIL = 2;
+var NB_RAIL = 4;
 var NB_TOUR = 3;
 
 
@@ -24,6 +24,8 @@ exports.loadLevel = function (filename)
 		{
 			for( var k = 0; k < NB_RAIL; k++)
 			{
+				//une fois que les rails seront bien fait il faudra faire
+				//rails[ k ].push(tiles[ i ].listPoint[ k ][ j ]);
 				rails[ k ].push(tiles[ i ].listPoint[ j ]);
 			}
 		}

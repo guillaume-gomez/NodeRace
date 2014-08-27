@@ -141,6 +141,11 @@
                 jaws.start(game);
             });
 
+            socket.on('infoPart', function(infos) {
+                laps = infos.laps;
+                nbCarsPlayed = infos.nbComponents;
+            });
+
             // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
             $('#formulaire').submit(function () {
                 var log = $('#login').val();

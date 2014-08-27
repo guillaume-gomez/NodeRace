@@ -22,6 +22,7 @@ var io = require('socket.io').listen(server);
 var config = JSON.parse(fs.readFileSync("public/config.json").toString());
 
 //les variables
+var tickF;
 var instances = [];
 var cars = [];
 var indexPartie = 0;
@@ -33,8 +34,8 @@ function tick(socket, carInfos) {
         instances[ socket.indexPartie ].launched &&
          (currentDate.getTime() - socket.datePing.getTime()) > 5000)
     {
-        console.log("Suppression d'un client");
-
+        console.log("Suppression d'un client "+socket.id);
+        //socket.conn.close();
         if( tools.disconnect(socket, io, instances[socket.indexPartie]) == 0 )
         {
             chatF.deleteChatInstance( socket.indexPartie );
@@ -49,10 +50,14 @@ function tick(socket, carInfos) {
     //renvoit la position sur le circuit
     gameModel.getTrackPosition(instances[ socket.indexPartie ], io);
 
-    /*if( gameModel.isFinish(instances[ socket.indexPartie ]) )
+    if( gameModel.isFinish(instances[ socket.indexPartie ]) )
     {
-        console.log("la partie est officielement terminé");
-    }*/
+        //console.log("la partie est officielement terminé");
+        for ( var i = 0; i < instances[ socket.indexPartie ].nbCars; i++)
+        {
+            io.to( instances[ socket.indexPartie ].cars[ i ].sock ).emit('finPartie', "fin de partie");
+        }
+    }
 
     var infos = {
                     id: carInfos.id,
@@ -124,8 +129,12 @@ io.sockets.on('connection', function (socket) {
         }
         //on emet l'id au client
         socket.emit('id', index);
+        var infoPartie = { laps: instances[ socket.indexPartie ].nbLaps ,
+                           nbComponents: instances[ socket.indexPartie ].minCar
+                        };
+        console.log(JSON.stringify(infoPartie));
+        socket.emit('infoPart', infoPartie);
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
-
         console.log(message.login + ' vient de se connecter');
         
         var car = 
@@ -150,7 +159,7 @@ io.sockets.on('connection', function (socket) {
         
         //on teste si la partie doit demarrer
         tools.checkLaunch(instances[ socket.indexPartie ], io);
-        setInterval(tick, 8, socket, car);
+        tickF = setInterval(tick, 8, socket, car);
 
         //on gere le chat
         socket.login = message.login;
@@ -175,8 +184,10 @@ io.sockets.on('connection', function (socket) {
         //tools.manageLaunch( instances[ socket.indexPartie ], io);
     });
 
-    socket.on('deconnexion', function(message) {
-        console.log(socket.login+" s'est deconnecté");
+    socket.on('deconnexion', function() {
+        console.log(socket.login+" s'est deconnecté "+socket.id);
+        socket.conn.close();
+        clearInterval(tickF);
     });
 });
 

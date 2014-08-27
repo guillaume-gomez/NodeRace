@@ -79,6 +79,7 @@ exports.disconnect = function(socket, io, instance)
         //si c'est l'hote
         if(instance.host == socket.id)
         {
+            instance.launched = false;
             for(var i = 0; i < instance.nbCars; i++)
             {
                 io.to( instance.cars[ i ].sock ).emit('deconnexionPartie', "L'hote à quitter la partie");
@@ -99,7 +100,6 @@ exports.disconnect = function(socket, io, instance)
                 }
             }
         }*/
-    return -1;
     return -1;
 }
 

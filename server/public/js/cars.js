@@ -33,7 +33,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 		m_car = new jaws.Sprite({ image: m_carFilename, scale_image: 0.10, anchor_x:0.25, anchor_y:0.5, angle:180});
 		//m_car.animation = new jaws.Animation({sprite_sheet: jaws.assets.get(image), frame_size: [frame_width,frame_height], frame_duration: frame_duration , orientation :"right"});
 		//m_car.setImage(m_car.animation.frames[1]);
-		m_username = new jaws.Text({ text: "player", x: 0, y: 0, fontSize: 12, color: "Black", wordWrap:true});
+		m_username = new jaws.Text({ text: "player", x: 0, y: 0, fontSize: 13, color: "Black", wordWrap:true, style:"italic"});
 		console.log(m_username.toJSON());
 		//creating 4 new variables for the sprite
 		m_car.vx = m_car.vy = 0;

@@ -9,18 +9,16 @@ function Game (socket, myId, username)
 	//////////////////////////////////////////////////////////////////////////////////
 	// Attributs
 	//////////////////////////////////////////////////////////////////////////////////
-	var nbCars;
-	var nbCarsPlayed;
 	var m_viewport;
 	var m_cars;
 	var m_date;
 	var m_speed;
 	var m_decompte;
-
 	var m_myId;
 	var m_ping;
-	var m_decompteTxt;
+	var m_hubTxt;
 	var m_positionTxt;
+	var m_lapsTxt;
 
 	///////////////////////////////////////////////////////////////////////////////////
 	// Méthodes
@@ -37,16 +35,17 @@ function Game (socket, myId, username)
 		m_decompte = -1;
 		m_speed = 0;
 		m_myId = myId;
-		nbCars = 0;
-		nbCarsPlayed = 0;
 		m_date = new Date();
 
-		m_decompteTxt = new jaws.Text({ text: "En attente", x: jaws.width / 2, y: jaws.height / 2, style: "bold"});
-		m_decompteTxt.color = "Red";
-		m_decompteTxt.fontSize = 54;
+		m_hubTxt = new jaws.Text({ text: "En attente", x: jaws.width / 2, y: jaws.height / 2, style: "bold"});
+		m_hubTxt.color = "Red";
+		m_hubTxt.fontSize = 54;
 
-		m_positionTxt = new jaws.Text({ text: "Position", x: jaws.width - 150, y: jaws.height - 10, style: "bold"});
+		m_positionTxt = new jaws.Text({x: jaws.width - 150, y: jaws.height - 10, style: "bold"});
 		m_positionTxt.fontSize = 18;
+
+		m_lapsTxt = new jaws.Text({x: 20, y: jaws.height - 10, style: "bold"});
+		m_lapsTxt.fontSize = 18;
 
 		//Viewport
 		m_viewport = new jaws.Viewport({max_x: jaws.width*1.5, max_y: jaws.height*1.5});
@@ -66,45 +65,32 @@ function Game (socket, myId, username)
 		m_level = new TileSet(m_viewport, cell_size);
 		m_level.constructor();
 
-		// for(var j=0; j<2; j++)
-		// {
-		// 	for(var i=0; i<80; i++)
-		// 	{
-		// 		rail = {
-		// 					x: 70+i*6, 
-		// 					y: 20+j*40
-		// 			   }
-		// 		rails.push(rail);
-		// 	}
-		// 	for(var i=0; i<180; i++)
-		// 	{
-		// 		rail = {
-		// 					x: 70+80*6+(50+40*(1-j))*Math.cos((90-i)/180*Math.PI),
-		// 					y: 20+40+50-(50+40*(1-j))*Math.sin((90-i)/180*Math.PI)
-		// 			   }
-		// 		rails.push(rail);
-		// 	}
-		// }
+
         socket.on('position', function(carInfos) {
         	//on reception les positions des autres joueurs de maniere asynchrone;
         	game.setPosition(carInfos);
         });
 
         socket.on('decompte', function(count) {
-        	console.log("par tay "+count);
         	m_decompte = count;
-        	m_decompteTxt.text = m_decompte;
+        	m_hubTxt.text = m_decompte;
+        });
+
+        socket.on("finPartie", function(fin) {
+        	m_hubTxt.text = fin;
+        	socket.emit('deconnexion');
+        	socket.disconnect();
         });
 
         socket.on('myPosition', function(carInfos) {
         	//on reception sa nouvelle position
         	game.setPosition(carInfos);
+        	m_lapsTxt.text = "Laps : "+carInfos.lap+" / "+laps;
         });
 
         socket.on('trackPosition', function(position) {
-        	console.log("ma place "+position);
-        	m_positionTxt.text = "Position : "+position+" / 2";
-        })
+        	m_positionTxt.text = "Position : "+position+" / "+nbCarsPlayed;
+        });
 
 	 	setInterval(function()
 	 				{
@@ -133,7 +119,7 @@ function Game (socket, myId, username)
 	
 		var elapsedTime = (m_date.getTime() -	oldDate.getTime()) / 1000;
 		
-		if(m_decompte == 0)
+		if(m_hubTxt.text == 0)
 		{
 			m_cars[m_myId].update(socket);
 		}
@@ -158,17 +144,19 @@ function Game (socket, myId, username)
 		jaws.fill("rgba(200,200,200,1");
 
 		m_viewport.centerAround(m_cars[m_myId].getSprite());
-		if( m_decompte != 0)
-		{
-			m_decompteTxt.draw();
-		}
-		m_positionTxt.draw();
 
 		m_viewport.drawTileMap( m_level.getTileMap());
 		for(var i = 0; i < m_cars.length; i++)
 		{
 			m_cars[ i ].draw(m_viewport);
 		}
+
+		if( m_hubTxt.text != 0)
+		{
+			m_hubTxt.draw();
+		}
+		m_positionTxt.draw();
+		m_lapsTxt.draw();
 	}
 
 	this.isNeededToUpdate = function()
