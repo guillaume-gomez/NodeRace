@@ -172,7 +172,10 @@ function Editor ( )
 	{
 		jaws.clear();
 		m_viewport.draw(background);
-		drawGrid();
+		if(displayGrid)
+		{
+			drawGrid();
+		}
 		m_viewport.drawTileMap(m_level.getTileMap());
 	}
 

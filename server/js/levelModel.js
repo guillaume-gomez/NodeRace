@@ -30,7 +30,6 @@ exports.loadLevel = function (filename)
 			}
 		}
 	}
-	console.log(JSON.stringify(rails[0][0]));
 	return rails;	
 }
 

@@ -63,6 +63,9 @@
 			<td>
 			<button type="button" onclick="m_level.sauvegarder()" class="myButton">Sauvegarder</button> 
 			</td>
+			<td>
+				Afficher la grille :<input type="checkbox" value="false" id="grid" onClick="isGrid()">
+			</td>
 			</tr>
 		</table>
 		</fieldset>
@@ -124,11 +127,20 @@
 
 			m_listImgURL = new Array ("floor.png", "test.png", "caisse_black.png");
 
+			displayGrid = false;
+
             jaws.assets.add(m_listImgURL);
             jaws.assets.add("tracks/default.json");
             jaws.assets.add("tracks/creation.json");
         	jaws.start(Editor);
     	}
+	</script>
+
+	<script>
+		function isGrid()
+		{
+			displayGrid = ($('#grid').is(":checked"));
+		}
 	</script>
 
 	<script src="js/jquery-1.11.1.min.js"></script>
