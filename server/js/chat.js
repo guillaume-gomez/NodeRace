@@ -12,7 +12,7 @@ exports.getChatMessage = function(socket)
 				if( socket.indexPartie == ArrayMessages[ i ].id )
 				{
 					ArrayMessages[ i ].listMessage.push(newMessage);
-            		socket.broadcast.emit('message', JSON.stringify(newMessage));
+            		socket.broadcast.to( ArrayMessages[ i ].room ).emit('message', JSON.stringify(newMessage));
 
 		            if(ArrayMessages[ i ].listMessage.length > 15) 
 		            {
@@ -41,9 +41,9 @@ exports.getOldMessages = function(socket)
 	}
 }
 
-exports.addChatInstance = function(id)
+exports.addChatInstance = function(id, room)
 {
-	var newChat = {id: id, listMessage: []};
+	var newChat = {id: id, room: room, listMessage: []};
 	ArrayMessages.push(newChat);
 	console.log("nouvelle instance de chat id: "+id);
 

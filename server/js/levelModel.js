@@ -6,10 +6,35 @@ var fs = require('fs');
 var NB_RAIL = 4;
 var NB_TOUR = 3;
 
-
-exports.loadLevel = function (filename)
+//@see tileset.js voir la meme fonction coté client
+exports.getLevelFilename = function(trackID)
 {
-	var tiles = JSON.parse(fs.readFileSync(filename, 'utf8'));
+	var path = 'public/assets/';
+	if(trackID == "id56")
+	{
+		return path + 'tracks/default.json';
+	}
+	else if (trackID == "id68")
+	{
+		return path + 'tracks/track1.json';
+	}
+	else if (trackID == "id24")
+	{
+		return path + 'tracks/track2.json';
+	}
+	else if (trackID == "id32")
+	{
+		return path + 'tracks/default.json';
+	}
+	else
+	{
+		return path +'tracks/default.json';	
+	}
+}
+
+exports.loadLevel = function (trackID)
+{
+	var tiles = JSON.parse(fs.readFileSync(this.getLevelFilename(trackID), 'utf8'));
 	var rails = [];
 
 	for(var i=0; i < NB_RAIL; i++) 
@@ -35,15 +60,20 @@ exports.loadLevel = function (filename)
 
 exports.isFinish = function (instance)
 {
-	//console.log(JSON.stringify(instance));
-	for (var i = 0; i < instance.nbCars; i++)
+	if(instance.launched)
 	{
-		if(instance.cars[ i ].lap < instance.nbLaps)
+		//on verifie qu'un joueur à bien teminé les tours
+		for (var i = 0; i < instance.nbCars; i++)
 		{
-			return false;
+			if(instance.cars[ i ].lap < instance.nbLaps)
+			{
+				return false;
+			}
 		}
+		//sinon cela veut dire que la course est fini car sinon on aurait eu un return
+		return true;
 	}
-	return true;
+	return false;
 }
 
 exports.getTrackPosition = function (instance, io) 

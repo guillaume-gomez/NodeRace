@@ -176,8 +176,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 
 	this.setUsername = function(user)
 	{
-		m_username.text = user;
-		
+		m_username.text = user;	
 	}
 
 	this.switchToIA = function()

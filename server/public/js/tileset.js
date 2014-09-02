@@ -93,10 +93,37 @@ function TileSet (viewport, cell_size)
 	{
 	    m_spriteList = new jaws.SpriteList();	
 
-		m_spriteList.load(jaws.assets.get('tracks/default.json')); 
+		m_spriteList.load(jaws.assets.get(this.getLevelName())); 
 		 
 		m_tile_map = new jaws.TileMap({size : [m_viewport.max_x/cell_size+10,m_viewport.max_y/cell_size+10] ,cell_size: [cell_size,cell_size]});
 		m_tile_map.push(m_spriteList);	
+	}
+
+
+	//@see levelModel.js la meme fonction mais coté serveur
+	this.getLevelName = function()
+	{
+		//var global dans le html
+		if(trackID == "id56")
+		{
+			return 'tracks/default.json';
+		}
+		else if (trackID == "id68")
+		{
+			return 'tracks/track1.json';
+		}
+		else if (trackID == "id24")
+		{
+			return 'tracks/track2.json';
+		}
+		else if (trackID == "id32")
+		{
+			return  'tracks/default.json';
+		}
+		else
+		{
+			return 'tracks/default.json';
+		}
 	}
 //end of class	
 }

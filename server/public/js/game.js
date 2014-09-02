@@ -4,7 +4,7 @@
 
 var VMAX = 200;
 
-function Game (socket, myId, username)
+function Game (socket, myId)
 {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Attributs
@@ -37,14 +37,14 @@ function Game (socket, myId, username)
 		m_myId = myId;
 		m_date = new Date();
 
-		m_hubTxt = new jaws.Text({ text: "En attente", x: jaws.width / 2, y: jaws.height / 2, style: "bold"});
+		m_hubTxt = new jaws.Text({ text: "En attente", x: jaws.width / 2 - 100, y: jaws.height / 2, style: "bold"});
 		m_hubTxt.color = "Red";
 		m_hubTxt.fontSize = 54;
 
 		m_positionTxt = new jaws.Text({x: jaws.width - 150, y: jaws.height - 10, style: "bold"});
 		m_positionTxt.fontSize = 18;
 
-		m_lapsTxt = new jaws.Text({x: 20, y: jaws.height - 10, style: "bold"});
+		m_lapsTxt = new jaws.Text({x: 5, y: jaws.height - 10, style: "bold"});
 		m_lapsTxt.fontSize = 18;
 
 		//Viewport
@@ -71,15 +71,25 @@ function Game (socket, myId, username)
         	game.setPosition(carInfos);
         });
 
+        socket.on('logins', function(infosLogin) {
+        	m_cars[ infosLogin.id ].setUsername(infosLogin.username);
+        });
+
         socket.on('decompte', function(count) {
+        	console.log("console : decompte "+count);
         	m_decompte = count;
         	m_hubTxt.text = m_decompte;
         });
 
         socket.on("finPartie", function(fin) {
         	m_hubTxt.text = fin;
-        	socket.emit('deconnexion');
+        	console.log("finde partieserveur bitch");
+        	socket.emit('deconnexion', 'fin');
+        });
+
+        socket.on("closeCo", function(){
         	socket.disconnect();
+        	console.log("disconnection");
         });
 
         socket.on('myPosition', function(carInfos) {
@@ -91,6 +101,8 @@ function Game (socket, myId, username)
         socket.on('trackPosition', function(position) {
         	m_positionTxt.text = "Position : "+position+" / "+nbCarsPlayed;
         });
+
+
 
 	 	setInterval(function()
 	 				{
@@ -106,7 +118,7 @@ function Game (socket, myId, username)
         });
 	
 		//Empêche les touches de bouger la fenetre du navigateur
-		jaws.preventDefaultKeys(["up", "down", "left", "right", "space"]);
+		jaws.preventDefaultKeys(["up", "down", "left", "right"]);
 	}
 	
 	/**

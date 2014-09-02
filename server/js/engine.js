@@ -3,7 +3,7 @@
 	il fait les calculs et les renvoit au différents joueur (clients)
 **/
 var levelModel = require('./levelModel'); 
-var rails = levelModel.loadLevel( 'public/assets/tracks/default.json' );
+//var rails ;//= levelModel.loadLevel( 'public/assets/tracks/default.json' );
  // console.log(rails[0]);
 
 var VMAX = 500; // u/sec
@@ -12,9 +12,18 @@ var FACTOR = 3;
 // var ACCEL_FACTOR = 3;
 // var SLOWDOWN_FACTOR = 3;
 
+exports.getNewEngine = function(tracksID)
+{
+	this.rails = levelModel.loadLevel(tracksID);
+	console.log("Engine : getNewEngine("+tracksID+")");
+	//console.log(JSON.stringify(this.rails));
+	return this;
+}
+
 exports.getStart = function(railNumber)
 {
-	return rails[railNumber][0];
+	//console.log(JSON.stringify(this.rails));
+	return this.rails[railNumber][0];
 }
 
 exports.updateMove = function (carInfos, elapsedTime)
@@ -22,8 +31,8 @@ exports.updateMove = function (carInfos, elapsedTime)
 	carInfos.speed += (carInfos.accel*VMAX*FACTOR - carInfos.speed*FACTOR) * elapsedTime;
 
 	var distance = carInfos.speed * elapsedTime;
-	var x = rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
-	var y = rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
+	var x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
+	var y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
 
 	// console.log("out x : "+x+" ; y "+y);
 
@@ -31,17 +40,17 @@ exports.updateMove = function (carInfos, elapsedTime)
 
 	while(distance > 0)
 	{
-		carInfos.position = rails[carInfos.id][carInfos.nextTrajectoryIndex];
+		carInfos.position = this.rails[carInfos.id][carInfos.nextTrajectoryIndex];
 
-		if(++carInfos.nextTrajectoryIndex >= rails[carInfos.id].length)
+		if(++carInfos.nextTrajectoryIndex >= this.rails[carInfos.id].length)
 		{
 			carInfos.nextTrajectoryIndex = 0;
 			carInfos.lap++;
 			console.log("voiture "+carInfos.id+" avec lap '"+carInfos.lap+"'");
 		}
 
-		x = rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
-		y = rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
+		x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
+		y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
 	
 		// console.log("in x : "+x+" ; y "+y);
 
