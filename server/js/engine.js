@@ -12,67 +12,63 @@ var FACTOR = 3;
 // var ACCEL_FACTOR = 3;
 // var SLOWDOWN_FACTOR = 3;
 
-exports.getNewEngine = function(tracksID)
+exports.Engine = function(tracksID)
 {
 	this.rails = levelModel.loadLevel(tracksID);
-	console.log("Engine : getNewEngine("+tracksID+")");
-	//console.log(JSON.stringify(this.rails));
-	return this;
-}
 
-exports.getStart = function(railNumber)
-{
-	//console.log(JSON.stringify(this.rails));
-	return this.rails[railNumber][0];
-}
-
-exports.updateMove = function (carInfos, elapsedTime)
-{
-	carInfos.speed += (carInfos.accel*VMAX*FACTOR - carInfos.speed*FACTOR) * elapsedTime;
-
-	var distance = carInfos.speed * elapsedTime;
-	var x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
-	var y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
-
-	// console.log("out x : "+x+" ; y "+y);
-
-	distance -= Math.sqrt(x*x+y*y);
-
-	while(distance > 0)
+	this.getStart = function(railNumber)
 	{
-		carInfos.position = this.rails[carInfos.id][carInfos.nextTrajectoryIndex];
-
-		if(++carInfos.nextTrajectoryIndex >= this.rails[carInfos.id].length)
-		{
-			carInfos.nextTrajectoryIndex = 0;
-			carInfos.lap++;
-			console.log("voiture "+carInfos.id+" avec lap '"+carInfos.lap+"'");
-		}
-
-		x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
-		y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
-	
-		// console.log("in x : "+x+" ; y "+y);
-
-		distance -= Math.sqrt(x*x+y*y);
+		return this.rails[railNumber][0];
 	}
 
-	var newAngle = Math.atan2(x, y);
-	// if(carInfos.angle != newAngle && carInfos.speed>VMAX_STABLE)
-	// 	carInfos.angle -= Math.PI/90*carInfos.speed/VMAX_STABLE;
-	// else
-	// {
-	// 	if(carInfos.angle<newAngle-Math.PI/90* VMAX_STABLE/carInfos.speed)
-	// 		carInfos.angle += Math.PI/90* VMAX_STABLE/carInfos.speed;
-	// 	else
-	// 		carInfos.angle = newAngle;
-	// }
-	carInfos.angle = newAngle;
+	this.updateMove = function(carInfos, elapsedTime)
+	{
+		carInfos.speed += (carInfos.accel*VMAX*FACTOR - carInfos.speed*FACTOR) * elapsedTime;
 
-	distance = distance/Math.sqrt(x*x+y*y)+1;
+		var distance = carInfos.speed * elapsedTime;
+		var x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
+		var y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
 
-	carInfos.position.x += distance*x; 
-	carInfos.position.y += distance*y;
+		// console.log("out x : "+x+" ; y "+y);
+
+		distance -= Math.sqrt(x*x+y*y);
+
+		while(distance > 0)
+		{
+			carInfos.position = this.rails[carInfos.id][carInfos.nextTrajectoryIndex];
+
+			if(++carInfos.nextTrajectoryIndex >= this.rails[carInfos.id].length)
+			{
+				carInfos.nextTrajectoryIndex = 0;
+				carInfos.lap++;
+				console.log("voiture "+carInfos.id+" avec lap '"+carInfos.lap+"'");
+			}
+
+			x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
+			y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
+		
+			// console.log("in x : "+x+" ; y "+y);
+
+			distance -= Math.sqrt(x*x+y*y);
+		}
+
+		var newAngle = Math.atan2(x, y);
+		// if(carInfos.angle != newAngle && carInfos.speed>VMAX_STABLE)
+		// 	carInfos.angle -= Math.PI/90*carInfos.speed/VMAX_STABLE;
+		// else
+		// {
+		// 	if(carInfos.angle<newAngle-Math.PI/90* VMAX_STABLE/carInfos.speed)
+		// 		carInfos.angle += Math.PI/90* VMAX_STABLE/carInfos.speed;
+		// 	else
+		// 		carInfos.angle = newAngle;
+		// }
+		carInfos.angle = newAngle;
+
+		distance = distance/Math.sqrt(x*x+y*y)+1;
+
+		carInfos.position.x += distance*x; 
+		carInfos.position.y += distance*y;
+	}
 }
 
 // var rails = [];

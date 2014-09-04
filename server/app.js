@@ -93,12 +93,13 @@ io.sockets.on('connection', function (socket) {
                     socket.emit("isExist", "Une partie existe deja avec ce mot de passe");
                 }
             }
+          
             var newInstance = { host: socket.id,
                                 room : new Date().toString(),
                                 password: passwd,
                                 //track.id sera l'id du circuit
                                 track: message.track,
-                                engine: gameEngine.getNewEngine(message.track),
+                                engine: new gameEngine.Engine(message.track),
                                 nbLaps: message.laps,
                                 cars: [],
                                 nbCars:1,
@@ -108,8 +109,9 @@ io.sockets.on('connection', function (socket) {
                             };
 
             //on ajoute la room dans socket.io
-            socket.join(newInstance.room)
+            socket.join(newInstance.room);
 
+            console.log(newInstance.engine);
             instances.push(newInstance);
             socket.indexPartie = instances.length - 1;
             chatF.addChatInstance(socket.indexPartie, newInstance.room);
