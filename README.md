@@ -34,3 +34,7 @@ Now you have the server running, a text in the terminal should indicate on which
 Open a browser and go to 127.0.0.1:<**port**> (by default http://127.0.0.1:51510).
 
 That's it ! now by default the server listens on all interfaces, so for example you can easily play on lan using your local ip address (for example 192.168.1.10)
+
+## Authors :
+- [Gomez Guillaume](https://github.com/guillaume-gomez)
+- [Jarretier Adrien](https://github.com/AdrienJarretier)
