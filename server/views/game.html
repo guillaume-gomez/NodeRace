@@ -121,11 +121,6 @@
         <script src="js/jquery-1.11.1.min.js"></script>
 
         <script>
-            var xmlhttp = new XMLHttpRequest();
-
-            xmlhttp.open("GET", "config.json", false);
-            xmlhttp.send();
-            var config = JSON.parse(xmlhttp.responseText);
 
             var socket = io();
             // by default connect to the host that served this page

@@ -113,7 +113,6 @@ io.on('connection', function (socket) {
             //on ajoute la room dans socket.io
             socket.join(newInstance.room);
 
-            console.log(newInstance.engine);
             instances.push(newInstance);
             socket.indexPartie = instances.length - 1;
             chatF.addChatInstance(socket.indexPartie, newInstance.room);
