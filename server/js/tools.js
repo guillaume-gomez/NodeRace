@@ -4,7 +4,7 @@
 //if index = -1, alors il n'y a pas de partis disponible
 exports.findGame = function(isPrivate, passwd, instances)
 {
-    for (var i = 0; i < instances.length; i++) 
+    for (var i = 0; i < instances.length; i++)
     {
         if(instances[ i ].private == false)
         {
@@ -46,7 +46,7 @@ exports.checkLaunch = function(instance, socket)
         socket.emit('depart', 'le jeu va demarrer');
         console.log( instance.room );
         socket.broadcast.to( instance.room ).emit('depart', 'le jeu va demarrer');
-      
+
         this.manageLaunch(instance, socket);
     }
 }
@@ -92,7 +92,7 @@ exports.disconnect = function(socket, instances, chatFunction)
                 instances[ socket.indexPartie ].minCar--;
             }
         }
- 
+
         //if( instances[ socket.indexPartie ].nbCars == 0)
         // idem voir plus haut
         if(instances[ socket.indexPartie ].minCar == 0)

@@ -28,7 +28,7 @@ exports.getLevelFilename = function(trackID)
 	}
 	else
 	{
-		return path +'tracks/default.json';	
+		return path +'tracks/default.json';
 	}
 }
 
@@ -37,7 +37,7 @@ exports.loadLevel = function (trackID)
 	var tiles = JSON.parse(fs.readFileSync(this.getLevelFilename(trackID), 'utf8'));
 	var rails = [];
 
-	for(var i=0; i < NB_RAIL; i++) 
+	for(var i=0; i < NB_RAIL; i++)
 	{
 		rails[i] = [];
 	}
@@ -55,7 +55,7 @@ exports.loadLevel = function (trackID)
 			}
 		}
 	}
-	return rails;	
+	return rails;
 }
 
 exports.isFinish = function (instance)
@@ -76,7 +76,7 @@ exports.isFinish = function (instance)
 	return false;
 }
 
-exports.getTrackPosition = function (instance, io) 
+exports.getTrackPosition = function (instance, io)
 {
 	//nextTrajectoryIndex + 1 est utilisé pour eviter la multiplication par zero quand on recommence un niveau
 	var sorting = function (a, b) {
@@ -88,7 +88,7 @@ exports.getTrackPosition = function (instance, io)
 	var arrayPos = [];
 	for(var i = 0; i < instance.nbCars; i++)
 	{
-		//on emet la position au client 
+		//on emet la position au client
 		var carPos = {lap: instance.cars[ i ].lap,
 					  nextTrajectoryIndex: instance.cars[ i ].nextTrajectoryIndex,
 					  sock: instance.cars[ i ].sock
@@ -96,13 +96,13 @@ exports.getTrackPosition = function (instance, io)
 		arrayPos.push(carPos);
 	}
 
-	//on trie le tableau de maniere à obtenir l'ordre des positions 
+	//on trie le tableau de maniere à obtenir l'ordre des positions
 	// de maniere decroissante
 	arrayPos.sort(sorting);
 
 	for(var i = 0; i < arrayPos.length; i++)
 	{
-		//on emet la position au client 
+		//on emet la position au client
 		var pos = i + 1;
 		io.to( arrayPos[ i ].sock ).emit('trackPosition', pos);
 	}

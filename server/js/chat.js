@@ -14,7 +14,7 @@ exports.getChatMessage = function(socket)
 					ArrayMessages[ i ].listMessage.push(newMessage);
             		socket.broadcast.to( ArrayMessages[ i ].room ).emit('message', JSON.stringify(newMessage));
 
-		            if(ArrayMessages[ i ].listMessage.length > 15) 
+		            if(ArrayMessages[ i ].listMessage.length > 15)
 		            {
 		            	//supprime le plus vieux message
 		            	ArrayMessages[ i ].listMessage.splice(0,1);
@@ -32,7 +32,7 @@ exports.getOldMessages = function(socket)
 	{
 		if( socket.indexPartie == ArrayMessages[ i ].id )
 		{
-			if(ArrayMessages[ i ].listMessage.length > 0) 
+			if(ArrayMessages[ i ].listMessage.length > 0)
 			{
             	socket.emit("oldMessages", JSON.stringify( ArrayMessages[ i ].listMessage ));
         	}

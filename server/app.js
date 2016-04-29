@@ -4,9 +4,7 @@ var server = require('http').Server(app);
 
 const config = require("./js/config");
 
-app.use(express.static(__dirname + '/public'));
-app.use(express.static(__dirname + '/views'));
-
+app.use(express.static(__dirname + '/../client'));
 
 var gameModel = require('./js/levelModel')
 //le moteur de jeu
