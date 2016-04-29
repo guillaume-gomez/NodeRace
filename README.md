@@ -31,6 +31,6 @@ node app.js
 
 Now you have the server running, a text in the terminal should indicate on which **port** it is listening, if you have a conflic you can modify this in [server/public/config.json](server/public/config.json) 
 
-Open a browser and go to 127.0.0.1:<**port**>.
+Open a browser and go to 127.0.0.1:<**port**> (by default http://127.0.0.1:51510).
 
 That's it ! now by default the server listens on all interfaces, so for example you can easily play on lan using your local ip address (for example 192.168.1.10)
