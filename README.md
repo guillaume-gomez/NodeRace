@@ -29,7 +29,7 @@ node app.js
 ```
 *You may need to run __nodejs__ instead of node depending on your configuration*
 
-Now you have the server running, a text in the terminal should indicate on which **port** it is listening, if you have a conflic you can modify this in [server/public/config.json](server/public/config.json) 
+Now you have the server running, a text in the terminal should indicate on which **port** it is listening, if you have a conflic you can modify this in [server/config.json](server/config.json) 
 
 Open a browser and go to 127.0.0.1:<**port**> (by default http://127.0.0.1:51510).
 
