@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express();
-var server = require('http').createServer(app);
-var http = require('http');
-var fs = require('fs');
+var server = require('http').Server(app);
+
+const config = require("./js/config");
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
@@ -18,8 +18,7 @@ var chatF = require('./js/chat');
 
 
 // Chargement de socket.io
-var io = require('socket.io').listen(server);
-var config = JSON.parse(fs.readFileSync("public/config.json").toString());
+var io = require('socket.io')(server);
 
 //les variables
 var instances = [];
@@ -51,7 +50,7 @@ function tick(socket, carInfos) {
         socket.emit('finPartie', "fin de partie");
         socket.broadcast.to( instances[ socket.indexPartie ].room ).emit('finPartie', "fin de partie");
         instances[ socket.indexPartie ].launched = false;
-        
+
     }
 
     var infos = {
@@ -93,7 +92,7 @@ io.sockets.on('connection', function (socket) {
                     socket.emit("isExist", "Une partie existe deja avec ce mot de passe");
                 }
             }
-          
+
             var newInstance = { host: socket.id,
                                 room : new Date().toString(),
                                 password: passwd,
@@ -127,7 +126,7 @@ io.sockets.on('connection', function (socket) {
             {
                 socket.emit('erreur', 'Aucune partie trouvé');
                 return false;
-            } 
+            }
             socket.indexPartie = indexPart;
             //on recupere un id de connexion
             index = instances[ socket.indexPartie ].nbCars;
@@ -146,8 +145,8 @@ io.sockets.on('connection', function (socket) {
         socket.emit('infoPart', infoPartie);
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
         console.log(message.login + ' vient de se connecter');
-        
-        var car = 
+
+        var car =
         {
             id: index,
             sock: socket.id,
@@ -176,7 +175,7 @@ io.sockets.on('connection', function (socket) {
         //on gere le chat
         socket.login = message.login;
         chatF.getOldMessages(socket);
-    }); 
+    });
 
     //quand le client envoit son acceleration
     socket.on('accel', function(accel) {
@@ -207,8 +206,8 @@ io.sockets.on('connection', function (socket) {
 });
 
 
-app.get('/', function(req, res) 
-{ 
+app.get('/', function(req, res)
+{
    res.sendfile('index.html');
 });
 
@@ -218,4 +217,8 @@ app.use(function(req, res, next)
     res.send(404, 'Page introuvable !');
 });
 
-server.listen(config.port, config.address);
+server.listen(config.port, function () {
+
+    console.log('listening on *:' + config.port);
+
+});
