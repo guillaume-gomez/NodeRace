@@ -4,9 +4,7 @@ var server = require('http').Server(app);
 
 const config = require("./js/config");
 
-app.use(express.static(__dirname + '/public'));
-app.use(express.static(__dirname + '/views'));
-
+app.use(express.static(__dirname + '/../client'));
 
 var gameModel = require('./js/levelModel')
 //le moteur de jeu
@@ -66,9 +64,12 @@ function tick(socket, carInfos) {
     socket.broadcast.to( instances[ socket.indexPartie ].room ).emit('position', infos);
 }
 
-// Quand on client se connecte
-io.sockets.on('connection', function (socket) {
-    //connextion du futur module de chat
+// client connection
+io.on('connection', function (socket) {
+
+    console.log("user connection");
+
+    //connexion du futur module de chat
     chatF.getChatMessage(socket);
 
     socket.on('login', function(message) {
@@ -110,7 +111,6 @@ io.sockets.on('connection', function (socket) {
             //on ajoute la room dans socket.io
             socket.join(newInstance.room);
 
-            console.log(newInstance.engine);
             instances.push(newInstance);
             socket.indexPartie = instances.length - 1;
             chatF.addChatInstance(socket.indexPartie, newInstance.room);
@@ -196,7 +196,7 @@ io.sockets.on('connection', function (socket) {
         //tools.manageLaunch( instances[ socket.indexPartie ], io);
     });
 
-    socket.on('deconnexion', function(message) {
+    socket.on('disconnect', function(message) {
         console.log(socket.login+" s'est deconnecté "+socket.id);
         socket.leave(  instances[ socket.indexPartie ].room );
         tools.disconnect(socket, instances, chatF);

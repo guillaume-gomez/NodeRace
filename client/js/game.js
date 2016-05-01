@@ -23,11 +23,11 @@ function Game (socket, myId)
 	///////////////////////////////////////////////////////////////////////////////////
 	// Méthodes
 	////////////////////////////////////////////////////////////////////////////////////
-	
+
 	/**
 	*@brief : Definis les objets à construire
 	**/
-	this.setup = function () 
+	this.setup = function ()
 	{
 		live_info = document.getElementById("live_info");
 		cell_size = 50;
@@ -116,21 +116,21 @@ function Game (socket, myId)
 	    	var date = new Date();
 	    	m_ping = date.getTime() - oldTime;
         });
-	
+
 		//Empêche les touches de bouger la fenetre du navigateur
 		jaws.preventDefaultKeys(["up", "down", "left", "right"]);
 	}
-	
+
 	/**
 	* @brief : Met a jour le canvas
 	**/
-	this.update = function () 
+	this.update = function ()
 	{
 		var oldDate = m_date;
 		m_date = new Date();
-	
+
 		var elapsedTime = (m_date.getTime() -	oldDate.getTime()) / 1000;
-		
+
 		if(m_hubTxt.text == 0)
 		{
 			m_cars[m_myId].update(socket);
@@ -146,13 +146,13 @@ function Game (socket, myId)
 		live_info.innerHTML = "<p>"+jaws.game_loop.fps + " fps</p>" + "<p> Ping : "+m_ping+" ms</p>";//. Player: " ;+ parseInt(m_perso.getX()) + "/" + parseInt(m_perso.getY()) + ". ";
        //	live_info.innerHTML /*+*/= "Viewport: " + parseInt(m_viewport.x) + "/" + parseInt(m_viewport.y) + ".";
 	}
-	
+
 	/**
 	*@brief : Dessine les objets
 	**/
 	this.draw = function ()
 	{
-		jaws.clear();	
+		jaws.clear();
 		jaws.fill("rgba(200,200,200,1");
 
 		m_viewport.centerAround(m_cars[m_myId].getSprite());
@@ -195,7 +195,7 @@ function Game (socket, myId)
 	{
 		return m_cars[m_myId].getAccelerationY();
 	}
-		
+
 	this.setPosition =  function (carInfos)
 	{
 		//alert(index+", "+ x+", "+y);
@@ -207,7 +207,7 @@ function Game (socket, myId)
 		{
 			if(m_myId == carInfos.id)
 				m_speed = carInfos.speed;
-				
+
 			speed = document.getElementById("speed");
 			speed.innerHTML = "<p>speed : "+m_speed.toFixed(2)+"</p>";
 
@@ -217,6 +217,6 @@ function Game (socket, myId)
 			debug.innerHTML = "<p> move "+this.getMyPositionX().toFixed(2)+" :: "+this.getMyPositionY().toFixed(2)+"</p>";
 		}
 	}
-		
+
 //end of class
 }

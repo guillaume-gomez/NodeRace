@@ -2,7 +2,7 @@
 @brief : module qui realise la gestion du moteur du jeu
 	il fait les calculs et les renvoit au différents joueur (clients)
 **/
-var levelModel = require('./levelModel'); 
+var levelModel = require('./levelModel');
 //var rails ;//= levelModel.loadLevel( 'public/assets/tracks/default.json' );
  // console.log(rails[0]);
 
@@ -46,7 +46,7 @@ exports.Engine = function(tracksID)
 
 			x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
 			y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
-		
+
 			// console.log("in x : "+x+" ; y "+y);
 
 			distance -= Math.sqrt(x*x+y*y);
@@ -66,7 +66,7 @@ exports.Engine = function(tracksID)
 
 		distance = distance/Math.sqrt(x*x+y*y)+1;
 
-		carInfos.position.x += distance*x; 
+		carInfos.position.x += distance*x;
 		carInfos.position.y += distance*y;
 	}
 }
@@ -80,7 +80,7 @@ exports.Engine = function(tracksID)
 // 	for(var i=0; i<80; i++)
 // 	{
 // 		rail = {
-// 					x: 70+i*6, 
+// 					x: 70+i*6,
 // 					y: 20+j*40
 // 			   }
 // 		rails[j].push(rail);

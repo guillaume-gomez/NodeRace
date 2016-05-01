@@ -1,11 +1,33 @@
 {
-    "name": "cars_dependencies",
-    "version": "0.1.0",
-    "dependencies": {
-        "express": "~3.3.4",
-        "socket.io": "~1.0.0",
-        "ent": "~0.1.0"
-    },
-    "author": "Guillaume Gomez <guillaume.gomez@email.com>, Jarretier Adrien <jarretier.adrien@gmail.com>",
-    "description": "Un super Chat temps réel avec socket.io"
+  "name": "node_race",
+  "version": "0.1.0",
+  "dependencies": {
+    "express": "~3.3.4",
+    "socket.io": "~1.0.0"
+  },
+  "author": "Guillaume Gomez <guillaume.gomez@email.com>, Jarretier Adrien <jarretier.adrien@gmail.com>",
+  "description": "A Network video game to learn basic NodeJs Skills and socket.io",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guillaume-gomez/NodeRace.git"
+  },
+  "keywords": [
+    "2d",
+    "car",
+    "game",
+    "html5",
+    "jawsjs",
+    "race",
+    "socket"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guillaume-gomez/NodeRace/issues"
+  },
+  "homepage": "https://github.com/guillaume-gomez/NodeRace#readme"
 }
