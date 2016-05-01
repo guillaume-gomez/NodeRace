@@ -16,7 +16,7 @@
 
     <body>
         <header>
-            <h1>Le super jeu en HTML5 </h1>
+            <h1>NodeRace</h1>
         </header>
 
         <div id="colonne1">
@@ -41,32 +41,32 @@
                 <fieldset>
                     Login: <input type="text" name="user" id="login" autocomplete="on" autofocus>
                 </br>
-                    Voiture: <select>
+                    Car: <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
                 </br>
-                    Circuit: <select id="track">
+                    Track: <select id="track">
                                 <option value="id56">track1</option>
                                 <option value="id68">track2</option>
                                 <option value="id24">track3</option>
                                 <option value="id32">track4</option>
                             </select>
                 </br>
-                Nombre de tours <input type="range" id="laps" value="3" max="10" min="1" step="1">
+                Laps <input type="range" id="laps" value="3" max="10" min="1" step="1">
                 </br>
-                <input type="Checkbox" id="host" name="host" value="false">Hôte d'une partie
+                <input type="Checkbox" id="host" name="host" value="false">Host
                 </br>
-                <input type="Checkbox" id="private" name="private" value="false">Partie Privé
+                <input type="Checkbox" id="private" name="private" value="false">Private game
 
                 <div id="subMenu">
                     Password: <input type="text" name="user" id="password" autocomplete="on">
                     </br>
-                    Nombre de participants min <input type="range" id="minCar" value="2" max="8" min="2" step="1">
+                    Minimum opponents<input type="range" id="minCar" value="2" max="8" min="2" step="1">
                     </br>
-                    Nombre de participants max <input type="range" id="maxCar" value="8" max="8" min="3" step="1">
+                    Maximum opponents<input type="range" id="maxCar" value="8" max="8" min="3" step="1">
                     </br>
                 </div>
                 </br>
@@ -78,7 +78,7 @@
             <div id="info"></div>
 
             <canvas id="gameCanvas" width="1000" height="500">
-                Votre navigateur n'est pas compatible !
+               Your browser is not compatible !
             </canvas>
             </br>
             <div id="speed"></div>
@@ -91,8 +91,7 @@
 
         </br>
         <footer>
-            Un jeu developpé par Adrien Jarretier et Gomez Guillaume.
-            Designed par Corenthin . ...
+            A game developped by Adrien Jarretier and Gomez Guillaume.
         </footer>
 
 
