@@ -7,7 +7,7 @@ function Game (socket, myId)
 	var m_cars;
 	var m_date;
 	var m_speed;
-	var m_decompte;
+	var m_counting;
 	var m_myId;
 	var m_ping;
 	var m_hubTxt;
@@ -19,7 +19,7 @@ function Game (socket, myId)
 		live_info = document.getElementById("live_info");
 		cell_size = 50;
 
-		m_decompte = -1;
+		m_counting = -1;
 		m_speed = 0;
 		m_myId = myId;
 		m_date = new Date();
@@ -64,8 +64,8 @@ function Game (socket, myId)
 
         socket.on('decompte', function(count) {
         	console.log("console : decompte "+count);
-        	m_decompte = count;
-        	m_hubTxt.text = m_decompte;
+        	m_counting = count;
+        	m_hubTxt.text = m_counting;
         });
 
         socket.on("finPartie", function(fin) {
@@ -80,7 +80,7 @@ function Game (socket, myId)
         });
 
         socket.on('myPosition', function(carInfos) {
-        	//on reception sa nouvelle position
+        	//fetch new position
         	game.setPosition(carInfos);
         	m_lapsTxt.text = "Laps : "+carInfos.lap+" / "+laps;
         });
@@ -104,7 +104,6 @@ function Game (socket, myId)
 	    	m_ping = date.getTime() - oldTime;
         });
 
-		//Empêche les touches de bouger la fenetre du navigateur
 		jaws.preventDefaultKeys(["up", "down", "left", "right"]);
 	}
 

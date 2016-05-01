@@ -13,8 +13,8 @@
 	<script src="js/tile.js"></script>
 </head>
 <body>
-	
-	
+
+
 	<div id="colonne2">
 		<legend>Liste d'images</legend>
 		<hr>
@@ -22,7 +22,7 @@
 		</div>
 		</br>
 	</div>
-	
+
 	<div id="centre">
 		<canvas id="EditorCanvas" width="1000" height="500">
 			Votre navigateur n'est pas compatible !
@@ -30,7 +30,7 @@
 		<div id="debug"></div>
 		<div id="live_info"></div>
 		</br>
-		
+
 			<!-- Place this tag where you want the +1 button to render. -->
 			<div class="g-plusone" data-size="tall" data-annotation="none"></div>
 
@@ -44,24 +44,24 @@
 				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
 			  })();
 			</script>
-		
+
 		</br>
 		<fieldset id="bordure" class="separation">
 		<table cellspacing="50px">
 			<tr>
 			<td>
-				<label name="scale" title="Pour changer les proportions de l'image courante">Mise à l'échelle</label><input id="scale" type="number" step="0.1" min="0.1" max="3.0" name="scale" size="2" value="1" onchange="m_level.changeSouris(this.value)" />
+				<label name="scale" title="Pour changer les proportions de l'image courante">Mise à l'échelle</label><input id="scale" type="number" step="0.1" min="0.1" max="3.0" name="scale" size="2" value="1" onchange="m_level.switchToSelectedTile(this.value)" />
 			</td>
 			<td>
 				<label name="rotate" title="Pour changer la direction des element du decors">Rotation</label>
-				<input id="rotate" type="number" step="90" min="0" max="360" name="scale" 
-					value="0" onchange="(function() { 
-					image_courante_souris.style.imageOrientation = document.getElementById('rotate').value+'deg';
+				<input id="rotate" type="number" step="90" min="0" max="360" name="scale"
+					value="0" onchange="(function() {
+					current_cursor_image.style.imageOrientation = document.getElementById('rotate').value+'deg';
 					drawListImage();
 					}());" />
 			</td>
 			<td>
-			<button type="button" onclick="m_level.sauvegarder()" class="myButton">Sauvegarder</button> 
+			<button type="button" onclick="m_level.sauvegarder()" class="myButton">Sauvegarder</button>
 			</td>
 			<td>
 				Afficher la grille :<input type="checkbox" value="false" id="grid" onClick="isGrid()">
@@ -69,29 +69,29 @@
 			</tr>
 		</table>
 		</fieldset>
-		
+
 		<fieldset id="fieldCurrent">
 		<legend>Image Courante : </legend>
 		<div id="image-courante">
 		</div>
 		</fieldset>
-		
+
 		<textarea name="positive" rows=20 cols=140 id="save"></textarea>
 		</br>
 	</div>
 
 	<h3>jaws log</h3>
         <div id="jaws-log"></div>
-	
+
 	<!--<?php
 		//if(isset($_GET['level']))
 		//	echo '<br>Niveau : '.$_GET['level'].' chargé';
 	?>-->
-			
+
 	<p>
 		<fieldset>
 		<legend> Comment ? </legend>
-		
+
 		<table id="commands" style="border-collapse:collapse;" >
 		<caption>Commandes</caption>
 		<tr><td class="keyword"><img  src="css/mouse-left.png" alt="Clic Gauche"             /></td><td  class="keyword">Placer un tile / Selectionner un tile  </td></tr>
@@ -103,17 +103,17 @@
 		<tr><td class="keyword"><img src="css/p.png" alt="p"                    /></td><td  class="keyword">Passer à l'image suivant</td></tr>
 		<tr><td class="keyword"><img src="css/m.png" alt="m"                    /></td><td  class="keyword"> Passer à l'image précedente</td></tr>
 		</table>
-		
-		
+
+
 		</fieldset>
 	</p>
-	
+
 	<p>Un Editeur crée par Adrien Jarretier et Guillaume Gomez</p>
-	
+
 	<div id="image-courante-souris"></div>
-	
+
 	<script>
-	
+
 	window.onload = function()
     	{
     		var loc = location.search;
@@ -121,7 +121,7 @@
     		leveljson = "";
     		if(vars.length > 1)
     		{
-    			leveljson = "tracks/"+vars[1];	
+    			leveljson = "tracks/"+vars[1];
     		}
 			jaws.assets.root = "assets/";
 

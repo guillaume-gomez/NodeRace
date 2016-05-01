@@ -23,7 +23,7 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 			saveName = leveljson;
 		}
 
-		image_courante = document.getElementById('image-courante');
+		current_image = document.getElementById('image-courante');
 
 		m_currentImg = new Array();
 
@@ -185,17 +185,17 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 		var _scale = document.getElementById('scale');
 		_scale.value = ratio  ;
 
-		image_courante.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'">';
-		image_courante_souris.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'" >';
+		current_image.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'">';
+		current_cursor_image.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'" >';
 	}
 
-	this.changeSouris = function ( value_ratio )
+	this.switchToSelectedTile = function ( value_ratio )
 	{
 	  var path = 'assets/';
 	  var url = path + m_currentImg[ m_indiceIMG ] ;
 
-	  image_courante_souris.innerHTML = '';
-	  image_courante_souris.innerHTML = '<img src="'+url+'" whith="17" >';
+	  current_cursor_image.innerHTML = '';
+	  current_cursor_image.innerHTML = '<img src="'+url+'" whith="17" >';
 	}
 
 
@@ -235,11 +235,11 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 	{
 		var _y = (jaws.mouse_y + viewport.y) - (jaws.mouse_y + viewport.y) % cell_size;
 		var _x = ( jaws.mouse_x + viewport.x) - (jaws.mouse_x + viewport.x)% cell_size;
-			// si on est en dehors de l'ecran
+    //if outside the viewport
 
 			if( _x >= 0 && _x < viewport.max_x && _y >= 0 && _y < viewport.max_y)
 			{
-				if (!m_tile_map.at(jaws.mouse_x + viewport.x,jaws.mouse_y + viewport.y)[0])//New!!
+				if (!m_tile_map.at(jaws.mouse_x + viewport.x,jaws.mouse_y + viewport.y)[0])
 				{
 					return true ;
 				}
