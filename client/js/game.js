@@ -1,14 +1,8 @@
-/**
-* @brief : Classe principal du jeu
-**/
-
 var VMAX = 200;
 
 function Game (socket, myId)
 {
-	//////////////////////////////////////////////////////////////////////////////////
-	// Attributs
-	//////////////////////////////////////////////////////////////////////////////////
+
 	var m_viewport;
 	var m_cars;
 	var m_date;
@@ -20,13 +14,6 @@ function Game (socket, myId)
 	var m_positionTxt;
 	var m_lapsTxt;
 
-	///////////////////////////////////////////////////////////////////////////////////
-	// Méthodes
-	////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	*@brief : Definis les objets à construire
-	**/
 	this.setup = function ()
 	{
 		live_info = document.getElementById("live_info");
@@ -67,7 +54,7 @@ function Game (socket, myId)
 
 
         socket.on('position', function(carInfos) {
-        	//on reception les positions des autres joueurs de maniere asynchrone;
+        	//fetch postion from another players
         	game.setPosition(carInfos);
         });
 
@@ -121,9 +108,6 @@ function Game (socket, myId)
 		jaws.preventDefaultKeys(["up", "down", "left", "right"]);
 	}
 
-	/**
-	* @brief : Met a jour le canvas
-	**/
 	this.update = function ()
 	{
 		var oldDate = m_date;
@@ -147,9 +131,6 @@ function Game (socket, myId)
        //	live_info.innerHTML /*+*/= "Viewport: " + parseInt(m_viewport.x) + "/" + parseInt(m_viewport.y) + ".";
 	}
 
-	/**
-	*@brief : Dessine les objets
-	**/
 	this.draw = function ()
 	{
 		jaws.clear();

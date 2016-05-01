@@ -1,6 +1,3 @@
-/**
-*@brief : Classe Tile qui gere un sprite
-**/
 Tile = function Tile(options) {
 	var listPoint = new Array();
 	if(typeof options.listPoint !== 'undefined')
@@ -11,7 +8,7 @@ Tile = function Tile(options) {
 
   	if( !(this instanceof arguments.callee) ) return new arguments.callee( options );
     jaws.Sprite.call(this, options);
-  
+
     //supringly, the value image is not read as it does,then this variable store it
   	var m_image = "";
   	if(typeof options.image !== 'undefined')
@@ -72,7 +69,7 @@ Tile.prototype.setMyImage = function(image)
 }
 
 
- 
+
 Tile.prototype.toJSON = function(){
 	var object = this.attributes();
 

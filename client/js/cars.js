@@ -1,12 +1,6 @@
-/**
-* @brief : Classe qui gere la voiture 
-**/
-
 function Car(image, frame_width, frame_height, frame_duration)
 {
-	//////////////////////////////////////////////////////////////
-	// Attributs
-	/////////////////////////////////////////////////////////////
+
 	var m_car;
 	var m_speed;
 	var m_carFilename;
@@ -19,17 +13,10 @@ function Car(image, frame_width, frame_height, frame_duration)
 					id: 0,
 					percent: 0
 				}
-	
-	///////////////////////////////////////////////////////////////
-	// Méthodes
-	///////////////////////////////////////////////////////////////
-	/**
-	* @brief : Constructeur de la classe Car
-	**/
-    this.constructor = function()
+
+  this.constructor = function()
 	{
 		m_carFilename = image;
-		//on définie la valeur des variables
 		m_car = new jaws.Sprite({ image: m_carFilename, scale_image: 0.10, anchor_x:0.25, anchor_y:0.5, angle:180});
 		//m_car.animation = new jaws.Animation({sprite_sheet: jaws.assets.get(image), frame_size: [frame_width,frame_height], frame_duration: frame_duration , orientation :"right"});
 		//m_car.setImage(m_car.animation.frames[1]);
@@ -42,10 +29,6 @@ function Car(image, frame_width, frame_height, frame_duration)
 		m_isIA = false;
 		pushed = false;
     }
-	 
-	 /**
-	 *@brief : Permet de mouvement du perso
-	 **/
 
 	this.move = function (elapsedTime /*,tile_map*/ )
 	{
@@ -71,7 +54,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 						accel.percent = 1;
 					else
 						accel.percent = 0.5;
-					
+
         			socket.emit('accel', accel);
 				}
 			)
@@ -79,7 +62,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 				{
 					if(jaws.pressed(["right"]))
 						accel.percent = 1;
-					
+
         			socket.emit('accel', accel);
 				}
 			)
@@ -111,16 +94,16 @@ function Car(image, frame_width, frame_height, frame_duration)
 		viewport.draw(m_car);
 		viewport.draw(m_username);
 	}
-	
+
 	/**
 	* @brief : gestion des sprites
 	**/
-	// this.show = function () 
-	// {	
+	// this.show = function ()
+	// {
 	// 	if ( m_goRight )
 	// 	{
 	// 		m_car.setImage( m_car.go_right.next() );
-	// 	}			
+	// 	}
 	// }
 
 	this.haveToSend = function ()
@@ -128,9 +111,6 @@ function Car(image, frame_width, frame_height, frame_duration)
 		return pushed;
 	}
 
-	/**
-	* @brief : Accesseur de m_player
-	**/
 	this.getSprite = function ()
 	{
 		return m_car;
@@ -162,7 +142,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 	this.setAccelerationY = function(agy)
 	{
 		m_car.agy = agy;
-	}	
+	}
 
 	this.getAccelerationX = function()
 	{
@@ -176,7 +156,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 
 	this.setUsername = function(user)
 	{
-		m_username.text = user;	
+		m_username.text = user;
 	}
 
 	this.switchToIA = function()

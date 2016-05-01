@@ -1,15 +1,11 @@
-/**
-* @brief : Classe principal de l'editeur
-**/
-
 function drawListImage ()
 {
 	var path = 'assets/';
 	var insert = '';
 
-	// 	</canvas> 
+	// 	</canvas>
 	// 	<canvas id="myCanvas1" width="30" height="30">
-	// 	<canvas id="myCanvas2" width="30" height="30"></canvas> 
+	// 	<canvas id="myCanvas2" width="30" height="30"></canvas>
 	// for ( var i = 0 ; i < m_listImgURL.length ; i++ )
 	// {
 	// 	var url = path + m_listImgURL[i] ;
@@ -30,7 +26,7 @@ function drawListImage ()
 		var url = path + m_listImgURL[i] ;
 		var c = document.getElementById("myCanvas"+i);
 		var ctx = c.getContext("2d");
-		var img = document.createElement("IMG"); 
+		var img = document.createElement("IMG");
 		ctx.clearRect ( 0 , 0 , c.width , c.height );
 		ctx.translate(c.width/2, c.height/2);
 		img.src=url;
@@ -46,9 +42,6 @@ function drawListImage ()
 
 function Editor ( )
 {
-	//////////////////////////////////////////////////////////////////////////////////
-	// Attributs
-	//////////////////////////////////////////////////////////////////////////////////
 	var m_viewport;
 	this.m_level;
 	var m_background;
@@ -57,64 +50,49 @@ function Editor ( )
 	var cell_size = 50;
 	background = new jaws.Sprite({image : ''});
 
-
-	///////////////////////////////////////////////////////////////////////////////////
-	// Méthodes
-	////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	*@brief : Definis les objets à construire
-	**/
-	this.setup = function () 
+	this.setup = function ()
 	{
-		//on recupere les  html
 		live_info = document.getElementById("live_info");
 		liste_image = document.getElementById("liste-image");
 		image_courante_souris = document.getElementById('image-courante-souris');
-					
+
 		//Viewport
 		m_viewport = new jaws.Viewport({max_x: jaws.width*1.5, max_y: jaws.height*1.5});
-		
+
 		m_level = new MakeLevel ( cell_size , m_listImgURL , m_viewport);
 		m_level.constructor();
-		
-		
-		//on ecrit la liste d'image 
+
 		drawListImage();
-	
-		//Empeche les touches de bouger la fenetre du navigateur
+
 		jaws.preventDefaultKeys(["up", "down", "left", "right", "space"]);
 	}
-	
-	/**
-	* @brief : Met a jour le canvas
-	**/
-	this.update = function () 
+
+	this.update = function ()
 	{
 		moveCamera();
 		m_level.update(m_viewport);
-		
+
 		//Infos
 		live_info.innerHTML = jaws.game_loop.fps + " fps. X: " + parseInt(jaws.mouse_x) + "/ Y : " + parseInt(jaws.mouse_y) + ". ";
-        live_info.innerHTML += "Viewport: " + parseInt(m_viewport.x) + "/" + parseInt(m_viewport.y) + ".";
-		
+    live_info.innerHTML += "Viewport: " + parseInt(m_viewport.x) + "/" + parseInt(m_viewport.y) + ".";
+
 		moveScreen();
 		mouseFollow();
 	}
-	
+
 	function test(i)
 	{
 		m_indiceIMG = i;
 	}
-	
+
 	// function drawListImage ()
 	// {
 	// 	var path = 'assets/';
 	// 	var insert = '';
 
-	// 	// 	</canvas> 
+	// 	// 	</canvas>
 	// 	// 	<canvas id="myCanvas1" width="30" height="30">
-	// 	// 	<canvas id="myCanvas2" width="30" height="30"></canvas> 
+	// 	// 	<canvas id="myCanvas2" width="30" height="30"></canvas>
 	// 	// for ( var i = 0 ; i < m_listImgURL.length ; i++ )
 	// 	// {
 	// 	// 	var url = path + m_listImgURL[i] ;
@@ -135,7 +113,7 @@ function Editor ( )
 	// 		var url = path + m_listImgURL[i] ;
 	// 		var c = document.getElementById("myCanvas"+i);
 	// 		var ctx = c.getContext("2d");
-	// 		var img = document.createElement("IMG"); 
+	// 		var img = document.createElement("IMG");
 	// 		ctx.clearRect ( 0 , 0 , c.width , c.height );
 	// 		ctx.translate(c.width/2, c.height/2);
 	// 		img.src=url;
@@ -146,13 +124,13 @@ function Editor ( )
 	// 		ctx.drawImage(img,c.width/2-img.width/2,c.height/2-img.height/2);
 	// 	}
 	// }
-	
-	
+
+
 	function moveCamera ()
 	{
 		var _x = 0 ;
 		var _y = 0 ;
-		
+
 		if (jaws.pressed("up"))
 			_y -= cameraSpeed;
 		if (jaws.pressed("down"))
@@ -161,14 +139,11 @@ function Editor ( )
 			_x -= cameraSpeed;
 		if (jaws.pressed("right"))
 			_x += cameraSpeed;
-		
+
 		m_viewport.move(_x , _y );
 	}
-	
-	/**
-	*@brief : Dessine les objets
-	**/
-	this.draw = function () 
+
+	this.draw = function ()
 	{
 		jaws.clear();
 		m_viewport.draw(background);
@@ -191,10 +166,10 @@ function Editor ( )
 			m_viewport.move(0 , movement);
 		if(jaws.mouse_y > 0 && jaws.mouse_y < 0 + offset)
 			m_viewport.move(0 , -movement);
-			
+
 	}
 
-	//Dessine une grille qui se déplace en même temps que le viewport
+  //draw grid in function of camera position
 	function drawGrid() {
     	jaws.context.save();
     	jaws.context.strokeStyle = "rgba(5,119,17,0.7)";
@@ -210,15 +185,14 @@ function Editor ( )
       			jaws.context.moveTo(0,y- m_viewport.y );
      			jaws.context.lineTo(jaws.width, y-m_viewport.y);
     	}
-		
+
    		jaws.context.closePath()
    		jaws.context.stroke()
    		jaws.context.restore()
   	}
-	
+
 	function mouseFollow()
 	{
-		//alert(document.getElementById('scale').value);
 		if( jaws.mouse_x >= 0 && jaws.mouse_x < jaws.width && jaws.mouse_y >= 0 && jaws.mouse_y < jaws.height)
 		{
 			image_courante_souris.style.display = 'inline';
