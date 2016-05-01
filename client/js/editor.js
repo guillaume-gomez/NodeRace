@@ -54,7 +54,7 @@ function Editor ( )
 	{
 		live_info = document.getElementById("live_info");
 		liste_image = document.getElementById("liste-image");
-		current_cursor_image = document.getElementById('image-courante-souris');
+		current_cursor_image = document.getElementById('current-cursor-image');
 
 		//Viewport
 		m_viewport = new jaws.Viewport({max_x: jaws.width*1.5, max_y: jaws.height*1.5});

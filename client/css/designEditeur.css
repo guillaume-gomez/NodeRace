@@ -1,9 +1,9 @@
-body 
-{ 
+body
+{
 	text-align: center;
 	color: white;
 	background: black;
-	font-family : 'Jura', sans-serif, Arial, serif; 
+	font-family : 'Jura', sans-serif, Arial, serif;
 }
 
 
@@ -35,14 +35,14 @@ div#tabIA
 width : 300px;
 }
 
-#EditorCanvas 
+#EditorCanvas
 {
    margin-top : 10px;
 	background: white;
 	box-shadow: 10px 10px 12px #000;
 }
 
-#image-courante
+#current-image
 {
 	position : relative;
 	background-image : url(button.png);
@@ -52,7 +52,7 @@ width : 300px;
 	margin-right : auto;
 	width : 200px;
 
-	
+
 }
 
 #fieldCurrent
@@ -67,7 +67,7 @@ border: 10px outset #c0c0c0;
 background-color :black;
 }
 
-#image-courante-souris
+#current-image-souris
 {
 	position:absolute;
 	display:block;
@@ -150,16 +150,16 @@ table
  margin-left : auto ;
 margin-right : auto;
  }
- 
- input[type=text] 
+
+ input[type=text]
  {
     width:75%;
 }
 
- input[type=number] 
+ input[type=number]
  {
     width:75%;
 }
 
 
- 
+

@@ -23,7 +23,7 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 			saveName = leveljson;
 		}
 
-		current_image = document.getElementById('image-courante');
+		current_image = document.getElementById('current-image');
 
 		m_currentImg = new Array();
 
@@ -105,7 +105,7 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 		jaws.on_keydown("z",function() {m_spriteList.pop();} );
 
 		//Save the tilemap
-		jaws.on_keydown("s",this.sauvegarder);
+		jaws.on_keydown("s",this.save);
 	}
 
 	this.update = function (viewport)
@@ -152,7 +152,7 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 	}
 
 
-	this.sauvegarder = function ()
+	this.save = function ()
 	{
 		var test = "[" + m_spriteList.map( function(m_spriteList) { return m_spriteList.toJSON() }) + "]";
 		sessionStorage.setItem('saveName', test);

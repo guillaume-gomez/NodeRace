@@ -61,7 +61,7 @@
 					}());" />
 			</td>
 			<td>
-			<button type="button" onclick="m_level.sauvegarder()" class="myButton">Sauvegarder</button>
+			<button type="button" onclick="m_level.save()" class="myButton">Sauvegarder</button>
 			</td>
 			<td>
 				Afficher la grille :<input type="checkbox" value="false" id="grid" onClick="isGrid()">
@@ -72,7 +72,7 @@
 
 		<fieldset id="fieldCurrent">
 		<legend>Image Courante : </legend>
-		<div id="image-courante">
+		<div id="current-image">
 		</div>
 		</fieldset>
 
@@ -110,7 +110,7 @@
 
 	<p>Un Editeur crée par Adrien Jarretier et Guillaume Gomez</p>
 
-	<div id="image-courante-souris"></div>
+	<div id="current-cursor-image"></div>
 
 	<script>
 
