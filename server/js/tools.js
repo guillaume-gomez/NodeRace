@@ -43,9 +43,9 @@ exports.checkLaunch = function(instance, socket)
     {
         instance.launched = true;
         //emit a message to start the game
-        socket.emit('depart', 'le jeu va demarrer');
+        socket.emit('startGame', 'The game is starting');
         console.log( instance.room );
-        socket.broadcast.to( instance.room ).emit('depart', 'le jeu va demarrer');
+        socket.broadcast.to( instance.room ).emit('startGame', 'The game is starting');
 
         this.manageLaunch(instance, socket);
     }
@@ -79,7 +79,7 @@ exports.disconnect = function(socket, instances, chatFunction)
 {
         for(var i = 0; i < instances[ socket.indexPartie ].nbCars; i++)
         {
-            //not the goog answer, we have to find out how to limit the number of cars to avoid putting a car in multiple game
+            //not the good answer, we have to find out how to limit the number of cars to avoid putting a car in multiple game
             /*if(instances[ socket.indexPartie ].cars[ i ].sock == socket.id)
             {
                 instances[ socket.indexPartie ].nbCars--;
@@ -96,9 +96,10 @@ exports.disconnect = function(socket, instances, chatFunction)
         //  see above
         if(instances[ socket.indexPartie ].minCar == 0)
         {
+            var msg = "The host has leaving the game";
             instances[ socket.indexPartie ].launched = false;
-            socket.emit('deconnexionPartie', "L'hote à quitter la partie");
-            socket.broadcast.to( instances[ socket.indexPartie ].room ).emit('deconnexionPartie', "L'hote à quitter la partie");
+            socket.emit('gameDeconnexion', msg);
+            socket.broadcast.to( instances[ socket.indexPartie ].room ).emit('gameDeconnexion', msg);
             console.log("disconnection of the current instance "+ instances[ socket.indexPartie ].host);
             // This comment will be remove later
             //pour l'instant ces 2 lignes sont commenté car il faut repenser la structure du tableau gerant les parties
