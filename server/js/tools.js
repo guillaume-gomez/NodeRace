@@ -54,24 +54,24 @@ exports.checkLaunch = function(instance, socket)
 //create counting
 exports.manageLaunch = function(instance, socket)
 {
-   var decompte = 3;
+   var counting = 3;
    console.log("instance.room "+ instance.room );
-   function counting(instance, object)
+   function counting_function(instance, object)
    {
-        socket.emit('decompte', decompte);
-        socket.broadcast.to( instance.room ).emit('decompte', decompte);
+        socket.emit('counting', counting);
+        socket.broadcast.to( instance.room ).emit('counting', counting);
 
-        console.log("decompte "+decompte);
-        if(decompte == 0)
+        console.log("counting "+counting);
+        if(counting == 0)
         {
             clearInterval(inter);
             console.log("the game for the host is starting :'"+instance.host+"'");
             object.sendLogin(instance, socket);
         }
-        decompte--;
+        counting--;
    }
 
-   var inter = setInterval(counting, 1000, instance, this);
+   var inter = setInterval(counting_function, 1000, instance, this);
 }
 
 
