@@ -196,13 +196,22 @@ io.on('connection', function (socket) {
         //tools.manageLaunch( instances[ socket.indexPartie ], io);
     });
 
-    socket.on('disconnect', function(message) {
-        console.log(socket.login+" s'est deconnecté "+socket.id);
+    // emitted when a player leave a race, a room,
+    // not emitted when a socket disconnect, this is handled by 'disconnect'
+    socket.on('deconnexion', function(message) {
+        console.log(socket.login+' disconnected from a game ( socket id :  ' + socket.id + ' ) ' );
         socket.leave(  instances[ socket.indexPartie ].room );
         tools.disconnect(socket, instances, chatF);
         clearInterval( socket.tick );
         socket.emit('closeCo');
     });
+
+    socket.on('disconnect', function () {
+
+        console.log( 'user disconnected' );
+
+    } );
+
 });
 
 
