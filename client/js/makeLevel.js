@@ -120,26 +120,17 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 
 		if ( jaws.pressed("p") )
 		{
-			m_indiceIMG++;
+			m_indiceIMG = (m_indiceIMG + 1) % m_listImgURL.length;
 			this.drawImageCurrent();
-			this.changeSouris();
+			this.switchToSelectedTile();
 		}
 
 		if ( jaws.pressed("m") )
 		{
-			m_indiceIMG--;
+			m_indiceIMG = (m_indiceIMG - 1 < 0) ? m_listImgURL.length - 1: m_indiceIMG - 1;
 			this.drawImageCurrent();
-			this.changeSouris();
+			this.switchToSelectedTile();
 		}
-
-
-		if ( jaws.pressed("1") )
-		{
-			m_indiceIMG = m_indiceHero;
-			this.drawImageCurrent();
-			this.changeSouris();
-		}
-
 
 		m_tile_map.clear();
 		m_tile_map.push(m_spriteList);
