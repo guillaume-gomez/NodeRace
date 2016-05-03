@@ -1,12 +1,12 @@
 /*
-Ce module charge la partie modele du niveau
+This module loads levels for each game
 */
 var fs = require('fs');
 
 var NB_RAIL = 4;
 var NB_TOUR = 3;
 
-//@see tileset.js voir la meme fonction coté client
+//tileset.js to see the mirror function in client-side
 exports.getLevelFilename = function(trackID)
 {
 	var path = 'public/assets/';
@@ -42,15 +42,15 @@ exports.loadLevel = function (trackID)
 		rails[i] = [];
 	}
 
-	//on charge le rail
+	// build the rail
 	for(var i = 0; i < tiles.length; i++)
 	{
 		for(var j = 0; j < tiles[ i ].listPoint.length; j++)
 		{
 			for( var k = 0; k < NB_RAIL; k++)
 			{
-				//une fois que les rails seront bien fait il faudra faire
-				//rails[ k ].push(tiles[ i ].listPoint[ k ][ j ]);
+        // next step when rails will be properly created
+        //use rails[ k ].push(tiles[ i ].listPoint[ k ][ j ]);
 				rails[ k ].push(tiles[ i ].listPoint[ j ]);
 			}
 		}
@@ -62,7 +62,7 @@ exports.isFinish = function (instance)
 {
 	if(instance.launched)
 	{
-		//on verifie qu'un joueur à bien teminé les tours
+		//check if a player has finished the track
 		for (var i = 0; i < instance.nbCars; i++)
 		{
 			if(instance.cars[ i ].lap < instance.nbLaps)
@@ -70,7 +70,7 @@ exports.isFinish = function (instance)
 				return false;
 			}
 		}
-		//sinon cela veut dire que la course est fini car sinon on aurait eu un return
+		//otherwise that means the track is not finished
 		return true;
 	}
 	return false;
@@ -78,7 +78,7 @@ exports.isFinish = function (instance)
 
 exports.getTrackPosition = function (instance, io)
 {
-	//nextTrajectoryIndex + 1 est utilisé pour eviter la multiplication par zero quand on recommence un niveau
+	//nextTrajectoryIndex + 1 to avoid mul by zero when the game is restarted
 	var sorting = function (a, b) {
 		var valA = a.lap * (a.nextTrajectoryIndex + 1);
 		var valB = b.lap * (b.nextTrajectoryIndex + 1);
@@ -88,7 +88,7 @@ exports.getTrackPosition = function (instance, io)
 	var arrayPos = [];
 	for(var i = 0; i < instance.nbCars; i++)
 	{
-		//on emet la position au client
+		//emit client position
 		var carPos = {lap: instance.cars[ i ].lap,
 					  nextTrajectoryIndex: instance.cars[ i ].nextTrajectoryIndex,
 					  sock: instance.cars[ i ].sock
@@ -96,13 +96,12 @@ exports.getTrackPosition = function (instance, io)
 		arrayPos.push(carPos);
 	}
 
-	//on trie le tableau de maniere à obtenir l'ordre des positions
-	// de maniere decroissante
+	//sort the array in descending order
 	arrayPos.sort(sorting);
 
 	for(var i = 0; i < arrayPos.length; i++)
 	{
-		//on emet la position au client
+		//emit client position
 		var pos = i + 1;
 		io.to( arrayPos[ i ].sock ).emit('trackPosition', pos);
 	}

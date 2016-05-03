@@ -1,10 +1,8 @@
 /**
-@brief : module qui realise la gestion du moteur du jeu
-	il fait les calculs et les renvoit au différents joueur (clients)
+This module manages the physics of the game
+it computes position from players and notify them
 **/
 var levelModel = require('./levelModel');
-//var rails ;//= levelModel.loadLevel( 'public/assets/tracks/default.json' );
- // console.log(rails[0]);
 
 var VMAX = 500; // u/sec
 var VMAX_STABLE = 900;
@@ -29,8 +27,6 @@ exports.Engine = function(tracksID)
 		var x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
 		var y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
 
-		// console.log("out x : "+x+" ; y "+y);
-
 		distance -= Math.sqrt(x*x+y*y);
 
 		while(distance > 0)
@@ -41,7 +37,7 @@ exports.Engine = function(tracksID)
 			{
 				carInfos.nextTrajectoryIndex = 0;
 				carInfos.lap++;
-				console.log("voiture "+carInfos.id+" avec lap '"+carInfos.lap+"'");
+				console.log("car "+carInfos.id+" in the lap '"+carInfos.lap+"'");
 			}
 
 			x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;

@@ -3,9 +3,9 @@ var ArrayMessages = new Array();
 
 exports.getChatMessage = function(socket)
 {
- // Dès qu'on reçoit un "message" (clic sur le bouton), on le note dans la console
+ // trigger on 'send' button
     socket.on('message', function (message) {
-        // On récupère le pseudo de celui qui a cliqué dans les variables de session
+        // get the nickname
             var newMessage = {'login' : socket.login, 'message' : message};
             for(var i = 0; i < ArrayMessages.length; i++)
 			{
@@ -16,7 +16,7 @@ exports.getChatMessage = function(socket)
 
 		            if(ArrayMessages[ i ].listMessage.length > 15)
 		            {
-		            	//supprime le plus vieux message
+		            	//delete the oldest messages
 		            	ArrayMessages[ i ].listMessage.splice(0,1);
 		            }
 		            break;
@@ -27,8 +27,7 @@ exports.getChatMessage = function(socket)
 
 exports.getOldMessages = function(socket)
 {
-    //on il existe des anciens messages
-    for(var i = 0; i < ArrayMessages.length; i++)
+  for(var i = 0; i < ArrayMessages.length; i++)
 	{
 		if( socket.indexPartie == ArrayMessages[ i ].id )
 		{

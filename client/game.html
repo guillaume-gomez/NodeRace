@@ -179,9 +179,9 @@
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             });
 
-            socket.on('depart', function(message) {
+            socket.on('startGame', function(message) {
                 var demarre = true;
-                console.log("le jeu demarre man");
+                console.log("The game is starting bro");
             });
 
             socket.on('deconnexionPartie', function(message) {
