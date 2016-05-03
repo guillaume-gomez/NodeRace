@@ -23,7 +23,7 @@ npm install
 
 ### assets :
 
-The cars were made by (bagera3005)[http://bagera3005.deviantart.com/]
+The cars were made by [bagera3005](http://bagera3005.deviantart.com/)
 
 ## Running the application :
 
@@ -38,6 +38,14 @@ Now you have the server running, a text in the terminal should indicate on which
 Open a browser and go to 127.0.0.1:<**port**> (by default http://127.0.0.1:51510).
 
 That's it ! now by default the server listens on all interfaces, so for example you can easily play on lan using your local ip address (for example 192.168.1.10)
+
+## sublime-project
+### packages
+
+Here are the packages you may want to add to sublime if you want to edit the files and/or open the .sublime-project :
+
+- [ProjectSpecific](https://packagecontrol.io/packages/ProjectSpecific) **used to set packages settings on a per-project basis**
+- [JsFormat](https://packagecontrol.io/packages/JsFormat) **used to follow a clean coding style**
 
 ## Authors :
 - [Gomez Guillaume](https://github.com/guillaume-gomez)
