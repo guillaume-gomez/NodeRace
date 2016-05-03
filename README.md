@@ -20,7 +20,11 @@ npm install
 - At last for the 2D game Framework we are using JawsJs : https://github.com/ippa/jaws
 
   *You don't need to do anything for this one.*
-  
+
+### assets :
+
+The cars were made by (bagera3005)[http://bagera3005.deviantart.com/]
+
 ## Running the application :
 
 In order to run the application go into `server` if you're not already in it and run :
