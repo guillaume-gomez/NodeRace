@@ -1,5 +1,5 @@
 /*
-This module load levels for each game
+This module loads levels for each game
 */
 var fs = require('fs');
 
