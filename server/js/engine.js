@@ -1,5 +1,5 @@
 /**
-This module manage the physics of the game
+This module manages the physics of the game
 it computes position from players and notify them
 **/
 var levelModel = require('./levelModel');
