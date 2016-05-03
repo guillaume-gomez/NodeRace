@@ -5,5 +5,18 @@
 			"path": ".",
 			"file_exclude_patterns": ["*.sublime-workspace"]
 		}
-	]
+	],
+	"settings":
+	{
+		"project-specific":
+		{
+			"sublime-settings" :
+			{
+				"jsformat":
+				{
+					"jsbeautifyrc_files": true
+				}
+			}
+		}
+	}
 }
