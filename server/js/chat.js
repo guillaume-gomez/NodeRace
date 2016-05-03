@@ -5,7 +5,7 @@ exports.getChatMessage = function(socket)
 {
  // trigger on 'send' button
     socket.on('message', function (message) {
-        // get the pseudo
+        // get the nickname
             var newMessage = {'login' : socket.login, 'message' : message};
             for(var i = 0; i < ArrayMessages.length; i++)
 			{
