@@ -73,6 +73,7 @@ io.on('connection', function (socket) {
     chatF.getChatMessage(socket);
 
     socket.on('login', function(message) {
+        console.log( message );
         socket.datePing = new Date();
         //on recupere le login et on enverra l'id de le voiture dans la partie
         var index;
