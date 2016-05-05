@@ -145,35 +145,6 @@
 
 	<div id="current-cursor-image"></div>
 
-	<script>
-
-	window.onload = function()
-    	{
-    		var loc = location.search;
-    		var vars = loc.split("=");
-    		leveljson = "";
-    		if(vars.length > 1)
-    		{
-    			leveljson = "tracks/"+vars[1];
-    		}
-			jaws.assets.root = "assets/";
-
-			m_listImgURL = new Array ("floor.png", "test.png", "caisse_black.png");
-
-			displayGrid = false;
-
-            jaws.assets.add(m_listImgURL);
-        	jaws.start(Editor);
-    	}
-	</script>
-
-	<script>
-		function isGrid()
-		{
-			displayGrid = ($('#grid').is(":checked"));
-		}
-	</script>
-
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript">
 		var ArrayTileInfo = new Array();
@@ -190,6 +161,40 @@
 		.always(function() {
 			ArrayTileInfo = jqxhr.responseJSON;
 		});
+	</script>
+
+	<script>
+
+	window.onload = function() {
+	    console.log(ArrayTileInfo);
+	    var loc = location.search;
+	    var vars = loc.split("=");
+	    leveljson = "";
+	    if (vars.length > 1) {
+	        leveljson = "tracks/" + vars[1];
+	    }
+	    jaws.assets.root = "assets/";
+
+	    m_listImgURL = [];
+
+	    for (var i = 0; i < ArrayTileInfo.length; i++) {
+
+	        m_listImgURL.push(ArrayTileInfo[i].url);
+	    };
+
+	    displayGrid = false;
+
+	    jaws.assets.add(m_listImgURL);
+	    jaws.start(Editor);
+	}
+
+	</script>
+
+	<script>
+		function isGrid()
+		{
+			displayGrid = ($('#grid').is(":checked"));
+		}
 	</script>
 </body>
 </html>
