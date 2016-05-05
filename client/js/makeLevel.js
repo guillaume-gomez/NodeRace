@@ -57,7 +57,7 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 			//if ( isValid()  )
 			//{
 			var tangle = document.getElementById('rotate').value;
-			console.log(tangle);
+			console.log("tangle : " + tangle);
 				tangle = parseInt(tangle);
 				temp = new Tile({x: ( jaws.mouse_x + viewport.x) -
 									(jaws.mouse_x + viewport.x)% cell_size ,
@@ -88,12 +88,13 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 
 				temp.setMyImage( m_currentImg[ m_indiceIMG ] );
 
-				for(var i = 0; i < ArrayTileInfo.cases.length ; i++)
+				for(var i = 0; i < ArrayTileInfo.length ; i++)
 				{
-					if(ArrayTileInfo.cases[i].url == m_currentImg[ m_indiceIMG ])
+					if(ArrayTileInfo[i].url == m_currentImg[ m_indiceIMG ])
 					{
-						console.log(JSON.stringify(ArrayTileInfo.cases[i].ListPoint));
-						var list = temp.loadCurves(ArrayTileInfo.cases[i].ListPoint);
+						console.log(ArrayTileInfo[i]);
+						console.log("ListPoint : " + ArrayTileInfo[i].ListPoint);
+						var list = temp.loadCurves(ArrayTileInfo[i].ListPoint);
 						break;
 					}
 				}
