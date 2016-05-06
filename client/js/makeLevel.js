@@ -47,7 +47,8 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
     var m_filenameLight;
 
     this.constructor = function() {
-        console.log("MakeLevel.constructor()");
+        console.log("MakeLevel.constructor() called by");
+        console.log(arguments.callee.caller);
         if (leveljson != "") {
             saveName = leveljson;
         }
@@ -166,16 +167,32 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
 
 
     this.save = function() {
-        var test = "[" + m_spriteList.map(function(m_spriteList) {
+        console.log('MakeLevel.save()');
+
+        // The map() method creates a new array
+        // with the results of calling a provided function on every element in this array.
+        // in this case we will then have jsonTrack as a string representing an array,
+        // with each element being a json
+        var jsonTrack = "[" + m_spriteList.map(function(m_spriteList) {
+
             return m_spriteList.toJSON()
+
         }) + "]";
-        sessionStorage.setItem('saveName', test);
+
+        console.log("m_spriteList : ");
+        console.log(m_spriteList);
+        console.log("jsonTrack : ");
+        console.log(jsonTrack);
+
+        // the remaining code below will output the json txt representing the track
+        // (the content of jsonTrack)
+        // in the space at the bottom of the editor
+        sessionStorage.setItem('saveName', jsonTrack);
 
         var saveText = document.getElementById("save");
         saveText.value = sessionStorage.saveName;
         saveName = '';
     }
-
 
     this.drawImageCurrent = function() {
         var path = 'assets/';

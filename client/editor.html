@@ -169,10 +169,16 @@
 	    console.log(ArrayTileInfo);
 	    var loc = location.search;
 	    var vars = loc.split("=");
+
 	    leveljson = "";
+
 	    if (vars.length > 1) {
+
 	        leveljson = "tracks/" + vars[1];
+
 	    }
+	    console.log("leveljson : " + leveljson);
+
 	    jaws.assets.root = "assets/";
 
 	    m_listImgURL = [];
