@@ -153,6 +153,8 @@ function Editor ( )
 		{
 			drawGrid();
 		}
+		console.log("m_level.getTileMap() :");
+		console.log(m_level.getTileMap());
 		m_viewport.drawTileMap(m_level.getTileMap());
 	}
 
