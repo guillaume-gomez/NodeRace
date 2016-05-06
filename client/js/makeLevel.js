@@ -1,3 +1,34 @@
+// push tile in m_spriteList,
+// after checking if there isn't already a sprite at this position
+function pushInSpriteList(spriteList, tile) {
+    console.log("pushInSpriteList()");
+
+    console.log("spriteList :");
+    console.log(spriteList);
+
+    console.log("tile :");
+    console.log(tile);
+
+    var spaceFree = true;
+    for (var i = 0; i < spriteList.length; i++) {
+
+        if (spriteList.sprites[i].x == tile.x && spriteList.sprites[i].y == tile.y) {
+
+            spaceFree = false;
+            break;
+
+        }
+    }
+
+    if (spaceFree) {
+
+        spriteList.push(tile);
+
+    }
+
+}
+
+
 function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 {
 
@@ -18,6 +49,7 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 
 	this.constructor = function ()
 	{
+		console.log("MakeLevel.constructor()");
 		if(leveljson != "")
 		{
 			saveName = leveljson;
@@ -37,7 +69,7 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 		m_nbEnnemy = 0 ;
 
 		m_spriteListEnnemys = new jaws.SpriteList();
-	  m_spriteList = new jaws.SpriteList();
+	  	m_spriteList = new jaws.SpriteList();
 
 
 		if(leveljson != "")
@@ -93,12 +125,13 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 					if(ArrayTileInfo[i].url == m_currentImg[ m_indiceIMG ])
 					{
 						console.log(ArrayTileInfo[i]);
-						console.log("ListPoint : " + ArrayTileInfo[i].ListPoint);
-						var list = temp.loadCurves(ArrayTileInfo[i].ListPoint);
+						// var list = temp.loadCurves(ArrayTileInfo[i].ListPoint);
 						break;
 					}
 				}
-				m_spriteList.push( temp );
+				console.log("m_spriteList :");
+				console.log(m_spriteList);
+				pushInSpriteList( m_spriteList, temp );
 			//}
 		} )
 
