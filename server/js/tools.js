@@ -78,31 +78,31 @@ exports.manageLaunch = function(instance, socket)
 
 exports.disconnect = function(socket, instances, chatFunction)
 {
-  for(var i = 0; i < instances[ socket.indexPartie ].nbCars; i++)
+  for(var i = 0; i < instances[ socket.uid ].nbCars; i++)
   {
       //not the good answer, we have to find out how to limit the number of cars to avoid putting a car in multiple game
-      /*if(instances[ socket.indexPartie ].cars[ i ].sock == socket.id)
+      /*if(instances[ socket.uid ].cars[ i ].sock == socket.id)
       {
-          instances[ socket.indexPartie ].nbCars--;
+          instances[ socket.uid ].nbCars--;
       }*/
 
       //not sure :(
-      if(instances[ socket.indexPartie ].cars[ i ].sock == socket.id)
+      if(instances[ socket.uid ].cars[ i ].sock == socket.id)
       {
-          instances[ socket.indexPartie ].minCar--;
+          instances[ socket.uid ].minCar--;
       }
   }
 
-  //if( instances[ socket.indexPartie ].nbCars == 0)
+  //if( instances[ socket.uid ].nbCars == 0)
   //  see above
-  if(instances[ socket.indexPartie ].minCar == 0)
+  if(instances[ socket.uid ].minCar == 0)
   {
       var msg = "The host has leaving the game";
-      instances[ socket.indexPartie ].launched = false;
+      instances[ socket.uid ].launched = false;
       socket.emit('gameDeconnexion', msg);
-      socket.broadcast.to( instances[ socket.indexPartie ].room ).emit('gameDeconnexion', msg);
-      console.log("disconnection of the current instance "+ instances[ socket.indexPartie ].host);
-      delete instances[ socket.indexPartie ];
+      socket.broadcast.to( instances[ socket.uid ].room ).emit('gameDeconnexion', msg);
+      console.log("disconnection of the current instance "+ instances[ socket.uid ].host);
+      delete instances[ socket.uid ];
       console.log("number of instances in the server :" + Object.keys(instances).length);
       return 0;
 

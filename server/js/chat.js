@@ -9,7 +9,7 @@ exports.getChatMessage = function(socket)
             var newMessage = {'login' : socket.login, 'message' : message};
             for(var i = 0; i < ArrayMessages.length; i++)
 			{
-				if( socket.indexPartie == ArrayMessages[ i ].id )
+				if( socket.uid == ArrayMessages[ i ].id )
 				{
 					ArrayMessages[ i ].listMessage.push(newMessage);
             		socket.broadcast.to( ArrayMessages[ i ].room ).emit('message', JSON.stringify(newMessage));
@@ -29,7 +29,7 @@ exports.getOldMessages = function(socket)
 {
   for(var i = 0; i < ArrayMessages.length; i++)
 	{
-		if( socket.indexPartie == ArrayMessages[ i ].id )
+		if( socket.uid == ArrayMessages[ i ].id )
 		{
 			if(ArrayMessages[ i ].listMessage.length > 0)
 			{

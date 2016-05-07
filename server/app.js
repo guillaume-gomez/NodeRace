@@ -28,7 +28,7 @@ function tick(socket, carInfos) {
     //on met à jour la date coté serveur
     var currentDate = new Date();
     if(
-        instances[ socket.indexPartie ].launched &&
+        instances[ socket.uid ].launched &&
          (currentDate.getTime() - socket.datePing.getTime()) > 5000)
     {
         console.log(socket.login+" Deconnexion sur ping  "+socket.id);
@@ -41,15 +41,15 @@ function tick(socket, carInfos) {
 
     //on modifie les positions par le calcul de colission
     //gameEngine.updateMove(carInfos, elapsedTime);
-    instances[ socket.indexPartie ].engine.updateMove(carInfos, elapsedTime);
+    instances[ socket.uid ].engine.updateMove(carInfos, elapsedTime);
     //renvoit la position sur le circuit
-    gameModel.getTrackPosition(instances[ socket.indexPartie ], io);
+    gameModel.getTrackPosition(instances[ socket.uid ], io);
 
-    if( gameModel.isFinish(instances[ socket.indexPartie ]) )
+    if( gameModel.isFinish(instances[ socket.uid ]) )
     {
         socket.emit('finPartie', "fin de partie");
-        socket.broadcast.to( instances[ socket.indexPartie ].room ).emit('finPartie', "fin de partie");
-        instances[ socket.indexPartie ].launched = false;
+        socket.broadcast.to( instances[ socket.uid ].room ).emit('finPartie', "fin de partie");
+        instances[ socket.uid ].launched = false;
 
     }
 
@@ -63,7 +63,7 @@ function tick(socket, carInfos) {
 
     socket.emit('myPosition', infos);
     //on envoit les coordonnées aux joueurs
-    socket.broadcast.to( instances[ socket.indexPartie ].room ).emit('position', infos);
+    socket.broadcast.to( instances[ socket.uid ].room ).emit('position', infos);
 }
 
 // client connection
@@ -110,9 +110,9 @@ io.on('connection', function (socket) {
             socket.join(newInstance.room);
             var uid = uuid.v1();
             instances[ uid ] = newInstance
-            socket.indexPartie = uid;
-            chatF.addChatInstance(socket.indexPartie, newInstance.room);
-            console.log("info new instance :"+socket.indexPartie +"; "+newInstance.room);
+            socket.uid = uid;
+            chatF.addChatInstance(socket.uid, newInstance.room);
+            console.log("info new instance :"+socket.uid +"; "+newInstance.room);
         }
         else
         {
@@ -123,17 +123,17 @@ io.on('connection', function (socket) {
                 socket.emit('erreur', 'Aucune partie trouvé');
                 return false;
             }
-            socket.indexPartie = uid;
+            socket.uid = uid;
             //connexion id
-            id = instances[ socket.indexPartie ].nbCars;
+            id = instances[ socket.uid ].nbCars;
             //add the new car
-            socket.join( instances[ socket.indexPartie ].room );
-            instances[ socket.indexPartie ].nbCars++;
+            socket.join( instances[ socket.uid ].room );
+            instances[ socket.uid ].nbCars++;
         }
         socket.emit('id', id);
-        var infoPartie = { laps: instances[ socket.indexPartie ].nbLaps ,
-                           nbComponents: instances[ socket.indexPartie ].minCar,
-                           track: instances[ socket.indexPartie ].track
+        var infoPartie = { laps: instances[ socket.uid ].nbLaps ,
+                           nbComponents: instances[ socket.uid ].minCar,
+                           track: instances[ socket.uid ].track
                         };
         socket.emit('infoPart', infoPartie);
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
@@ -143,13 +143,13 @@ io.on('connection', function (socket) {
         {
             id: id,
             sock: socket.id,
-            indexPartie: socket.indexPartie,
+            uid: socket.uid,
             nickname: message.login,
             accel: 0,  // percentage
             speed: 0,
             velocity: {x: 0, y: 0},
-            position: {x: instances[ socket.indexPartie ].engine.getStart( id ).x,
-                       y: instances[ socket.indexPartie ].engine.getStart( id ).y
+            position: {x: instances[ socket.uid ].engine.getStart( id ).x,
+                       y: instances[ socket.uid ].engine.getStart( id ).y
                     },
             angle: 0,
             lastTimeUpdate: new Date(),
@@ -158,12 +158,12 @@ io.on('connection', function (socket) {
         }
 
         //add car in the right instance
-        instances[ socket.indexPartie ].cars.push(car);
-        console.log("information room "+JSON.stringify(instances[ socket.indexPartie ].nbCars));
+        instances[ socket.uid ].cars.push(car);
+        console.log("information room "+JSON.stringify(instances[ socket.uid ].nbCars));
 
         //check if the game will start
-        var instanceModified = tools.checkLaunch(instances[ socket.indexPartie ], socket);
-        instances[ socket.indexPartie ] = instanceModified;
+        var instanceModified = tools.checkLaunch(instances[ socket.uid ], socket);
+        instances[ socket.uid ] = instanceModified;
         socket.tick = setInterval(tick, 8, socket, car);
 
         //handle chat
@@ -173,8 +173,8 @@ io.on('connection', function (socket) {
 
     //player sent its velocity
     socket.on('accel', function(accel) {
-        if(typeof instances[socket.indexPartie] !== 'undefined')
-            instances[socket.indexPartie].cars[accel.id].accel = accel.percent;
+        if(typeof instances[socket.uid] !== 'undefined')
+            instances[socket.uid].cars[accel.id].accel = accel.percent;
     });
 
     socket.on('ping', function(clientDate) {
@@ -185,16 +185,16 @@ io.on('connection', function (socket) {
 
     socket.on('switchTrack', function(trackInfo) {
         //reset engine
-        //instances[ socket.indexPartie ].track.id = trackInfo.id;
-        //gameEngine.reset( instances[ socket.indexPartie ] );
-        //tools.manageLaunch( instances[ socket.indexPartie ], io);
+        //instances[ socket.uid ].track.id = trackInfo.id;
+        //gameEngine.reset( instances[ socket.uid ] );
+        //tools.manageLaunch( instances[ socket.uid ], io);
     });
 
     // emitted when a player leave a race, a room,
     // not emitted when a socket disconnect, this is handled by 'disconnect'
     socket.on('deconnexion', function(message) {
         console.log(socket.login+' disconnected from a game ( socket id :  ' + socket.id + ' ) ' );
-        socket.leave(  instances[ socket.indexPartie ].room );
+        socket.leave(  instances[ socket.uid ].room );
         tools.disconnect(socket, instances, chatF);
         clearInterval( socket.tick );
         socket.emit('closeCo');
