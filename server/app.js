@@ -20,44 +20,46 @@ var instances = {};
 var cars = [];
 
 function tick(socket, carInfos) {
-    //update server date
-    var currentDate = new Date();
-    if(
-        instances[ socket.uid ].launched &&
-         (currentDate.getTime() - socket.datePing.getTime()) > 5000)
-    {
-        console.log("{ " + socket.login + "}: Deconnection"+socket.id);
-        socket.conn.close();
-        tools.disconnect(socket, instances, chatF);
+  //update server date
+  if( instances[socket.uid] !== undefined )
+  {
+      var currentDate = new Date();
+      if(
+          instances[ socket.uid ].launched &&
+          (currentDate.getTime() - socket.datePing.getTime()) > 5000)
+      {
+          console.log("{ " + socket.login + "}: Deconnection"+socket.id);
+          socket.conn.close();
+          tools.disconnect(socket, instances, chatF);
+      }
+
+      elapsedTime = (currentDate.getTime() - carInfos.lastTimeUpdate) / 1000;
+      carInfos.lastTimeUpdate = currentDate;
+      //update position thanks to gameEngine
+      //gameEngine.updateMove(carInfos, elapsedTime);
+      instances[ socket.uid ].engine.updateMove(carInfos, elapsedTime);
+      //return track position
+      gameModel.getTrackPosition(instances[ socket.uid ], io);
+
+      if( gameModel.isFinish(instances[ socket.uid ]) )
+      {
+          socket.emit('finPartie', "fin de partie");
+          socket.broadcast.to( instances[ socket.uid ].room ).emit('finPartie', "fin de partie");
+          tools.destroyInstance(socket, instances, chatF);
+      }
+      else
+      {
+        var infos = {
+                      id: carInfos.id,
+                      speed: carInfos.speed,
+                      position: carInfos.position,
+                      angle: carInfos.angle,
+                      lap: carInfos.lap
+                     }
+      socket.emit('myPosition', infos);
+      socket.broadcast.to( instances[ socket.uid ].room ).emit('position', infos);
     }
-
-    elapsedTime = (currentDate.getTime() - carInfos.lastTimeUpdate) / 1000;
-    carInfos.lastTimeUpdate = currentDate;
-
-    //update position thanks to gameEngine
-    //gameEngine.updateMove(carInfos, elapsedTime);
-    instances[ socket.uid ].engine.updateMove(carInfos, elapsedTime);
-    //return track position
-    gameModel.getTrackPosition(instances[ socket.uid ], io);
-
-    if( gameModel.isFinish(instances[ socket.uid ]) )
-    {
-        socket.emit('finPartie', "fin de partie");
-        socket.broadcast.to( instances[ socket.uid ].room ).emit('finPartie', "fin de partie");
-        instances[ socket.uid ].launched = false;
-
-    }
-
-    var infos = {
-                    id: carInfos.id,
-                    speed: carInfos.speed,
-                    position: carInfos.position,
-                    angle: carInfos.angle,
-                    lap: carInfos.lap
-                   }
-
-    socket.emit('myPosition', infos);
-    socket.broadcast.to( instances[ socket.uid ].room ).emit('position', infos);
+  }
 }
 
 // client connection
@@ -185,11 +187,14 @@ io.on('connection', function (socket) {
     // emitted when a player leave a race, a room,
     // not emitted when a socket disconnect, this is handled by 'disconnect'
     socket.on('deconnexion', function(message) {
+      if( instances[ socket.uid ] !== undefined)
+      {
         console.log("{ " + socket.login + ' }: disconnected from a game ( socket id :  ' + socket.id + ' ) ' );
-        socket.leave(  instances[ socket.uid ].room );
+        socket.leave( instances[ socket.uid ].room );
         tools.disconnect(socket, instances, chatF);
         clearInterval( socket.tick );
         socket.emit('closeCo');
+      }
     });
 
     socket.on('disconnect', function () {
