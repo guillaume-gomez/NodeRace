@@ -74,9 +74,19 @@ exports.manageLaunch = function(instance, socket)
    var inter = setInterval(counting_function, 1000, instance, this);
 }
 
+exports.destroyInstance = function(socket, instances, chatFunction)
+{
+  console.log("disconnection of the current instance "+ instances[ socket.uid ].host);
+  delete instances[ socket.uid ];
+  chatFunction.deleteChatInstance(socket.uid);
+  console.log("number of instances in the server :" + Object.keys(instances).length);
+}
+
 
 exports.disconnect = function(socket, instances, chatFunction)
 {
+
+
   for(var i = 0; i < instances[ socket.uid ].nbCars; i++)
   {
       //not the good answer, we have to find out how to limit the number of cars to avoid putting a car in multiple game
@@ -97,12 +107,8 @@ exports.disconnect = function(socket, instances, chatFunction)
   if(instances[ socket.uid ].minCar == 0)
   {
       var msg = "The host has leaving the game";
-      instances[ socket.uid ].launched = false;
       socket.emit('gameDeconnexion', msg);
-      socket.broadcast.to( instances[ socket.uid ].room ).emit('gameDeconnexion', msg);
-      console.log("disconnection of the current instance "+ instances[ socket.uid ].host);
-      delete instances[ socket.uid ];
-      console.log("number of instances in the server :" + Object.keys(instances).length);
+      this.destroyInstance(socket, instances, chatFunction);
       return 0;
 
   }
