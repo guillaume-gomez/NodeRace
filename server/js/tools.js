@@ -97,7 +97,6 @@ exports.disconnect = function(socket, instances, chatFunction)
   //  see above
   if(instances[ socket.indexPartie ].minCar == 0)
   {
-      debugger
       var msg = "The host has leaving the game";
       instances[ socket.indexPartie ].launched = false;
       socket.emit('gameDeconnexion', msg);
