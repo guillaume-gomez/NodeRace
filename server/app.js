@@ -68,21 +68,17 @@ function tick(socket, carInfos) {
 
 // client connection
 io.on('connection', function (socket) {
-
     console.log("user connection");
-
-    //connexion du futur module de chat
     chatF.getChatMessage(socket);
 
     socket.on('login', function(message) {
         socket.datePing = new Date();
-        //on recupere le login et on enverra l'id de le voiture dans la partie
-        var index;
+        var id;
         if(message.host == true)
         {
             console.log("hote : Creation d'une partie");
-            //on est forcement la premiere voiture à ce connecté
-            index = 0;
+            //first car connected
+            id = 0;
             var passwd = message.password;
             if(message.private != true)
             {
@@ -110,55 +106,50 @@ io.on('connection', function (socket) {
                                 launched: false
                             };
 
-            //on ajoute la room dans socket.io
+            //add room to socket.io
             socket.join(newInstance.room);
             var uid = uuid.v1();
             instances[ uid ] = newInstance
             socket.indexPartie = uid;
             chatF.addChatInstance(socket.indexPartie, newInstance.room);
-
             console.log("info new instance :"+socket.indexPartie +"; "+newInstance.room);
         }
         else
         {
             console.log("client");
-            //on recherche une partie et donc son index
-            var indexPart = tools.findGame(message.private, message.password, instances);
-            if(indexPart == -1)
+            var uid = tools.findGame(message.private, message.password, instances);
+            if(uid == -1)
             {
                 socket.emit('erreur', 'Aucune partie trouvé');
                 return false;
             }
-            socket.indexPartie = indexPart;
-            //on recupere un id de connexion
-            index = instances[ socket.indexPartie ].nbCars;
-            //on s'ajoute à la bonne partie
+            socket.indexPartie = uid;
+            //connexion id
+            id = instances[ socket.indexPartie ].nbCars;
+            //add the new car
             socket.join( instances[ socket.indexPartie ].room );
-            //on incremente le nombre de voiture
             instances[ socket.indexPartie ].nbCars++;
         }
-        //on emet l'id au client
-        socket.emit('id', index);
+        socket.emit('id', id);
         var infoPartie = { laps: instances[ socket.indexPartie ].nbLaps ,
                            nbComponents: instances[ socket.indexPartie ].minCar,
                            track: instances[ socket.indexPartie ].track
                         };
-        //
         socket.emit('infoPart', infoPartie);
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
-        console.log(message.login + ' vient de se connecter');
+        console.log(message.login + ' has been connected');
 
         var car =
         {
-            id: index,
+            id: id,
             sock: socket.id,
             indexPartie: socket.indexPartie,
             nickname: message.login,
             accel: 0,  // percentage
             speed: 0,
             velocity: {x: 0, y: 0},
-            position: {x: instances[ socket.indexPartie ].engine.getStart( index ).x,
-                       y: instances[ socket.indexPartie ].engine.getStart( index ).y
+            position: {x: instances[ socket.indexPartie ].engine.getStart( id ).x,
+                       y: instances[ socket.indexPartie ].engine.getStart( id ).y
                     },
             angle: 0,
             lastTimeUpdate: new Date(),
