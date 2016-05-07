@@ -44,7 +44,7 @@ exports.addChatInstance = function(id, room)
 {
 	var newChat = {id: id, room: room, listMessage: []};
 	ArrayMessages.push(newChat);
-	console.log("nouvelle instance de chat id: "+id);
+	console.log("new instance channel: {"+ id + "}");
 
 }
 
@@ -54,7 +54,7 @@ exports.deleteChatInstance = function(id)
 	{
 		if( id == ArrayMessages[ i ].id )
 		{
-			console.log("destruction d'une instance de chat id: "+id);
+			console.log("deletion of the channel: {"+ id + "}");
 			ArrayMessages.splice(i, 1);
 			break;
 		}

@@ -62,7 +62,6 @@ exports.manageLaunch = function(instance, socket)
         socket.emit('counting', counting);
         socket.broadcast.to( instance.room ).emit('counting', counting);
 
-        console.log("counting "+counting);
         if(counting == 0)
         {
             clearInterval(inter);

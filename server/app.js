@@ -26,7 +26,7 @@ function tick(socket, carInfos) {
         instances[ socket.uid ].launched &&
          (currentDate.getTime() - socket.datePing.getTime()) > 5000)
     {
-        console.log(socket.login+" Deconnexion sur ping  "+socket.id);
+        console.log("{ " + socket.login + "}: Deconnection"+socket.id);
         socket.conn.close();
         tools.disconnect(socket, instances, chatF);
     }
@@ -62,7 +62,6 @@ function tick(socket, carInfos) {
 
 // client connection
 io.on('connection', function (socket) {
-    console.log("user connection");
     chatF.getChatMessage(socket);
 
     socket.on('login', function(message) {
@@ -70,7 +69,7 @@ io.on('connection', function (socket) {
         var id;
         if(message.host == true)
         {
-            console.log("hote : Creation d'une partie");
+            console.log("Host : new game");
             //first car connected
             id = 0;
             var passwd = message.password;
@@ -110,7 +109,6 @@ io.on('connection', function (socket) {
         }
         else
         {
-            console.log("client");
             var uid = tools.findGame(message.private, message.password, instances);
             if(uid == -1)
             {
@@ -131,7 +129,7 @@ io.on('connection', function (socket) {
                         };
         socket.emit('infoPart', infoPartie);
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
-        console.log(message.login + ' has been connected');
+        console.log("{ " + message.login + " }: " + ' has been connected');
 
         var car =
         {
@@ -187,7 +185,7 @@ io.on('connection', function (socket) {
     // emitted when a player leave a race, a room,
     // not emitted when a socket disconnect, this is handled by 'disconnect'
     socket.on('deconnexion', function(message) {
-        console.log(socket.login+' disconnected from a game ( socket id :  ' + socket.id + ' ) ' );
+        console.log("{ " + socket.login + ' }: disconnected from a game ( socket id :  ' + socket.id + ' ) ' );
         socket.leave(  instances[ socket.uid ].room );
         tools.disconnect(socket, instances, chatF);
         clearInterval( socket.tick );
