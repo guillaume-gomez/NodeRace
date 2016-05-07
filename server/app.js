@@ -171,7 +171,6 @@ io.on('connection', function (socket) {
         console.log("information room "+JSON.stringify(instances[ socket.indexPartie ].nbCars));
 
         //check if the game will start
-        // need to use Object.assign to modify sub hash element. Here the sub element is instance
         var instanceModified = tools.checkLaunch(instances[ socket.indexPartie ], socket);
         instances[ socket.indexPartie ] = instanceModified;
         socket.tick = setInterval(tick, 8, socket, car);

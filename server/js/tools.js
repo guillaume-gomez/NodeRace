@@ -105,13 +105,6 @@ exports.disconnect = function(socket, instances, chatFunction)
       console.log("disconnection of the current instance "+ instances[ socket.indexPartie ].host);
       delete instances[ socket.indexPartie ];
       console.log("number of instances in the server :" + Object.keys(instances).length);
-
-      // This comment will be remove later
-      //pour l'instant ces 2 lignes sont commenté car il faut repenser la structure du tableau gerant les parties
-      //en effet si on supprime la partie les index seronts transformé au sein du tableau global des instances
-      //chatFunction.deleteChatInstance( socket.indexPartie );
-      //instances.splice(socket.indexPartie, 1);
-    //  console.log(JSON.stringify(instances));
       return 0;
 
   }
