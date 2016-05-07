@@ -8,24 +8,19 @@ const config = require("./js/config");
 app.use(express.static(__dirname + '/../client'));
 
 var gameModel = require('./js/levelModel')
-//le moteur de jeu
 var gameEngine = require('./js/engine');
-//fonction de gestion de serveur
 var tools = require('./js/tools');
-//fonction pour la gestion de chat
 var chatF = require('./js/chat');
 
 
-
-// Chargement de socket.io
 var io = require('socket.io')(server);
 
-//les variables
+//server variables
 var instances = {};
 var cars = [];
 
 function tick(socket, carInfos) {
-    //on met à jour la date coté serveur
+    //update server date
     var currentDate = new Date();
     if(
         instances[ socket.uid ].launched &&
@@ -39,10 +34,10 @@ function tick(socket, carInfos) {
     elapsedTime = (currentDate.getTime() - carInfos.lastTimeUpdate) / 1000;
     carInfos.lastTimeUpdate = currentDate;
 
-    //on modifie les positions par le calcul de colission
+    //update position thanks to gameEngine
     //gameEngine.updateMove(carInfos, elapsedTime);
     instances[ socket.uid ].engine.updateMove(carInfos, elapsedTime);
-    //renvoit la position sur le circuit
+    //return track position
     gameModel.getTrackPosition(instances[ socket.uid ], io);
 
     if( gameModel.isFinish(instances[ socket.uid ]) )
@@ -62,7 +57,6 @@ function tick(socket, carInfos) {
                    }
 
     socket.emit('myPosition', infos);
-    //on envoit les coordonnées aux joueurs
     socket.broadcast.to( instances[ socket.uid ].room ).emit('position', infos);
 }
 
