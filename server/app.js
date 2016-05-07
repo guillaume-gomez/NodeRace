@@ -157,7 +157,7 @@ io.on('connection', function (socket) {
             lap: 1,
         }
 
-        //on ajoute la voiture à la bonne partie
+        //add car in the right instance
         instances[ socket.indexPartie ].cars.push(car);
         console.log("information room "+JSON.stringify(instances[ socket.indexPartie ].nbCars));
 
@@ -166,12 +166,12 @@ io.on('connection', function (socket) {
         instances[ socket.indexPartie ] = instanceModified;
         socket.tick = setInterval(tick, 8, socket, car);
 
-        //on gere le chat
+        //handle chat
         socket.login = message.login;
         chatF.getOldMessages(socket);
     });
 
-    //quand le client envoit son acceleration
+    //player sent its velocity
     socket.on('accel', function(accel) {
         if(typeof instances[socket.indexPartie] !== 'undefined')
             instances[socket.indexPartie].cars[accel.id].accel = accel.percent;
