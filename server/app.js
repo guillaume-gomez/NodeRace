@@ -125,11 +125,11 @@ io.on('connection', function (socket) {
             instances[ socket.uid ].nbCars++;
         }
         socket.emit('id', id);
-        var infoPartie = { laps: instances[ socket.uid ].nbLaps ,
+        var infoInstance = { laps: instances[ socket.uid ].nbLaps ,
                            nbComponents: instances[ socket.uid ].minCar,
                            track: instances[ socket.uid ].track
                         };
-        socket.emit('infoPart', infoPartie);
+        socket.emit('infoPart', infoInstance);
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
         console.log("{ " + message.login + " }: " + ' has been connected');
 
