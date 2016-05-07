@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
+var uuid = require('uuid');
 
 const config = require("./js/config");
 
@@ -15,11 +16,12 @@ var tools = require('./js/tools');
 var chatF = require('./js/chat');
 
 
+
 // Chargement de socket.io
 var io = require('socket.io')(server);
 
 //les variables
-var instances = [];
+var instances = {};
 var cars = [];
 
 function tick(socket, carInfos) {
@@ -110,9 +112,9 @@ io.on('connection', function (socket) {
 
             //on ajoute la room dans socket.io
             socket.join(newInstance.room);
-
-            instances.push(newInstance);
-            socket.indexPartie = instances.length - 1;
+            var uid = uuid.v1();
+            instances[ uid ] = newInstance
+            socket.indexPartie = uid;
             chatF.addChatInstance(socket.indexPartie, newInstance.room);
 
             console.log("info new instance :"+socket.indexPartie +"; "+newInstance.room);
@@ -168,8 +170,10 @@ io.on('connection', function (socket) {
         instances[ socket.indexPartie ].cars.push(car);
         console.log("information room "+JSON.stringify(instances[ socket.indexPartie ].nbCars));
 
-        //on teste si la partie doit demarrer
-        tools.checkLaunch(instances[ socket.indexPartie ], socket);
+        //check if the game will start
+        // need to use Object.assign to modify sub hash element. Here the sub element is instance
+        var instanceModified = tools.checkLaunch(instances[ socket.indexPartie ], socket);
+        instances[ socket.indexPartie ] = instanceModified;
         socket.tick = setInterval(tick, 8, socket, car);
 
         //on gere le chat
@@ -207,9 +211,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function () {
-
         console.log( 'user disconnected' );
-
     } );
 
 });

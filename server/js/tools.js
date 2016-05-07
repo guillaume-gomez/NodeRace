@@ -4,29 +4,29 @@
 //if index = -1, no games are available
 exports.findGame = function(isPrivate, passwd, instances)
 {
-    for (var i = 0; i < instances.length; i++)
+    for (var uid in instances)
     {
-        if(instances[ i ].private == false)
+        if(instances[ uid ].private == false)
         {
-            if(instances[ i ].nbCars < instances[ i ].minCar)
+            if(instances[ uid ].nbCars < instances[ uid ].minCar)
             {
-                if(instances[ i ].launched == false)
+                if(instances[ uid ].launched == false)
                 {
                     //console.log("public "+i);
-                    return i;
+                    return uid;
                 }
             }
         }
         else
         {
-            if(instances[ i ].password == passwd)
+            if(instances[ uid ].password == passwd)
             {
-                if(instances[ i ].nbCars < instances[ i ].minCar)
+                if(instances[ uid ].nbCars < instances[ uid ].minCar)
                 {
-                    if(instances[ i ].launched == false)
+                    if(instances[ uid ].launched == false)
                     {
                         //console.log("private "+i);
-                        return i;
+                        return uid;
                     }
                 }
             }
@@ -49,6 +49,7 @@ exports.checkLaunch = function(instance, socket)
 
         this.manageLaunch(instance, socket);
     }
+  return instance;
 }
 
 //create counting
@@ -77,48 +78,52 @@ exports.manageLaunch = function(instance, socket)
 
 exports.disconnect = function(socket, instances, chatFunction)
 {
-        for(var i = 0; i < instances[ socket.indexPartie ].nbCars; i++)
-        {
-            //not the good answer, we have to find out how to limit the number of cars to avoid putting a car in multiple game
-            /*if(instances[ socket.indexPartie ].cars[ i ].sock == socket.id)
-            {
-                instances[ socket.indexPartie ].nbCars--;
-            }*/
+  for(var i = 0; i < instances[ socket.indexPartie ].nbCars; i++)
+  {
+      //not the good answer, we have to find out how to limit the number of cars to avoid putting a car in multiple game
+      /*if(instances[ socket.indexPartie ].cars[ i ].sock == socket.id)
+      {
+          instances[ socket.indexPartie ].nbCars--;
+      }*/
 
-            //not sure :(
-            if(instances[ socket.indexPartie ].cars[ i ].sock == socket.id)
-            {
-                instances[ socket.indexPartie ].minCar--;
-            }
-        }
+      //not sure :(
+      if(instances[ socket.indexPartie ].cars[ i ].sock == socket.id)
+      {
+          instances[ socket.indexPartie ].minCar--;
+      }
+  }
 
-        //if( instances[ socket.indexPartie ].nbCars == 0)
-        //  see above
-        if(instances[ socket.indexPartie ].minCar == 0)
-        {
-            var msg = "The host has leaving the game";
-            instances[ socket.indexPartie ].launched = false;
-            socket.emit('gameDeconnexion', msg);
-            socket.broadcast.to( instances[ socket.indexPartie ].room ).emit('gameDeconnexion', msg);
-            console.log("disconnection of the current instance "+ instances[ socket.indexPartie ].host);
-            // This comment will be remove later
-            //pour l'instant ces 2 lignes sont commenté car il faut repenser la structure du tableau gerant les parties
-            //en effet si on supprime la partie les index seronts transformé au sein du tableau global des instances
-            //chatFunction.deleteChatInstance( socket.indexPartie );
-            //instances.splice(socket.indexPartie, 1);
-          //  console.log(JSON.stringify(instances));
-            return 0;
+  //if( instances[ socket.indexPartie ].nbCars == 0)
+  //  see above
+  if(instances[ socket.indexPartie ].minCar == 0)
+  {
+      debugger
+      var msg = "The host has leaving the game";
+      instances[ socket.indexPartie ].launched = false;
+      socket.emit('gameDeconnexion', msg);
+      socket.broadcast.to( instances[ socket.indexPartie ].room ).emit('gameDeconnexion', msg);
+      console.log("disconnection of the current instance "+ instances[ socket.indexPartie ].host);
+      delete instances[ socket.indexPartie ];
+      console.log("number of instances in the server :" + Object.keys(instances).length);
 
-        }
+      // This comment will be remove later
+      //pour l'instant ces 2 lignes sont commenté car il faut repenser la structure du tableau gerant les parties
+      //en effet si on supprime la partie les index seronts transformé au sein du tableau global des instances
+      //chatFunction.deleteChatInstance( socket.indexPartie );
+      //instances.splice(socket.indexPartie, 1);
+    //  console.log(JSON.stringify(instances));
+      return 0;
+
+  }
     return -1;
 }
 
 
 exports.isInstanceExist = function(instances, newPasswd)
 {
-    for (var i = 0; i < instances.length; i++)
+    for (var uid in instances)
     {
-        if( instances[ i ].password == newPasswd)
+        if( instances[ uid ].password == newPasswd)
         {
             return true;
         }
