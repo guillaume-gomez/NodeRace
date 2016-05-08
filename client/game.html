@@ -48,9 +48,14 @@
                                 <option value="audi">Audi</option>
                             </select>
                 </br>
+
+                <script src="js/createTracksSelectionMenu.js">
+                </script>
+                <script>
+                    createTracksSelectionMenu("track");
+                </script>
+
                     Track: <select id="track">
-                                <option value="">TODO</option>
-                                <!-- Need to ha ve the list generated after reading the list of available tracks -->
                             </select>
                 </br>
                 Laps <input type="range" id="laps" value="3" max="10" min="1" step="1">
