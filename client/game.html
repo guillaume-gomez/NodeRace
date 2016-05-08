@@ -12,6 +12,7 @@
         <script src="js/jaws-sprite_list.js"></script>
         <script src="js/jaws-tile_map.js"></script>
         <script src="js/manageChat.js"></script>
+        <script src="public/constants.js"></script>
     </head>
 
     <body>
@@ -122,6 +123,7 @@
         <script>
 
             var socket = io();
+            jaws.constants = new Constants();
             // by default connect to the host that served this page
 
             socket.on('messageServeur', function(position) {

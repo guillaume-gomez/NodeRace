@@ -13,10 +13,15 @@ var gameEngine = require('./js/engine');
 var tools = require('./js/tools');
 //fonction pour la gestion de chat
 var chatF = require('./js/chat');
-
-
 // Chargement de socket.io
 var io = require('socket.io')(server);
+
+//load constants in server and client
+app.use(express.static('public'));
+app.use('/public', express.static('public'));
+var constants = require('./public/constants.js');
+constants = new constants();
+
 
 //les variables
 var instances = [];
@@ -45,8 +50,8 @@ function tick(socket, carInfos) {
 
     if( gameModel.isFinish(instances[ socket.indexPartie ]) )
     {
-        socket.emit('finPartie', "fin de partie");
-        socket.broadcast.to( instances[ socket.indexPartie ].room ).emit('finPartie', "fin de partie");
+        socket.emit(constants.endGame, "fin de partie");
+        socket.broadcast.to( instances[ socket.indexPartie ].room ).emit(constants.endGame, "fin de partie");
         instances[ socket.indexPartie ].launched = false;
 
     }
@@ -63,9 +68,8 @@ function tick(socket, carInfos) {
     //on envoit les coordonnées aux joueurs
     socket.broadcast.to( instances[ socket.indexPartie ].room ).emit('position', infos);
 }
-
 // client connection
-io.on('connection', function (socket) {
+io.on(constants.connection, function (socket) {
 
     console.log("user connection");
 
@@ -213,7 +217,6 @@ io.on('connection', function (socket) {
     } );
 
 });
-
 
 app.get('/', function(req, res)
 {
