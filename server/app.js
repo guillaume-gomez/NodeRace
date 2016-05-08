@@ -221,6 +221,11 @@ app.get('/', function(req, res)
    res.sendfile('index.html');
 });
 
+app.get('/tracksList.json', function(req, res)
+{
+   res.sendfile('tracks/list.json');
+});
+
 app.use(function(req, res, next)
 {
     res.setHeader('Content-Type', 'text/plain');

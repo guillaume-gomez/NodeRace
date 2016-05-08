@@ -16,6 +16,23 @@
 	<legend>The editor</legend>
 	<a href="editor.html"><button>Make a Level</button></a>
 	OR
+
+	<script>
+
+		var xmlhttp = new XMLHttpRequest();
+		var url = "tracksList.json";
+
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var tracksList = JSON.parse(xmlhttp.responseText);
+				console.log( tracksList );
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+
+	</script>
+
 	<form action="editor.html" method="url">
 		<p>Load a level : <br/>
 		<input type="text" name="level" value="" id="level"/>
