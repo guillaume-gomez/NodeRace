@@ -116,10 +116,9 @@ function Car(image, frame_width, frame_height, frame_duration)
 		return m_car;
 	}
 
-	this.setPosition = function (carInfos)
+	this.setPosition = function (carInfos, cellSize, trackOffsetPosition)
 	{
-		console.log(carInfos);
-		m_car.moveTo(carInfos.position.x, carInfos.position.y);
+		m_car.moveTo(carInfos.position.x*cellSize+trackOffsetPosition.x, carInfos.position.y*cellSize+trackOffsetPosition.y);
 		m_car.rotateTo(-carInfos.angle/Math.PI*180-90);
 		m_username.x = carInfos.position.x - 5;
 		m_username.y = carInfos.position.y - 20;

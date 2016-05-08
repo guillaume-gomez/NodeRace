@@ -1,5 +1,8 @@
 var VMAX = 200;
 
+const CELL_SIZE = 50;
+const TRACK_OFFSET_POSITION = {x:100, y:100};
+
 function Game (socket, myId, trackName)
 {
 
@@ -191,7 +194,7 @@ function Game (socket, myId, trackName)
 			speed = document.getElementById("speed");
 			speed.innerHTML = "<p>speed : "+m_speed.toFixed(2)+"</p>";
 
-			m_cars[carInfos.id].setPosition(carInfos);
+			m_cars[carInfos.id].setPosition(carInfos, CELL_SIZE, TRACK_OFFSET_POSITION);
 
 			debug = document.getElementById("debug");
 			debug.innerHTML = "<p> move "+this.getMyPositionX().toFixed(2)+" :: "+this.getMyPositionY().toFixed(2)+"</p>";

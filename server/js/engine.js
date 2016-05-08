@@ -16,6 +16,8 @@ exports.Engine = function(trackName) {
 
 	this.getStart = function(railNumber)
 	{
+		console.log('this.rails[railNumber][0] : ');
+		console.log(this.rails[railNumber][0]);
 		return this.rails[railNumber][0];
 	}
 

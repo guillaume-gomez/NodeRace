@@ -4,7 +4,7 @@ var server = require('http').Server(app);
 
 const config = require("./js/config");
 
-console.log(config);
+// console.log(config);
 
 app.use(express.static(__dirname + '/../client'));
 
@@ -75,7 +75,7 @@ io.on('connection', function(socket) {
     chatF.getChatMessage(socket);
 
     socket.on('login', function(message) {
-        console.log(message);
+        // console.log(message);
         socket.datePing = new Date();
         //on recupere le login et on enverra l'id de le voiture dans la partie
         var index;
@@ -92,8 +92,8 @@ io.on('connection', function(socket) {
                 }
             }
 
-            console.log("message.track :");
-            console.log(message.track);
+            // console.log("message.track :");
+            // console.log(message.track);
 
             var newInstance = {
                 host: socket.id,
@@ -117,7 +117,7 @@ io.on('connection', function(socket) {
             socket.indexPartie = instances.length - 1;
             chatF.addChatInstance(socket.indexPartie, newInstance.room);
 
-            console.log("info new instance :" + socket.indexPartie + "; " + newInstance.room);
+            // console.log("info new instance :" + socket.indexPartie + "; " + newInstance.room);
         } else {
             console.log("client");
             //on recherche une partie et donc son index
@@ -144,11 +144,11 @@ io.on('connection', function(socket) {
         //
         socket.emit('infoPart', infoPartie);
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
-        console.log(message.login + ' vient de se connecter');
+        // console.log(message.login + ' vient de se connecter');
 
-        console.log("---------------------------------------");
-        console.log("instances[ socket.indexPartie ] : ");
-        console.log(instances[socket.indexPartie]);
+        // console.log("---------------------------------------");
+        // console.log("instances[ socket.indexPartie ] : ");
+        // console.log(instances[socket.indexPartie]);
 
         var car = {
             id: index,
@@ -170,6 +170,11 @@ io.on('connection', function(socket) {
             nextTrajectoryIndex: 1,
             lap: 1,
         }
+
+        console.log('');
+        console.log('car :');
+        console.log(car);
+        console.log('');
 
         //on ajoute la voiture à la bonne partie
         instances[socket.indexPartie].cars.push(car);

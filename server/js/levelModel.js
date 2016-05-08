@@ -13,33 +13,38 @@ exports.loadLevel = function(trackName) {
 
     var tileInfo = JSON.parse(fs.readFileSync('TileInfo.json', 'utf8'));
 
-    var tileInfoArray = [];
+    var tileInfoArrayPoints = [];
 
     for (var i = 0; i < tileInfo.length; i++) {
-    	tileInfoArray[ tileInfo[i].id ] = tileInfo[i].points;
+    	tileInfoArrayPoints[ tileInfo[i].id ] = tileInfo[i].points;
     }
 
     for (var i = 0; i < NB_RAIL; i++) {
         rails[i] = [];
     }
 
-    console.log("\ntiles :");
-    console.log(tiles);
+    // console.log("\ntiles :");
+    // console.log(tiles);
 
     console.log("");
-    console.log("tileInfoArray :");
-    console.log(tileInfoArray);
+    console.log("tileInfoArrayPoints :");
+    console.log(tileInfoArrayPoints);
     console.log("");
 
     // build the rail
-    for (var j = 0; j < tiles.parts.length; j++) {
-        for (var k = 0; k < NB_RAIL; k++) {
-            // next step when rails will be properly created
-            //use rails[ k ].push(tiles[ i ].listPoint[ k ][ j ]);
+    for (var i = 0; i < tiles.parts.length; i++) { // for each part of the track
 
-            rails[k].push( tileInfoArray[ tiles.parts[j].id ] );
-        }
-    }
+	    for (var j = 0; j < tileInfoArrayPoints.length; j++) { // for each point of this part
+
+	        for (var k = 0; k < NB_RAIL; k++) { // for each rail
+
+	            // next step when rails will be properly created
+	            //use rails[ k ].push(tiles[ i ].listPoint[ k ][ j ]);
+
+	            rails[k].push( tileInfoArrayPoints[ tiles.parts[i].id ][j] );
+	        }
+	    }
+    };
 
     return rails;
 }
