@@ -1,5 +1,6 @@
 // Tool module to handle some server operations
-
+var constants = require('./../public/constants.js');
+constants = new constants();
 
 //if index = -1, no games are available
 exports.findGame = function(isPrivate, passwd, instances)
@@ -58,8 +59,8 @@ exports.manageLaunch = function(instance, socket)
    console.log("instance.room "+ instance.room );
    function counting_function(instance, object)
    {
-        socket.emit('counting', counting);
-        socket.broadcast.to( instance.room ).emit('counting', counting);
+        socket.emit(constants.counting, counting);
+        socket.broadcast.to( instance.room ).emit(constants.counting, counting);
 
         console.log("counting "+counting);
         if(counting == 0)

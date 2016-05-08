@@ -62,7 +62,7 @@ function Game (socket, myId)
         	m_cars[ infosLogin.id ].setUsername(infosLogin.username);
         });
 
-        socket.on('counting', function(count) {
+        socket.on(jaws.constants.counting, function(count) {
         	console.log("console : couting "+count);
         	m_counting = count;
         	m_hubTxt.text = m_counting;
@@ -70,7 +70,7 @@ function Game (socket, myId)
 
         socket.on(jaws.constants.endGame, function(message) {
         	m_hubTxt.text = message;
-        	console.log("finde partieserveur bitch");
+        	console.log("End Game ");
         	socket.emit('deconnexion', 'fin');
         });
 
