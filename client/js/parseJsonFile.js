@@ -19,7 +19,7 @@ var ParseJsonFile = {
 
     },
 
-        createTracksSelectionMenu: function(menuId) {
+    createTracksSelectionMenu: function(menuId) {
 
         var url = "tracksList.json";
         var tracksList = [];
