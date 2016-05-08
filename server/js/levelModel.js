@@ -6,35 +6,9 @@ var fs = require('fs');
 var NB_RAIL = 4;
 var NB_TOUR = 3;
 
-//tileset.js to see the mirror function in client-side
-exports.getLevelFilename = function(trackID)
-{
-	var path = 'public/assets/';
-	if(trackID == "id56")
-	{
-		return path + 'tracks/default.json';
-	}
-	else if (trackID == "id68")
-	{
-		return path + 'tracks/track1.json';
-	}
-	else if (trackID == "id24")
-	{
-		return path + 'tracks/track2.json';
-	}
-	else if (trackID == "id32")
-	{
-		return path + 'tracks/default.json';
-	}
-	else
-	{
-		return path +'tracks/default.json';
-	}
-}
+exports.loadLevel = function(trackName) {
 
-exports.loadLevel = function (trackID)
-{
-	var tiles = JSON.parse(fs.readFileSync(this.getLevelFilename(trackID), 'utf8'));
+    var tiles = JSON.parse(fs.readFileSync(trackName + '.json', 'utf8'));
 	var rails = [];
 
 	for(var i=0; i < NB_RAIL; i++)

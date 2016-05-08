@@ -97,12 +97,15 @@ io.on('connection', function (socket) {
                 }
             }
 
+            console.log("message.track :");
+            console.log(message.track);
+
             var newInstance = { host: socket.id,
                                 room : new Date().toString(),
                                 password: passwd,
                                 //track.id sera l'id du circuit
                                 track: message.track,
-                                engine: new gameEngine.Engine(message.track),
+                                engine: new gameEngine.Engine(config.tracksDirectory+'/'+message.track),
                                 nbLaps: message.laps,
                                 cars: [],
                                 nbCars:1,

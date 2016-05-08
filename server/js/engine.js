@@ -10,9 +10,9 @@ var FACTOR = 3;
 // var ACCEL_FACTOR = 3;
 // var SLOWDOWN_FACTOR = 3;
 
-exports.Engine = function(tracksID)
-{
-	this.rails = levelModel.loadLevel(tracksID);
+exports.Engine = function(trackName) {
+
+    this.rails = levelModel.loadLevel(trackName);
 
 	this.getStart = function(railNumber)
 	{
