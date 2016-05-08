@@ -1,5 +1,6 @@
 var ParseJsonFile = {
 
+    // callback needs an argument, the result of JSON.parse
     parseJson: function(jsonFile, callback) {
 
         var xmlhttp = new XMLHttpRequest();
@@ -37,6 +38,15 @@ var ParseJsonFile = {
             }
 
         });
+
+    },
+
+    // callback needs an argument, the result of JSON.parse
+    getTileInfo: function(callback) {
+
+        var url = "TileInfo.json";
+
+        ParseJsonFile.parseJson(url, callback);
 
     }
 

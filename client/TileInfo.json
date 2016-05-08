@@ -1,7 +1,23 @@
 [{
     "id": 1,
-    "url": "straight.png"
+    "url": "straight.png",
+    "in": {
+        "x": 0,
+        "y": 0.5
+    },
+    "out": {
+        "x": 1,
+        "y": 0.5
+    }
 }, {
     "id": 2,
-    "url": "rightAngleCurve.png"
+    "url": "rightAngleCurve.png",
+    "in": {
+        "x": 0,
+        "y": 0.5
+    },
+    "out": {
+        "x": 0.5,
+        "y": 1
+    }
 }]

@@ -95,7 +95,7 @@
     <!-- Chargement du jeu -->
     <script>
     username = "";
-    trackID = "";
+    trackName = "";
 
     var game;
     window.onload = function() {
@@ -104,7 +104,15 @@
         jaws.assets.add(["cars/Viper.png", "cars/Cobra.png",
             "cars/Firebird1980.png", "cars/Herbie.png"
         ]);
-        jaws.assets.add(["floor.png", "test.png"]);
+
+        var arrayTileInfo = [];
+        ParseJsonFile.getTileInfo( function( arrayTileInfo ){
+
+            for (var i = 0; i < arrayTileInfo.length; i++) {
+                jaws.assets.add(arrayTileInfo[i].url);
+            };
+
+        } );
     }
     </script>
     <!-- la partie websocket qui permet la communication avec node.js -->
@@ -131,14 +139,14 @@
             window.location = 'game.html#gameCanvas';
         }
         //on lance le jeu quand on a recuperer l'id de connexion
-        game = new Game(socket, id);
+        game = new Game(socket, id, trackName);
         jaws.start(game);
     });
 
     socket.on('infoPart', function(infos) {
         laps = infos.laps;
         nbCarsPlayed = infos.nbComponents;
-        trackID = infos.track;
+        trackName = infos.track;
     });
 
     // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
@@ -150,7 +158,7 @@
         var isHost = ($('#host').is(":checked"));
         var isPrivate = ($('#private').is(":checked"));
         var lap = $('#laps').val();
-        trackID = $('#track').val();
+        trackName = $('#track').val();
 
         var message = {
             login: log,
@@ -160,7 +168,7 @@
             private: isPrivate,
             password: passwd,
             laps: lap,
-            track: trackID
+            track: trackName
         };
         socket.emit('login', message);
 

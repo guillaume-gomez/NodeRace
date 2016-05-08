@@ -1,10 +1,18 @@
 Tile = function Tile(options) {
+
+	// console.log("Tile");
+
+	// console.log("options : ");
+	// console.log(options);
+
 	var listPoint = new Array();
 	if(typeof options.listPoint !== 'undefined')
 	{
 		this.listPoint = options.listPoint;
 		delete options.listPoint;
 	}
+	// console.log("listPoint : ");
+	// console.log(listPoint);
 
   	if( !(this instanceof arguments.callee) ) return new arguments.callee( options );
     jaws.Sprite.call(this, options);

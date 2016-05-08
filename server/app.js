@@ -8,6 +8,8 @@ console.log( config );
 
 app.use(express.static(__dirname + '/../client'));
 
+app.use('/tracks', express.static(config.tracksDirectory));
+
 var gameModel = require('./js/levelModel')
 //le moteur de jeu
 var gameEngine = require('./js/engine');

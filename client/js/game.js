@@ -1,6 +1,6 @@
 var VMAX = 200;
 
-function Game (socket, myId)
+function Game (socket, myId, trackName)
 {
 
 	var m_viewport;
@@ -49,7 +49,7 @@ function Game (socket, myId)
 		m_cars[m_myId].setMyID(m_myId);
 		m_cars[m_myId].setUsername(username);
 
-		m_level = new TileSet(m_viewport, cell_size);
+		m_level = new TileSet(m_viewport, cell_size, trackName);
 		m_level.constructor();
 
 
