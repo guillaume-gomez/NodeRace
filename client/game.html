@@ -132,7 +132,7 @@
 
             });
 
-            socket.on('erreur', function(message) {
+            socket.on(jaws.constants.error, function(message) {
                 alert(message);
             });
 

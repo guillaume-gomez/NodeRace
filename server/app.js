@@ -128,7 +128,7 @@ io.on(constants.connection, function (socket) {
             var indexPart = tools.findGame(message.private, message.password, instances);
             if(indexPart == -1)
             {
-                socket.emit('erreur', 'Aucune partie trouvé');
+                socket.emit(constants.error, 'Aucune partie trouvé');
                 return false;
             }
             socket.indexPartie = indexPart;
@@ -210,7 +210,7 @@ io.on(constants.connection, function (socket) {
         socket.emit(constants.closeCo);
     });
 
-    socket.on('disconnect', function () {
+    socket.on(constants.disconnect, function () {
 
         console.log( 'user disconnected' );
 

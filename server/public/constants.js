@@ -21,6 +21,8 @@ var Constants = (function() {
   Constants.prototype.instanceDeconnexion = "instanceDeconnexion";
   Constants.prototype.infoPart = "infoPart";
   Constants.prototype.id = "id";
+  Constants.prototype.error = "error";
+  Constants.prototype.disconnect = "disconnect";
 
   Constants.prototype.acceleration = "acceleration";
 
