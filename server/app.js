@@ -4,6 +4,8 @@ var server = require('http').Server(app);
 
 const config = require("./js/config");
 
+console.log( config );
+
 app.use(express.static(__dirname + '/../client'));
 
 var gameModel = require('./js/levelModel')
@@ -223,7 +225,7 @@ app.get('/', function(req, res)
 
 app.get('/tracksList.json', function(req, res)
 {
-   res.sendfile('tracks/list.json');
+   res.sendfile( config.tracksList );
 });
 
 app.use(function(req, res, next)
