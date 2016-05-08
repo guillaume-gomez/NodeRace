@@ -152,6 +152,10 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
         console.log(message.login + ' vient de se connecter');
 
+        console.log("---------------------------------------");
+        console.log("instances[ socket.indexPartie ] : ");
+        console.log(instances[ socket.indexPartie ]);
+
         var car =
         {
             id: index,
