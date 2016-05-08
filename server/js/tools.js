@@ -44,9 +44,9 @@ exports.checkLaunch = function(instance, socket)
     {
         instance.launched = true;
         //emit a message to start the game
-        socket.emit('startGame', 'The game is starting');
+        socket.emit(constants.startGame, 'The game is starting');
         console.log( instance.room );
-        socket.broadcast.to( instance.room ).emit('startGame', 'The game is starting');
+        socket.broadcast.to( instance.room ).emit(constants.startGame, 'The game is starting');
 
         this.manageLaunch(instance, socket);
     }

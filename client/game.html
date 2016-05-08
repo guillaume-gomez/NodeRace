@@ -181,9 +181,9 @@
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             });
 
-            socket.on('startGame', function(message) {
+            socket.on(jaws.constants.startGame, function(message) {
                 var demarre = true;
-                console.log("The game is starting bro");
+                console.log("The game is starting");
             });
 
             socket.on('deconnexionPartie', function(message) {
