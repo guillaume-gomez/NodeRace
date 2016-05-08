@@ -8,6 +8,7 @@ var Constants = (function() {
   Constants.prototype.endGame = "endGame";
   Constants.prototype.counting = "counting";
   Constants.prototype.startGame = "startGame";
+  Constants.prototype.logins = "logins";
 
   return Constants;
 })();

@@ -135,7 +135,7 @@ exports.sendLogin = function (instance, socket)
         var message = { id: instance.cars[ i ].id,
                         username: instance.cars[ i ].nickname};
 
-        socket.emit('logins', message);
-        socket.broadcast.to( instance.room ).emit('logins', message);
+        socket.emit(constants.logins, message);
+        socket.broadcast.to( instance.room ).emit(constants.logins, message);
     }
 }

@@ -58,7 +58,7 @@ function Game (socket, myId)
         	game.setPosition(carInfos);
         });
 
-        socket.on('logins', function(infosLogin) {
+        socket.on(jaws.constants.logins, function(infosLogin) {
         	m_cars[ infosLogin.id ].setUsername(infosLogin.username);
         });
 
