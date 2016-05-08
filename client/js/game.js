@@ -68,8 +68,8 @@ function Game (socket, myId)
         	m_hubTxt.text = m_counting;
         });
 
-        socket.on("finPartie", function(fin) {
-        	m_hubTxt.text = fin;
+        socket.on(jaws.constants.endGame, function(message) {
+        	m_hubTxt.text = message;
         	console.log("finde partieserveur bitch");
         	socket.emit('deconnexion', 'fin');
         });
