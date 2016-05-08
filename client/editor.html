@@ -1,207 +1,195 @@
 <!doctype html>
 <html lang="fr">
+
 <head>
     <meta charset="utf-8" />
     <title>Editor</title>
-	<link href='http://fonts.googleapis.com/css?family=Jura' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/designEditeur.css" type="text/css"  media="screen">
-	<script src="js/editor.js"></script>
-	<script src="js/jaws.js"></script>
-	<script src="js/jaws-tile_map.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Jura' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/designEditeur.css" type="text/css" media="screen">
+    <script src="js/editor.js"></script>
+    <script src="js/jaws.js"></script>
+    <script src="js/jaws-tile_map.js"></script>
     <script src="js/jaws-sprite_list.js"></script>
-	<script src="js/makeLevel.js"></script>
-	<script src="js/tile.js"></script>
+    <script src="js/makeLevel.js"></script>
+    <script src="js/tile.js"></script>
 </head>
+
 <body>
+    <div id="colonne2">
+        <legend>SpriteSheet</legend>
+        <hr>
+        <div id="liste-image">
+        </div>
+        </br>
+    </div>
+    <div id="centre">
+        <canvas id="EditorCanvas" width="1000" height="500">
+            Your browser is not compatible !
+        </canvas>
+        <div id="debug"></div>
+        <div id="live_info"></div>
+        </br>
+        <!-- Place this tag where you want the +1 button to render. -->
+        <div class="g-plusone" data-size="tall" data-annotation="none"></div>
+        <!-- Place this tag after the last +1 button tag. -->
+        <script type="text/javascript">
+        window.___gcfg = {
+            lang: 'fr'
+        };
 
-
-	<div id="colonne2">
-		<legend>SpriteSheet</legend>
-		<hr>
-		<div id="liste-image">
-		</div>
-		</br>
-	</div>
-
-	<div id="centre">
-		<canvas id="EditorCanvas" width="1000" height="500">
-			Your browser is not compatible !
-		</canvas>
-		<div id="debug"></div>
-		<div id="live_info"></div>
-		</br>
-
-			<!-- Place this tag where you want the +1 button to render. -->
-			<div class="g-plusone" data-size="tall" data-annotation="none"></div>
-
-			<!-- Place this tag after the last +1 button tag. -->
-			<script type="text/javascript">
-			  window.___gcfg = {lang: 'fr'};
-
-			  (function() {
-				var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-				po.src = 'https://apis.google.com/js/plusone.js';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-			  })();
-			</script>
-
-		</br>
-		<fieldset id="bordure" class="separation">
-		<table cellspacing="50px">
-			<tr>
-			<td>
-				<label name="scale" title="scale selected sprite">Scale</label><input id="scale" type="number" step="0.1" min="0.1" max="3.0" name="scale" size="2" value="1" onchange="m_level.switchToSelectedTile(this.value)" />
-			</td>
-			<td>
-				<label name="rotate" title="rotate selected sprite">Rotate</label>
-				<input id="rotate" type="number" step="90" min="0" max="360" name="scale"
-					value="0" onchange="(function() {
+        (function() {
+            var po = document.createElement('script');
+            po.type = 'text/javascript';
+            po.async = true;
+            po.src = 'https://apis.google.com/js/plusone.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(po, s);
+        })();
+        </script>
+        </br>
+        <fieldset id="bordure" class="separation">
+            <table cellspacing="50px">
+                <tr>
+                    <td>
+                        <label name="scale" title="scale selected sprite">Scale</label>
+                        <input id="scale" type="number" step="0.1" min="0.1" max="3.0" name="scale" size="2" value="1" onchange="m_level.switchToSelectedTile(this.value)" />
+                    </td>
+                    <td>
+                        <label name="rotate" title="rotate selected sprite">Rotate</label>
+                        <input id="rotate" type="number" step="90" min="0" max="360" name="scale" value="0" onchange="(function() {
 					current_cursor_image.style.imageOrientation = document.getElementById('rotate').value+'deg';
 					drawListImage();
 					}());" />
-			</td>
-			<td>
-			<button type="button" onclick="m_level.save()" class="myButton">Save</button>
-			</td>
-			<td>
-				Display the grid :<input type="checkbox" value="false" id="grid" onClick="isGrid()">
-			</td>
-			</tr>
-		</table>
-		</fieldset>
-
-		<fieldset id="fieldCurrent">
-		<legend>Current sprite : </legend>
-		<div id="current-image">
-		</div>
-		</fieldset>
-
-		<textarea name="positive" rows=20 cols=140 id="save"></textarea>
-		</br>
-	</div>
-
-	<h3>jaws log</h3>
-        <div id="jaws-log"></div>
-
-	<!--<?php
+                    </td>
+                    <td>
+                        <button type="button" onclick="m_level.save()" class="myButton">Save</button>
+                    </td>
+                    <td>
+                        Display the grid :
+                        <input type="checkbox" value="false" id="grid" onClick="isGrid()">
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <fieldset id="fieldCurrent">
+            <legend>Current sprite : </legend>
+            <div id="current-image">
+            </div>
+        </fieldset>
+        <textarea name="positive" rows=20 cols=140 id="save"></textarea>
+        </br>
+    </div>
+    <h3>jaws log</h3>
+    <div id="jaws-log"></div>
+    <!--<?php
 		//if(isset($_GET['level']))
 		//	echo '<br>Niveau : '.$_GET['level'].' chargé';
 	?>-->
+    <p>
+        <fieldset>
+            <legend> Who ? </legend>
+            <table id="commands" style="border-collapse:collapse;">
+                <caption>Commands</caption>
+                <tr>
+                    <td class="keyword">
+                        <img src="css/mouse-left.png" alt="Left Click" />
+                    </td>
+                    <td class="keyword">Add/Select a tile </td>
+                </tr>
+                <tr>
+                    <td class="keyword">
+                        <img src="css/mouse-right.png" alt="Right Click" />
+                    </td>
+                    <td class="keyword">Remove the selected tile</td>
+                </tr>
+                <tr>
+                    <td class="keyword">
+                        <img src="css/toucheDirectionnelles.png" alt="Directionnal Pad" />
+                    </td>
+                    <td class="keyword">Move camera </td>
+                </tr>
+                <tr>
+                    <td class="keyword">
+                        <img src="css/z.png" alt="Z" />
+                    </td>
+                    <td class="keyword"> Supprime la dernière tile</td>
+                </tr>
+                <tr>
+                    <td class="keyword">
+                        <img src="css/s.png" alt="S" />
+                    </td>
+                    <td class="keyword"> Save level</td>
+                </tr>
+                <tr>
+                    <td class="keyword">
+                        <img src="css/p.png" alt="p" />
+                    </td>
+                    <td class="keyword">Next Tile</td>
+                </tr>
+                <tr>
+                    <td class="keyword">
+                        <img src="css/m.png" alt="m" />
+                    </td>
+                    <td class="keyword"> Previous Tile</td>
+                </tr>
+            </table>
+        </fieldset>
+    </p>
+    <p>An editor built by Adrien Jarretier and Guillaume Gomez</p>
+    <div id="current-cursor-image"></div>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    var ArrayTileInfo = new Array();
 
-	<p>
-		<fieldset>
-		<legend> Who ? </legend>
+    var jqxhr = $.getJSON("TileInfo.json", function() {
+            console.log("success");
+        })
+        .done(function() {
+            console.log("second success");
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            ArrayTileInfo = jqxhr.responseJSON;
+        });
+    </script>
+    <script>
+    window.onload = function() {
+        console.log(ArrayTileInfo);
+        var loc = location.search;
+        var vars = loc.split("=");
 
-		<table id="commands" style="border-collapse:collapse;" >
-  		<caption>Commands</caption>
-  		<tr>
-        <td class="keyword">
-          <img  src="css/mouse-left.png" alt="Left Click"/>
-        </td>
-        <td  class="keyword">Add/Select a tile  </td></tr>
-  		<tr>
-        <td class="keyword">
-          <img src="css/mouse-right.png" alt="Right Click"/>
-        </td>
-          <td  class="keyword">Remove the selected tile</td>
-      </tr>
-  		<tr>
-        <td class="keyword">
-          <img src="css/toucheDirectionnelles.png" alt="Directionnal Pad" />
-        </td>
-        <td  class="keyword">Move camera </td>
-      </tr>
-  		<tr>
-        <td class="keyword">
-          <img src="css/z.png" alt="Z" />
-        </td>
-        <td  class="keyword"> Supprime la dernière tile</td>
-      </tr>
-  		<tr>
-        <td class="keyword">
-          <img src="css/s.png" alt="S"/>
-        </td>
-        <td  class="keyword"> Save level</td>
-      </tr>
-  		<tr>
-        <td class="keyword">
-          <img src="css/p.png" alt="p"/>
-        </td>
-        <td  class="keyword">Next Tile</td>
-      </tr>
-  		<tr>
-        <td class="keyword">
-          <img src="css/m.png" alt="m"/>
-        </td>
-        <td  class="keyword"> Previous Tile</td>
-      </tr>
-		</table>
+        leveljson = "";
 
+        if (vars.length > 1) {
 
-		</fieldset>
-	</p>
+            leveljson = "tracks/" + vars[1];
 
-	<p>An editor built by Adrien Jarretier and Guillaume Gomez</p>
+        }
+        console.log("leveljson : " + leveljson);
 
-	<div id="current-cursor-image"></div>
+        jaws.assets.root = "assets/";
 
-	<script src="js/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript">
-		var ArrayTileInfo = new Array();
+        m_listImgURL = [];
 
-		var jqxhr = $.getJSON( "TileInfo.json", function() {
-		console.log( "success" );
-		})
-		.done(function() {
-		console.log( "second success" );
-		})
-		.fail(function() {
-		console.log( "error" );
-		})
-		.always(function() {
-			ArrayTileInfo = jqxhr.responseJSON;
-		});
-	</script>
+        for (var i = 0; i < ArrayTileInfo.length; i++) {
 
-	<script>
+            m_listImgURL.push(ArrayTileInfo[i].url);
+        };
 
-	window.onload = function() {
-	    console.log(ArrayTileInfo);
-	    var loc = location.search;
-	    var vars = loc.split("=");
+        displayGrid = false;
 
-	    leveljson = "";
-
-	    if (vars.length > 1) {
-
-	        leveljson = "tracks/" + vars[1];
-
-	    }
-	    console.log("leveljson : " + leveljson);
-
-	    jaws.assets.root = "assets/";
-
-	    m_listImgURL = [];
-
-	    for (var i = 0; i < ArrayTileInfo.length; i++) {
-
-	        m_listImgURL.push(ArrayTileInfo[i].url);
-	    };
-
-	    displayGrid = false;
-
-	    jaws.assets.add(m_listImgURL);
-	    jaws.assets.add("tracks/bonjour.json");
-	    jaws.start(Editor);
-	}
-
-	</script>
-
-	<script>
-		function isGrid()
-		{
-			displayGrid = ($('#grid').is(":checked"));
-		}
-	</script>
+        jaws.assets.add(m_listImgURL);
+        jaws.assets.add("tracks/bonjour.json");
+        jaws.start(Editor);
+    }
+    </script>
+    <script>
+    function isGrid() {
+        displayGrid = ($('#grid').is(":checked"));
+    }
+    </script>
 </body>
+
 </html>
