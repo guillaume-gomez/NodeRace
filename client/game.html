@@ -126,7 +126,7 @@
             jaws.constants = new Constants();
             // by default connect to the host that served this page
 
-            socket.on('messageServeur', function(position) {
+            socket.on(jaws.constants.messageServeur, function(position) {
                 //prevenir le jeu qu'un nouveau joueur
                 var message = $('#info').html("<p>Un nouveau joueur vient de se connecter</p>");
 
@@ -136,7 +136,7 @@
                 alert(message);
             });
 
-            socket.on('id', function(id) {
+            socket.on(jaws.constants.id, function(id) {
                 username = $('#login').val();
                // window.location += '#gameCanvas';
                if(window.location.search == '')
@@ -148,7 +148,7 @@
                 jaws.start(game);
             });
 
-            socket.on('infoPart', function(infos) {
+            socket.on(jaws.constants.infoPart, function(infos) {
                 laps = infos.laps;
                 nbCarsPlayed = infos.nbComponents;
                 trackID = infos.track;
@@ -174,7 +174,7 @@
                                laps: lap,
                                track: trackID
                            };
-                socket.emit('login', message);
+                socket.emit(jaws.constants.login, message);
 
                 manageChat(socket);
                 console.log(window.location);
@@ -186,17 +186,17 @@
                 console.log("The game is starting");
             });
 
-            socket.on('deconnexionPartie', function(message) {
+            socket.on(jaws.constants.instanceDeconnexion, function(message) {
                 alert(message);
             });
 
-            socket.on("isExist", function(message) {
+            socket.on(jaws.constants.isExist, function(message) {
                 alert(message);
             });
 
             $( window ).unload(function() {
                 alert( "Handler for .unload() called." );
-                socket.emit('deconnexion', 'deconnexion');
+                socket.emit(jaws.constants.deconnexion, 'deconnexion');
             });
 
         </script>

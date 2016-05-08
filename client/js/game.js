@@ -53,7 +53,7 @@ function Game (socket, myId)
 		m_level.constructor();
 
 
-        socket.on('position', function(carInfos) {
+        socket.on(jaws.constants.position, function(carInfos) {
         	//fetch postion from another players
         	game.setPosition(carInfos);
         });
@@ -71,21 +71,21 @@ function Game (socket, myId)
         socket.on(jaws.constants.endGame, function(message) {
         	m_hubTxt.text = message;
         	console.log("End Game ");
-        	socket.emit('deconnexion', 'fin');
+        	socket.emit(jaws.constants.deconnexion, 'fin');
         });
 
-        socket.on("closeCo", function(){
+        socket.on(jaws.constants.closeCo, function(){
         	socket.disconnect();
         	console.log("disconnection");
         });
 
-        socket.on('myPosition', function(carInfos) {
+        socket.on(jaws.constants.myPosition, function(carInfos) {
         	//fetch new position
         	game.setPosition(carInfos);
         	m_lapsTxt.text = "Laps : "+carInfos.lap+" / "+laps;
         });
 
-        socket.on('trackPosition', function(position) {
+        socket.on(jaws.constants.trackPosition, function(position) {
         	m_positionTxt.text = "Position : "+position+" / "+nbCarsPlayed;
         });
 
@@ -94,12 +94,12 @@ function Game (socket, myId)
 	 	setInterval(function()
 	 				{
       					var date = new Date();
-	 					socket.emit('ping',  date.getTime());
+	 					socket.emit(jaws.constants.ping,  date.getTime());
 	 				},
 	 				1000
 	 			   );
 
-        socket.on('ping', function(oldTime) {
+        socket.on(jaws.constants.ping, function(oldTime) {
 	    	var date = new Date();
 	    	m_ping = date.getTime() - oldTime;
         });
