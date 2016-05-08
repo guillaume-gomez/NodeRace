@@ -114,8 +114,8 @@ function rotate(tileInfo, rotation) {
     resultCoords.out.x = tileInfo.out.x * Math.cos(rotation) - tileInfo.out.y * Math.sin(rotation);
     resultCoords.out.y = tileInfo.out.y * Math.cos(rotation) + tileInfo.out.x * Math.sin(rotation);
 
-    console.log(' original tileInfo');
-    console.log(tileInfo);
+    // console.log(' original tileInfo');
+    // console.log(tileInfo);
 
     resultCoords.in.x = Math.round((resultCoords.in.x) * 10) / 10;
     resultCoords.in.y = Math.round((resultCoords.in.y) * 10) / 10;
@@ -128,15 +128,15 @@ function rotate(tileInfo, rotation) {
 
 function makeTile(trackPart, arrayTileInfo, spriteList, previousPart) {
 
-    console.log('-----------------makeTile-----------------');
+    // console.log('-----------------makeTile-----------------');
     var part = trackPart;
 
     var tileInfo = arrayTileInfo[trackPart.id];
 
     var connexionsCoordinates = rotate(tileInfo, part.rotation);
 
-    console.log('connexionsCoordinates after rotation :');
-    console.log(connexionsCoordinates);
+    // console.log('connexionsCoordinates after rotation :');
+    // console.log(connexionsCoordinates);
 
     var pos = {
         x: 100,
@@ -156,8 +156,8 @@ function makeTile(trackPart, arrayTileInfo, spriteList, previousPart) {
         pos.y = lastPos.y + lastConnexCoords.out.y * 50 - connexionsCoordinates.in.y * 50;
     }
 
-    console.log("pos : ");
-    console.log(pos);
+    // console.log("pos : ");
+    // console.log(pos);
 
     var tangle = part.rotation;
 

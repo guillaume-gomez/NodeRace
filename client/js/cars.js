@@ -118,6 +118,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 
 	this.setPosition = function (carInfos)
 	{
+		console.log(carInfos);
 		m_car.moveTo(carInfos.position.x, carInfos.position.y);
 		m_car.rotateTo(-carInfos.angle/Math.PI*180-90);
 		m_username.x = carInfos.position.x - 5;
