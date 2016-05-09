@@ -34,7 +34,7 @@ exports.loadLevel = function(trackName) {
     // build the rail
     for (var i = 0; i < tiles.parts.length; i++) { // for each part of the track
 
-        for (var j = 0; j < tileInfoArrayPoints.length; j++) { // for each point of this part
+        for (var j = 0; j < tileInfoArrayPoints[tiles.parts[i].id].length; j++) { // for each point of this part
 
             for (var k = 0; k < NB_RAIL; k++) { // for each rail
 
