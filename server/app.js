@@ -17,7 +17,6 @@ var chatF = require('./js/chat');
 var io = require('socket.io')(server);
 
 //load constants in server and client
-app.use(express.static('public'));
 app.use('/public', express.static('public'));
 var constants = require('./public/constants.js');
 constants = new constants();
