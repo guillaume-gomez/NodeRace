@@ -45,7 +45,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 		jaws.on_keydown(["up","space"], function()
 		{
 			accel.percent = 1;
-			socket.emit('accel', accel);
+			socket.emit(jaws.constants.acceleration, accel);
 		})
 
 		jaws.on_keydown("right", function()
@@ -55,7 +55,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 					else
 						accel.percent = 0.5;
 
-        			socket.emit('accel', accel);
+        			socket.emit(jaws.constants.acceleration, accel);
 				}
 			)
 		jaws.on_keydown("shift", function()
@@ -63,7 +63,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 					if(jaws.pressed(["right"]))
 						accel.percent = 1;
 
-        			socket.emit('accel', accel);
+        			socket.emit(jaws.constants.acceleration, accel);
 				}
 			)
 
@@ -79,7 +79,7 @@ function Car(image, frame_width, frame_height, frame_duration)
 					else
 						accel.percent = 0;
 
-        			socket.emit('accel', accel);
+        			socket.emit(jaws.constants.acceleration, accel);
 				}
 			)
 	}
