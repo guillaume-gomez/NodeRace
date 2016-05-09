@@ -33,7 +33,7 @@ function tick(socket, carInfos) {
         instances[ socket.indexPartie ].launched &&
          (currentDate.getTime() - socket.datePing.getTime()) > 5000)
     {
-        console.log(socket.login+" Deconnexion sur ping  "+socket.id);
+        console.log(socket.login+" disconnection sur ping  "+socket.id);
         socket.conn.close();
         tools.disconnect(socket, instances, chatF);
     }
@@ -146,7 +146,7 @@ io.on(constants.connection, function (socket) {
                         };
         //
         socket.emit(constants.infoPart, infoPartie);
-        socket.broadcast.emit(constants.messageServeur, 'Un autre client vient de se connecter !');
+        socket.broadcast.emit(constants.serverMessage, 'Un autre client vient de se connecter !');
         console.log(message.login + ' vient de se connecter');
 
         var car =
@@ -201,7 +201,7 @@ io.on(constants.connection, function (socket) {
 
     // emitted when a player leave a race, a room,
     // not emitted when a socket disconnect, this is handled by 'disconnect'
-    socket.on(constants.deconnexion, function(message) {
+    socket.on(constants.disconnection, function(message) {
         console.log(socket.login+' disconnected from a game ( socket id :  ' + socket.id + ' ) ' );
         socket.leave(  instances[ socket.indexPartie ].room );
         tools.disconnect(socket, instances, chatF);

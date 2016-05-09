@@ -71,7 +71,7 @@ function Game (socket, myId)
         socket.on(jaws.constants.endGame, function(message) {
         	m_hubTxt.text = message;
         	console.log("End Game ");
-        	socket.emit(jaws.constants.deconnexion, 'fin');
+        	socket.emit(jaws.constants.disconnection, 'fin');
         });
 
         socket.on(jaws.constants.closeCo, function(){

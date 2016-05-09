@@ -12,13 +12,13 @@ var Constants = (function() {
   Constants.prototype.logins = "logins";
   Constants.prototype.ping = "ping";
   Constants.prototype.trackPosition = "trackPosition";
-  Constants.prototype.gameDeconnexion = "gameDeconnexion";
+  Constants.prototype.gameDisconnect = "gameDisconnect";
   Constants.prototype.myPosition = "myPosition";
   Constants.prototype.position = "position";
   Constants.prototype.isExist = "isExist";
   Constants.prototype.closeCo = "closeCo";
-  Constants.prototype.deconnexion = "deconnexion";
-  Constants.prototype.instanceDeconnexion = "instanceDeconnexion";
+  Constants.prototype.disconnection = "disconnection";
+  Constants.prototype.instanceDisconnection = "instanceDisconnection";
   Constants.prototype.infoPart = "infoPart";
   Constants.prototype.id = "id";
   Constants.prototype.error = "error";
@@ -31,7 +31,7 @@ var Constants = (function() {
   Constants.prototype.message = "message";
   Constants.prototype.oldMessages = "oldMessages";
 
-  Constants.prototype.messageServeur = "messageServeur";
+  Constants.prototype.serverMessage = "serverMessage";
 
   return Constants;
 })();

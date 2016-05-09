@@ -99,8 +99,8 @@ exports.disconnect = function(socket, instances, chatFunction)
         {
             var msg = "The host has leaving the game";
             instances[ socket.indexPartie ].launched = false;
-            socket.emit(constants.gameDeconnexion, msg);
-            socket.broadcast.to( instances[ socket.indexPartie ].room ).emit(constants.gameDeconnexion, msg);
+            socket.emit(constants.gameDisconnect, msg);
+            socket.broadcast.to( instances[ socket.indexPartie ].room ).emit(constants.gameDisconnect, msg);
             console.log("disconnection of the current instance "+ instances[ socket.indexPartie ].host);
             // This comment will be remove later
             //pour l'instant ces 2 lignes sont commenté car il faut repenser la structure du tableau gerant les parties

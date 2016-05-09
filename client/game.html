@@ -126,7 +126,7 @@
             jaws.constants = new Constants();
             // by default connect to the host that served this page
 
-            socket.on(jaws.constants.messageServeur, function(position) {
+            socket.on(jaws.constants.serverMessage, function(position) {
                 //prevenir le jeu qu'un nouveau joueur
                 var message = $('#info').html("<p>Un nouveau joueur vient de se connecter</p>");
 
@@ -186,7 +186,7 @@
                 console.log("The game is starting");
             });
 
-            socket.on(jaws.constants.instanceDeconnexion, function(message) {
+            socket.on(jaws.constants.instanceDisconnection, function(message) {
                 alert(message);
             });
 
@@ -196,7 +196,7 @@
 
             $( window ).unload(function() {
                 alert( "Handler for .unload() called." );
-                socket.emit(jaws.constants.deconnexion, 'deconnexion');
+                socket.emit(jaws.constants.disconnection, 'disconnection');
             });
 
         </script>
