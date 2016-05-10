@@ -119,7 +119,6 @@ io.on(constants.connection, function (socket) {
             var uid = tools.findGame(message.private, message.password, instances);
             if(uid == -1)
             {
-                debugger;
                 socket.emit(constants.instanceNotFound, 'Aucune partie trouvé');
                 return false;
             }
@@ -173,7 +172,7 @@ io.on(constants.connection, function (socket) {
 
     //player sent its velocity
     socket.on(constants.acceleration, function(accel) {
-        if(typeof instances[socket.uid] !== 'undefined')
+        if(instances[socket.uid] && instances[ socket.uid ] !== undefined)
             instances[socket.uid].cars[accel.id].accel = accel.percent;
     });
 
@@ -204,6 +203,7 @@ io.on(constants.connection, function (socket) {
     });
 
     socket.on(constants.disconnect, function () {
+      debugger
         console.log( 'user disconnected' );
     });
 
