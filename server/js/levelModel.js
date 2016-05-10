@@ -3,7 +3,7 @@ This module loads levels for each game
 */
 var fs = require('fs');
 
-var NB_RAIL = 4;
+var NB_RAIL = 1;
 var NB_TOUR = 3;
 
 exports.loadLevel = function(trackName) {
@@ -34,14 +34,14 @@ exports.loadLevel = function(trackName) {
     // build the rail
     for (var i = 0; i < tiles.parts.length; i++) { // for each part of the track
 
+        rotate(tileInfoArrayPoints[tiles.parts[i].id], tiles.parts[i].rotation);
+
         for (var j = 0; j < tileInfoArrayPoints[tiles.parts[i].id].length; j++) { // for each point of this part
 
             for (var k = 0; k < NB_RAIL; k++) { // for each rail
 
                 // next step when rails will be properly created
                 //use rails[ k ].push(tiles[ i ].listPoint[ k ][ j ]);
-
-                rotate(tileInfoArrayPoints[tiles.parts[i].id], 0);
 
                 rails[k].push(tileInfoArrayPoints[tiles.parts[i].id][j]);
             }
@@ -100,7 +100,7 @@ function rotateXY(point, a) {
     var y = point.y;
 
     return {
-        x: x * Math.cos(a) - y * Math.sin(a),
+        x: x * Math.cos(a) + y * Math.sin(a),
         y: y * Math.cos(a) + x * Math.sin(a)
     };
 
@@ -108,8 +108,10 @@ function rotateXY(point, a) {
 
 function roundCoordinates(point) {
 
-    point.x = Math.round(point.x * 10) / 10;
-    point.y = Math.round(point.y * 10) / 10;;
+    const ROUND_FACTOR = 100;
+
+    point.x = Math.round(point.x * ROUND_FACTOR) / ROUND_FACTOR;
+    point.y = Math.round(point.y * ROUND_FACTOR) / ROUND_FACTOR;;
 
     return point;
 
