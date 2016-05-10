@@ -41,6 +41,8 @@ exports.loadLevel = function(trackName) {
                 // next step when rails will be properly created
                 //use rails[ k ].push(tiles[ i ].listPoint[ k ][ j ]);
 
+                rotate(tileInfoArrayPoints[tiles.parts[i].id], 0);
+
                 rails[k].push(tileInfoArrayPoints[tiles.parts[i].id][j]);
             }
         }
@@ -90,4 +92,42 @@ exports.getTrackPosition = function(instance, io) {
         var pos = i + 1;
         io.to(arrayPos[i].sock).emit('trackPosition', pos);
     }
+}
+
+function rotateXY(point, a) {
+
+    var x = point.x;
+    var y = point.y;
+
+    return {
+        x: x * Math.cos(a) - y * Math.sin(a),
+        y: y * Math.cos(a) + x * Math.sin(a)
+    };
+
+}
+
+function roundCoordinates(point) {
+
+    point.x = Math.round(point.x * 10) / 10;
+    point.y = Math.round(point.y * 10) / 10;;
+
+    return point;
+
+}
+
+function rotate(tileInfoPoints, rotation) {
+
+    resultCoords = [];
+
+    rotation = Math.PI * rotation / 180;
+
+    for (var i = 0; i < tileInfoPoints.length; i++) {
+        resultCoords.push(roundCoordinates(rotateXY(tileInfoPoints[i], rotation)));
+    };
+
+    console.log("rotate resultCoords : ");
+    console.log(resultCoords);
+
+    return resultCoords;
+
 }
