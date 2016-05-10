@@ -193,7 +193,7 @@ io.on(constants.connection, function (socket) {
     // emitted when a player leave a race, a room,
     // not emitted when a socket disconnect, this is handled by 'disconnect'
     socket.on(constants.disconnection, function(message) {
-       if( instances[ socket.uid ] !== undefined)
+       if( instances[socket.uid] && instances[ socket.uid ] !== undefined)
       {
         console.log("{ " + socket.login + ' }: disconnected from a game ( socket id :  ' + socket.id + ' ) ' );
         socket.leave( instances[ socket.uid ].room );
