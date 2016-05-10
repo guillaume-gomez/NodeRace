@@ -1,7 +1,7 @@
 # NodeRace
 A Network video game to learn basic NodeJs Skills.
 
-This application is an example of what it is possible to do with html5 ans websockets.
+This application is an example of what it is possible to do with html5 and websockets.
 
 ## Dependancies :
 

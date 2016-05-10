@@ -53,39 +53,39 @@ function Game (socket, myId)
 		m_level.constructor();
 
 
-        socket.on('position', function(carInfos) {
+        socket.on(jaws.constants.position, function(carInfos) {
         	//fetch postion from another players
         	game.setPosition(carInfos);
         });
 
-        socket.on('logins', function(infosLogin) {
+        socket.on(jaws.constants.logins, function(infosLogin) {
         	m_cars[ infosLogin.id ].setUsername(infosLogin.username);
         });
 
-        socket.on('counting', function(count) {
+        socket.on(jaws.constants.counting, function(count) {
         	console.log("console : couting "+count);
         	m_counting = count;
         	m_hubTxt.text = m_counting;
         });
 
-        socket.on("finPartie", function(fin) {
-        	m_hubTxt.text = fin;
-        	console.log("finde partieserveur bitch");
-        	socket.emit('deconnexion', 'fin');
+        socket.on(jaws.constants.endGame, function(message) {
+        	m_hubTxt.text = message;
+        	console.log("End Game ");
+        	socket.emit(jaws.constants.disconnection, 'fin');
         });
 
-        socket.on("closeCo", function(){
+        socket.on(jaws.constants.closeCo, function(){
         	socket.disconnect();
         	console.log("disconnection");
         });
 
-        socket.on('myPosition', function(carInfos) {
+        socket.on(jaws.constants.myPosition, function(carInfos) {
         	//fetch new position
         	game.setPosition(carInfos);
         	m_lapsTxt.text = "Laps : "+carInfos.lap+" / "+laps;
         });
 
-        socket.on('trackPosition', function(position) {
+        socket.on(jaws.constants.trackPosition, function(position) {
         	m_positionTxt.text = "Position : "+position+" / "+nbCarsPlayed;
         });
 
@@ -94,12 +94,12 @@ function Game (socket, myId)
 	 	setInterval(function()
 	 				{
       					var date = new Date();
-	 					socket.emit('ping',  date.getTime());
+	 					socket.emit(jaws.constants.ping,  date.getTime());
 	 				},
 	 				1000
 	 			   );
 
-        socket.on('ping', function(oldTime) {
+        socket.on(jaws.constants.ping, function(oldTime) {
 	    	var date = new Date();
 	    	m_ping = date.getTime() - oldTime;
         });

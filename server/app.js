@@ -12,16 +12,21 @@ var gameEngine = require('./js/engine');
 var tools = require('./js/tools');
 var chatF = require('./js/chat');
 
-
 var io = require('socket.io')(server);
 
-//server variables
+//load constants in server and client
+app.use('/public', express.static('public'));
+var constants = require('./public/constants.js');
+constants = new constants();
+
+
+//les variables
 var instances = {};
 var cars = [];
 
 function tick(socket, carInfos) {
   //update server date
-  if( instances[socket.uid] !== undefined )
+  if( instances[socket.uid] && instances[socket.uid] !== undefined )
   {
       var currentDate = new Date();
       if(
@@ -43,8 +48,8 @@ function tick(socket, carInfos) {
 
       if( gameModel.isFinish(instances[ socket.uid ]) )
       {
-          socket.emit('finPartie', "fin de partie");
-          socket.broadcast.to( instances[ socket.uid ].room ).emit('finPartie', "fin de partie");
+          socket.emit(constants.endGame, "fin de partie");
+          socket.broadcast.to( instances[ socket.uid ].room ).emit(constants.endGame, "fin de partie");
           tools.destroyInstance(socket, instances, chatF);
       }
       else
@@ -63,10 +68,10 @@ function tick(socket, carInfos) {
 }
 
 // client connection
-io.on('connection', function (socket) {
+io.on(constants.connection, function (socket) {
     chatF.getChatMessage(socket);
 
-    socket.on('login', function(message) {
+    socket.on(constants.login, function(message) {
         socket.datePing = new Date();
         var id;
         if(message.host == true)
@@ -83,7 +88,7 @@ io.on('connection', function (socket) {
             {
                 if(tools.isInstanceExist(instances, message.password))
                 {
-                    socket.emit("isExist", "Une partie existe deja avec ce mot de passe");
+                    socket.emit(constants.isExist, "Une partie existe deja avec ce mot de passe");
                 }
             }
 
@@ -114,7 +119,8 @@ io.on('connection', function (socket) {
             var uid = tools.findGame(message.private, message.password, instances);
             if(uid == -1)
             {
-                socket.emit('erreur', 'Aucune partie trouvé');
+                debugger;
+                socket.emit(constants.instanceNotFound, 'Aucune partie trouvé');
                 return false;
             }
             socket.uid = uid;
@@ -124,13 +130,13 @@ io.on('connection', function (socket) {
             socket.join( instances[ socket.uid ].room );
             instances[ socket.uid ].nbCars++;
         }
-        socket.emit('id', id);
+        socket.emit(constants.id, id);
         var infoInstance = { laps: instances[ socket.uid ].nbLaps ,
                            nbComponents: instances[ socket.uid ].minCar,
                            track: instances[ socket.uid ].track
                         };
-        socket.emit('infoPart', infoInstance);
-        socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
+        socket.emit(constants.infoPart, infoInstance);
+        socket.broadcast.emit(constants.serverMessage, 'Un autre client vient de se connecter !');
         console.log("{ " + message.login + " }: " + ' has been connected');
 
         var car =
@@ -166,18 +172,18 @@ io.on('connection', function (socket) {
     });
 
     //player sent its velocity
-    socket.on('accel', function(accel) {
+    socket.on(constants.acceleration, function(accel) {
         if(typeof instances[socket.uid] !== 'undefined')
             instances[socket.uid].cars[accel.id].accel = accel.percent;
     });
 
-    socket.on('ping', function(clientDate) {
+    socket.on(constants.ping, function(clientDate) {
         datePing = new Date();
         socket.datePing = datePing;
-        socket.emit('ping', clientDate);
+        socket.emit(constants.ping, clientDate);
     });
 
-    socket.on('switchTrack', function(trackInfo) {
+    socket.on(constants.switchTrack, function(trackInfo) {
         //reset engine
         //instances[ socket.uid ].track.id = trackInfo.id;
         //gameEngine.reset( instances[ socket.uid ] );
@@ -186,23 +192,22 @@ io.on('connection', function (socket) {
 
     // emitted when a player leave a race, a room,
     // not emitted when a socket disconnect, this is handled by 'disconnect'
-    socket.on('deconnexion', function(message) {
-      if( instances[ socket.uid ] !== undefined)
+    socket.on(constants.disconnection, function(message) {
+       if( instances[ socket.uid ] !== undefined)
       {
         console.log("{ " + socket.login + ' }: disconnected from a game ( socket id :  ' + socket.id + ' ) ' );
         socket.leave( instances[ socket.uid ].room );
         tools.disconnect(socket, instances, chatF);
         clearInterval( socket.tick );
-        socket.emit('closeCo');
+        socket.emit(constants.closeCo);
       }
     });
 
-    socket.on('disconnect', function () {
+    socket.on(constants.disconnect, function () {
         console.log( 'user disconnected' );
-    } );
+    });
 
 });
-
 
 app.get('/', function(req, res)
 {

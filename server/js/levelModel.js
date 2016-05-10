@@ -6,6 +6,9 @@ var fs = require('fs');
 var NB_RAIL = 4;
 var NB_TOUR = 3;
 
+var constants = require('./../public/constants.js');
+constants = new constants();
+
 //tileset.js to see the mirror function in client-side
 exports.getLevelFilename = function(trackID)
 {
@@ -103,6 +106,6 @@ exports.getTrackPosition = function (instance, io)
 	{
 		//emit client position
 		var pos = i + 1;
-		io.to( arrayPos[ i ].sock ).emit('trackPosition', pos);
+		io.to( arrayPos[ i ].sock ).emit(constants.trackPosition, pos);
 	}
 }

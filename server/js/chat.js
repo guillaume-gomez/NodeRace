@@ -1,10 +1,12 @@
+var constants = require('./../public/constants.js');
+constants = new constants();
 
 var ArrayMessages = new Array();
 
 exports.getChatMessage = function(socket)
 {
  // trigger on 'send' button
-    socket.on('message', function (message) {
+    socket.on(constants.message, function (message) {
         // get the nickname
             var newMessage = {'login' : socket.login, 'message' : message};
             for(var i = 0; i < ArrayMessages.length; i++)
@@ -12,7 +14,7 @@ exports.getChatMessage = function(socket)
 				if( socket.uid == ArrayMessages[ i ].id )
 				{
 					ArrayMessages[ i ].listMessage.push(newMessage);
-            		socket.broadcast.to( ArrayMessages[ i ].room ).emit('message', JSON.stringify(newMessage));
+            		socket.broadcast.to( ArrayMessages[ i ].room ).emit(constants.message, JSON.stringify(newMessage));
 
 		            if(ArrayMessages[ i ].listMessage.length > 15)
 		            {
@@ -33,7 +35,7 @@ exports.getOldMessages = function(socket)
 		{
 			if(ArrayMessages[ i ].listMessage.length > 0)
 			{
-            	socket.emit("oldMessages", JSON.stringify( ArrayMessages[ i ].listMessage ));
+            	socket.emit(constants.oldMessages, JSON.stringify( ArrayMessages[ i ].listMessage ));
         	}
         	break;
 		}
