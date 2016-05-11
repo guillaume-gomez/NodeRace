@@ -48,9 +48,6 @@
                 </br>
                 <script src="js/parseJsonFile.js">
                 </script>
-                <script>
-                ParseJsonFile.createTracksSelectionMenu("track");
-                </script>
                 Track:
                 <select id="track">
                 </select>
@@ -113,6 +110,7 @@
             };
 
         } );
+        ParseJsonFile.createTracksSelectionMenu("track");
     }
     </script>
     <!-- la partie websocket qui permet la communication avec node.js -->
