@@ -40,9 +40,6 @@ exports.loadLevel = function(trackName) {
 
         for (var k = 0; k < NB_RAIL; k++) { // for each rail
 
-            // next step when rails will be properly created
-            //use rails[ k ].push(tiles[ i ].listPoint[ k ][ j ]);
-
             rails[k].push(points[j]);
         }
     }
@@ -56,9 +53,6 @@ exports.loadLevel = function(trackName) {
         for (var j = 0; j < points.length; j++) { // for each point of this part
 
             for (var k = 0; k < NB_RAIL; k++) { // for each rail
-
-                // next step when rails will be properly created
-                //use rails[ k ].push(tiles[ i ].listPoint[ k ][ j ]);
 
                 rails[k].push(points[j]);
             }
