@@ -23,17 +23,9 @@ exports.loadLevel = function(trackName) {
         rails[i] = [];
     }
 
-    // console.log("\ntiles :");
-    // console.log(tiles);
-
-    console.log("");
-    console.log("tileInfoArrayPoints :");
-    console.log(tileInfoArrayPoints);
-    console.log("");
-
     var part = tiles.parts[0];
 
-    // we push the first starting part of the track
+    // we push the starting part of the track
     var points = rotate(tileInfoArrayPoints[part.id], -part.rotation);
 
     for (var j = 0; j < points.length; j++) { // for each point of this part
@@ -44,20 +36,69 @@ exports.loadLevel = function(trackName) {
         }
     }
 
+    var lastPoints = points;
+
     // build the rail
-    for (var i = 1; i < tiles.parts.length; i++) { // for each part of the track
+    for (var i = 1; i < tiles.parts.length - 1; i++) { // for each part of the track
+        // we stop at -1 to not duplicate the last and the first point
 
         part = tiles.parts[i];
         points = rotate(tileInfoArrayPoints[part.id], -part.rotation);
 
-        for (var j = 0; j < points.length; j++) { // for each point of this part
+        console.log("");
+        console.log("part :");
+        console.log(part);
+        console.log("tileInfoArrayPoints[part.id] :");
+        console.log(tileInfoArrayPoints[part.id]);
+
+        console.log("lastPoints :");
+        console.log(lastPoints);
+        console.log("points :");
+        console.log(points);
+
+        offset = {
+            x: lastPoints[lastPoints.length-1].x - points[0].x,
+            y: lastPoints[lastPoints.length-1].y - points[0].y
+        };
+
+        for (var j = 1; j < points.length; j++) { // for each point of this part
+
+            points[j].x += offset.x;
+            points[j].y += offset.y;
 
             for (var k = 0; k < NB_RAIL; k++) { // for each rail
 
                 rails[k].push(points[j]);
             }
         }
+
+        lastPoints = points;
+
+    }
+
+    part = tiles.parts[tiles.parts.length - 1];
+
+    // we push the last part of the track
+    points = rotate(tileInfoArrayPoints[part.id], -part.rotation);
+
+    offset = {
+        x: lastPoints[lastPoints.length-1].x - points[0].x,
+        y: lastPoints[lastPoints.length-1].y - points[0].y
     };
+
+    for (var j = 1; j < points.length - 1; j++) { // for each point of this part
+
+        points[j].x += offset.x;
+        points[j].y += offset.y;
+
+        for (var k = 0; k < NB_RAIL; k++) { // for each rail
+
+            rails[k].push(points[j]);
+        }
+    }
+
+    console.log("rail :");
+    console.log(rails[0]);
 
     return rails;
 }
@@ -111,7 +152,7 @@ function rotateXY(point, a) {
     var y = point.y;
 
     return {
-        x: x * Math.cos(a) + y * Math.sin(a),
+        x: x * Math.cos(a) - y * Math.sin(a),
         y: y * Math.cos(a) + x * Math.sin(a)
     };
 
