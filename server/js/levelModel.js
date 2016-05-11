@@ -3,7 +3,7 @@ This module loads levels for each game
 */
 var fs = require('fs');
 
-var NB_RAIL = 4;
+var NB_RAIL = 2;
 var NB_TOUR = 3;
 
 exports.loadLevel = function(trackName) {
@@ -31,19 +31,36 @@ exports.loadLevel = function(trackName) {
     console.log(tileInfoArrayPoints);
     console.log("");
 
-    // build the rail
-    for (var i = 0; i < tiles.parts.length; i++) { // for each part of the track
+    var part = tiles.parts[0];
 
-        for (var j = 0; j < tileInfoArrayPoints[tiles.parts[i].id].length; j++) { // for each point of this part
+    // we push the first starting part of the track
+    var points = rotate(tileInfoArrayPoints[part.id], -part.rotation);
+
+    for (var j = 0; j < points.length; j++) { // for each point of this part
+
+        for (var k = 0; k < NB_RAIL; k++) { // for each rail
+
+            // next step when rails will be properly created
+            //use rails[ k ].push(tiles[ i ].listPoint[ k ][ j ]);
+
+            rails[k].push(points[j]);
+        }
+    }
+
+    // build the rail
+    for (var i = 1; i < tiles.parts.length; i++) { // for each part of the track
+
+        part = tiles.parts[i];
+        points = rotate(tileInfoArrayPoints[part.id], -part.rotation);
+
+        for (var j = 0; j < points.length; j++) { // for each point of this part
 
             for (var k = 0; k < NB_RAIL; k++) { // for each rail
 
                 // next step when rails will be properly created
                 //use rails[ k ].push(tiles[ i ].listPoint[ k ][ j ]);
 
-                rotate(tileInfoArrayPoints[tiles.parts[i].id], 0);
-
-                rails[k].push(tileInfoArrayPoints[tiles.parts[i].id][j]);
+                rails[k].push(points[j]);
             }
         }
     };
@@ -119,14 +136,11 @@ function rotate(tileInfoPoints, rotation) {
 
     resultCoords = [];
 
-    rotation = Math.PI * rotation / 180;
+    rotation = Math.PI * rotation / 180; // set the rotation in radians
 
     for (var i = 0; i < tileInfoPoints.length; i++) {
         resultCoords.push(roundCoordinates(rotateXY(tileInfoPoints[i], rotation)));
     };
-
-    console.log("rotate resultCoords : ");
-    console.log(resultCoords);
 
     return resultCoords;
 
