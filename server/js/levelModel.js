@@ -117,7 +117,7 @@ function rotateXY(point, a) {
     var y = point.y;
 
     return {
-        x: x * Math.cos(a) - y * Math.sin(a),
+        x: x * Math.cos(a) + y * Math.sin(a),
         y: y * Math.cos(a) + x * Math.sin(a)
     };
 
@@ -125,8 +125,10 @@ function rotateXY(point, a) {
 
 function roundCoordinates(point) {
 
-    point.x = Math.round(point.x * 10) / 10;
-    point.y = Math.round(point.y * 10) / 10;;
+    const ROUND_FACTOR = 100;
+
+    point.x = Math.round(point.x * ROUND_FACTOR) / ROUND_FACTOR;
+    point.y = Math.round(point.y * ROUND_FACTOR) / ROUND_FACTOR;;
 
     return point;
 
