@@ -58,6 +58,7 @@
 					value="0" onchange="(function() {
 					current_cursor_image.style.imageOrientation = document.getElementById('rotate').value+'deg';
 					drawListImage();
+          m_level.drawImageCurrent();
 					}());" />
 			</td>
 			<td>
@@ -71,9 +72,8 @@
 		</fieldset>
 
 		<fieldset id="fieldCurrent">
-		<legend>Current sprite : </legend>
-		<div id="current-image">
-		</div>
+		  <legend>Current sprite : </legend>
+		  <canvas id="current-image"></canvas>
 		</fieldset>
 
 		<textarea name="positive" rows=20 cols=140 id="save"></textarea>

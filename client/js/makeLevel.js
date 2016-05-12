@@ -175,8 +175,8 @@ function MakeLevel (  cell_size , listeURLimg , viewport, listEnnemies)
 
 		var _scale = document.getElementById('scale');
 		_scale.value = ratio  ;
-
-		current_image.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'">';
+		drawImageByContext(url, current_image.id, null, this.width);
+		//current_image.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'">';
 		current_cursor_image.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'" >';
 	}
 
