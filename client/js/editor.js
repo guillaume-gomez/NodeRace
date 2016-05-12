@@ -16,19 +16,18 @@ function drawListImage ()
   oldAngle = document.getElementById('rotate').value;
 }
   
-function drawImageByContext(url, id , onclick = null) 
+function drawImageByContext(url, id ,onclick = null,  width = null) 
 {
   var c = document.getElementById(id);
+  var w = (width == null) ? c.width : width; 
   var ctx = c.getContext("2d");
   var img = document.createElement("IMG");
-  ctx.clearRect ( 0 , 0 , c.width , c.height );
-  ctx.translate(c.width/2, c.height/2);
+  ctx.clearRect ( 0 , 0 , w , w );
+  ctx.translate( w/2, w/2);
   img.src = url;
   img.onclick = onclick;
-
   ctx.rotate(Math.PI*(document.getElementById('rotate').value)/180);
-  // console.log(document.getElementById('rotate').value-oldAngle);
-  ctx.translate(-c.width/2, -c.height/2);
+  ctx.translate(-w/2, -w/2);
   ctx.drawImage(img,0,0);
 }
   
