@@ -169,6 +169,7 @@
         }
         console.log("leveljson : " + leveljson);
 
+
         jaws.assets.root = "assets/";
 
         m_listImgURL = [];
@@ -181,7 +182,7 @@
         displayGrid = false;
 
         jaws.assets.add(m_listImgURL);
-        jaws.assets.add("tracks/bonjour.json");
+        jaws.assets.add("../" + leveljson + ".json");
         jaws.start(Editor);
     }
     </script>

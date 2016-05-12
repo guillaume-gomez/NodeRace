@@ -71,7 +71,9 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
 
 
         if (leveljson != "") {
-            m_spriteList.load(jaws.assets.get(leveljson));
+            console.log("assets :");
+            console.log(jaws.assets.src_list);
+            m_spriteList.load(jaws.assets.get("../"+leveljson+".json"));
         }
 
         m_tile_map = new jaws.TileMap({
