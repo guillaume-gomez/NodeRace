@@ -62,7 +62,7 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
 
         m_viewport = viewport;
         m_viewport.x = 0;
-        m_viewport.y = 9999;
+        m_viewport.y = 0;
 
         m_nbEnnemy = 0;
 
@@ -73,7 +73,13 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         if (leveljson != "") {
             console.log("assets :");
             console.log(jaws.assets.src_list);
-            m_spriteList.load(jaws.assets.get("../"+leveljson+".json"));
+            // m_spriteList.load(jaws.assets.get("../"+leveljson+".json"));
+
+            var tileSet = new TileSet(m_viewport, cell_size, "../"+leveljson);
+            tileSet.constructor();
+
+            m_spriteList = tileSet.getSpriteList();
+
         }
 
         m_tile_map = new jaws.TileMap({
