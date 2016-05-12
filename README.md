@@ -42,19 +42,9 @@ That's it ! now by default the server listens on all interfaces, so for example 
 ## sublime-project
 ### packages
 
-Here are the packages you may want to add to sublime if you want to edit the files and/or open the .sublime-project :
+Here are the packages you may want to add to [sublime-text](https://www.sublimetext.com/) if you want to edit the files
 
-- [JsFormat](https://packagecontrol.io/packages/JsFormat) **used to follow a clean coding style**
-
-For the plugin to read and use '*.jsbeautifyrc*'
-you need to set a custom setting for JsFormat
-  ( Preferences -> Package Settings -> JsFormat -> Settings - User )
-and set this :
-```json
-{
-	"jsbeautifyrc_files": true
-}
-```
+- [HTML-CSS-JS Prettify](https://packagecontrol.io/packages/HTML-CSS-JS%20Prettify) **used to follow a clean coding style**
 
 ## Authors :
 - [Gomez Guillaume](https://github.com/guillaume-gomez)
