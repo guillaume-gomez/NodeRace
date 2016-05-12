@@ -14,6 +14,7 @@ exports.Engine = function(trackName) {
 
     this.rails = levelModel.loadLevel(trackName);
 
+
     this.getStart = function(railNumber) {
         console.log('this.rails[railNumber][0] : ');
         console.log(this.rails[railNumber][0]);
@@ -30,7 +31,8 @@ exports.Engine = function(trackName) {
         distance -= Math.sqrt(x * x + y * y);
 
         while (distance > 0) {
-            carInfos.position = this.rails[carInfos.id][carInfos.nextTrajectoryIndex];
+            carInfos.position.x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x;
+            carInfos.position.y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y;
 
             if (++carInfos.nextTrajectoryIndex >= this.rails[carInfos.id].length) {
                 carInfos.nextTrajectoryIndex = 0;
@@ -38,8 +40,6 @@ exports.Engine = function(trackName) {
                 console.log("car " + carInfos.id + " in the lap '" + carInfos.lap + "'");
             }
 
-            console.log("carInfos.nextTrajectoryIndex : ");
-            console.log(carInfos.nextTrajectoryIndex);
 
             x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x - carInfos.position.x;
             y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y - carInfos.position.y;
