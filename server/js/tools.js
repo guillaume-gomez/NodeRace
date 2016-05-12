@@ -77,7 +77,7 @@ exports.manageLaunch = function(instance, socket)
 
 exports.destroyInstance = function(socket, instances, chatFunction)
 {
-  console.log("disconnection of the current instance "+ instances[ socket.uid ].host);
+  console.log("disconnection of the current instance "+ instances[ socket.uid ].host +"by "+socket.uid);
   delete instances[ socket.uid ];
   chatFunction.deleteChatInstance(socket.uid);
   console.log("number of instances in the server :" + Object.keys(instances).length);
@@ -127,12 +127,12 @@ exports.sendLogin = function (instance, socket)
     }
 }
 
-exports.findCarIndex = function(instance, socketId)
+exports.findCar = function(instance, socketId)
 {
   for(var i = 0; i < instance.cars.length; i++)
   {
     if (instance.cars[ i ].sock == socketId) {
-      return i;
+      return instance.cars[ i ];
     }
   }
   return -1;

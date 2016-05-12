@@ -34,7 +34,8 @@ function tick(socket, carInfos) {
           (currentDate.getTime() - socket.datePing.getTime()) > 5000)
       {
           console.log("{ " + socket.login + "}: Deconnection "+socket.id);
-          if( car.isHost == true || instances[ socket.uid ].nbCars < 2)
+          car = tools.findCar(instances[ socket.uid], socket.id);
+          if(car != -1 && car.isHost)
           {
             tools.disconnectEveryone(socket, instances[ socket.uid ]);
             tools.disconnect(socket, instances, chatF);
@@ -198,15 +199,12 @@ io.on(constants.connection, function (socket) {
     // emitted when a player leave a race, a room,
     // not emitted when a socket disconnect, this is handled by 'disconnect'
     socket.on(constants.disconnection, function(message) {
-      debugger;
       if( instances[socket.uid] && instances[ socket.uid ] !== undefined)
       {
-        console.log("{ " + socket.login + ' }: disconnected from a game ( socket id :  ' + socket.id + ' ) ' );
         socket.leave( instances[ socket.uid ].room );
         //get info from the recipient
-        car = tools.findCarIndex(instances[ socket.uid], socket.id);
-        if( car.isHost == true || instances[ socket.uid ].nbCars < 2) {
-          debugger
+        car = tools.findCar(instances[ socket.uid], socket.id);
+        if(car != -1 && car.isHost) {
           tools.disconnectEveryone(socket, instances[ socket.uid ]);
           tools.disconnect(socket, instances, chatF);
           return;
@@ -219,7 +217,7 @@ io.on(constants.connection, function (socket) {
 
     socket.on(constants.disconnect, function () {
       //useless query to REMOVE
-      console.log( 'user disconnected' );
+      console.log("{ " + socket.login + ' }: disconnected from a game ( socket id :  ' + socket.id + ' ) ' );
     });
 
 });
