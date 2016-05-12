@@ -38,6 +38,9 @@ exports.Engine = function(trackName) {
                 console.log("car " + carInfos.id + " in the lap '" + carInfos.lap + "'");
             }
 
+            console.log("carInfos.nextTrajectoryIndex : ");
+            console.log(carInfos.nextTrajectoryIndex);
+
             x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x - carInfos.position.x;
             y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y - carInfos.position.y;
 
