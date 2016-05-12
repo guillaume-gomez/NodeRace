@@ -33,9 +33,15 @@ function tick(socket, carInfos) {
           instances[ socket.uid ].launched &&
           (currentDate.getTime() - socket.datePing.getTime()) > 5000)
       {
-          console.log("{ " + socket.login + "}: Deconnection"+socket.id);
+          console.log("{ " + socket.login + "}: Deconnection "+socket.id);
+          if( car.isHost == true || instances[ socket.uid ].nbCars < 2)
+          {
+            tools.disconnectEveryone(socket, instances[ socket.uid ]);
+            tools.disconnect(socket, instances, chatF);
+            return;
+          }
+          instances[ socket.uid ].nbCars--;
           socket.conn.close();
-          tools.disconnect(socket, instances, chatF);
       }
 
       elapsedTime = (currentDate.getTime() - carInfos.lastTimeUpdate) / 1000;
@@ -154,8 +160,8 @@ io.on(constants.connection, function (socket) {
             lastTimeUpdate: new Date(),
             nextTrajectoryIndex: 1,
             lap: 1,
+            isHost: (id == 0)
         }
-
         //add car in the right instance
         instances[ socket.uid ].cars.push(car);
         console.log("information room "+JSON.stringify(instances[ socket.uid ].nbCars));
@@ -192,19 +198,28 @@ io.on(constants.connection, function (socket) {
     // emitted when a player leave a race, a room,
     // not emitted when a socket disconnect, this is handled by 'disconnect'
     socket.on(constants.disconnection, function(message) {
-       if( instances[socket.uid] && instances[ socket.uid ] !== undefined)
+      debugger;
+      if( instances[socket.uid] && instances[ socket.uid ] !== undefined)
       {
         console.log("{ " + socket.login + ' }: disconnected from a game ( socket id :  ' + socket.id + ' ) ' );
         socket.leave( instances[ socket.uid ].room );
-        tools.disconnect(socket, instances, chatF);
+        //get info from the recipient
+        car = tools.findCarIndex(instances[ socket.uid], socket.id);
+        if( car.isHost == true || instances[ socket.uid ].nbCars < 2) {
+          debugger
+          tools.disconnectEveryone(socket, instances[ socket.uid ]);
+          tools.disconnect(socket, instances, chatF);
+          return;
+        }
+        instances[ socket.uid ].nbCars--;
         clearInterval( socket.tick );
         socket.emit(constants.closeCo);
       }
     });
 
     socket.on(constants.disconnect, function () {
-      debugger
-        console.log( 'user disconnected' );
+      //useless query to REMOVE
+      console.log( 'user disconnected' );
     });
 
 });

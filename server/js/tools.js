@@ -83,29 +83,10 @@ exports.destroyInstance = function(socket, instances, chatFunction)
   console.log("number of instances in the server :" + Object.keys(instances).length);
 }
 
-
 exports.disconnect = function(socket, instances, chatFunction)
 {
-
-  for(var i = 0; i < instances[ socket.uid ].nbCars; i++)
-  {
-      //not the good answer, we have to find out how to limit the number of cars to avoid putting a car in multiple game
-      /*if(instances[ socket.uid ].cars[ i ].sock == socket.id)
-      {
-          instances[ socket.uid ].nbCars--;
-      }*/
-
-      //not sure :(
-      if(instances[ socket.uid ].cars[ i ].sock == socket.id)
-      {
-          instances[ socket.uid ].minCar--;
-      }
-  }
-
-  //if( instances[ socket.uid ].nbCars == 0)
-  //  see above
-  if(instances[ socket.uid ].minCar == 0)
-  {
+  if( instances[ socket.uid ].nbCars == 1)
+    {
       var msg = "The host has leaving the game";
       socket.emit('gameDeconnexion', msg);
       this.destroyInstance(socket, instances, chatFunction);
@@ -128,6 +109,11 @@ exports.isInstanceExist = function(instances, newPasswd)
     return false;
 }
 
+exports.disconnectEveryone = function (socket, instance)
+{
+  socket.emit(constants.closeCo);
+  socket.broadcast.to( instance.room ).emit(constants.closeCo);
+}
 
 exports.sendLogin = function (instance, socket)
 {
@@ -140,3 +126,15 @@ exports.sendLogin = function (instance, socket)
         socket.broadcast.to( instance.room ).emit(constants.logins, message);
     }
 }
+
+exports.findCarIndex = function(instance, socketId)
+{
+  for(var i = 0; i < instance.cars.length; i++)
+  {
+    if (instance.cars[ i ].sock == socketId) {
+      return i;
+    }
+  }
+  return -1;
+}
+
