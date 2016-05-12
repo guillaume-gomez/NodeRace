@@ -177,17 +177,35 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
     this.save = function() {
         console.log('MakeLevel.save()');
 
-        // The map() method creates a new array
-        // with the results of calling a provided function on every element in this array.
-        // in this case we will then have jsonTrack as a string representing an array,
-        // with each element being a json
-        var jsonTrack = "[" + m_spriteList.map(function(m_spriteList) {
+        var trackParts = []
 
-            return m_spriteList.toJSON()
+        var partsId = {};
 
-        }) + "]";
+        for (var i = 0; i < ArrayTileInfo.length; i++) {
 
-        console.log("m_spriteList : ");
+            partsId[ArrayTileInfo[i].url] = ArrayTileInfo[i].id;
+
+        };
+
+        console.log("save / partsId : ");
+        console.log(partsId);
+
+        for (var i = 0; i < m_spriteList.length; i++) {
+
+            trackParts.push( {
+
+                id : partsId[m_spriteList.at(i).m_image],
+                rotation : m_spriteList.at(i).angle
+
+            });
+
+        };
+
+        var track = { reversed : false, parts : trackParts };
+
+        var jsonTrack = JSON.stringify( track, null, 4 );
+
+        console.log("save / m_spriteList : ");
         console.log(m_spriteList);
         console.log("jsonTrack : ");
         console.log(jsonTrack);
@@ -198,7 +216,7 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         sessionStorage.setItem('saveName', jsonTrack);
 
         var saveText = document.getElementById("save");
-        saveText.value = sessionStorage.saveName;
+        saveText.value = sessionStorage.saveName + '\n';
         saveName = '';
     }
 
