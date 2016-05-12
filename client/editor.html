@@ -182,7 +182,9 @@
         displayGrid = false;
 
         jaws.assets.add(m_listImgURL);
-        jaws.assets.add("../" + leveljson + ".json");
+        if( leveljson != "" ) {
+            jaws.assets.add("../" + leveljson + ".json");
+        }
         jaws.start(Editor);
     }
     </script>
