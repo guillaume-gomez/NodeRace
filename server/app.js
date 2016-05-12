@@ -134,15 +134,17 @@ io.on('connection', function(socket) {
             //on incremente le nombre de voiture
             instances[socket.indexPartie].nbCars++;
         }
-        //on emet l'id au client
-        socket.emit('id', index);
         var infoPartie = {
             laps: instances[socket.indexPartie].nbLaps,
             nbComponents: instances[socket.indexPartie].minCar,
             track: instances[socket.indexPartie].track
         };
+        console.log('infoPartie : ');
+        console.log(infoPartie);
         //
         socket.emit('infoPart', infoPartie);
+        //on emet l'id au client
+        socket.emit('id', index);
         socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
         // console.log(message.login + ' vient de se connecter');
 
