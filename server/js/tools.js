@@ -54,7 +54,7 @@ exports.checkLaunch = function(instance, socket)
 //create counting
 exports.manageLaunch = function(instance, socket)
 {
-   var counting = 3;
+   var counting = 0;
    console.log("instance.room "+ instance.room );
    function counting_function(instance, object)
    {
