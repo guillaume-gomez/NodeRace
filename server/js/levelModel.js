@@ -4,7 +4,6 @@ This module loads levels for each game
 var fs = require('fs');
 
 var NB_RAIL = 2;
-var NB_TOUR = 3;
 
 exports.loadLevel = function(trackName) {
 

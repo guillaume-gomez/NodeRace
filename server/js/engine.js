@@ -4,7 +4,7 @@ it computes position from players and notify them
 **/
 var levelModel = require('./levelModel');
 
-var VMAX = 500; // u/sec
+var VMAX = 10; // u/sec
 var VMAX_STABLE = 900;
 var FACTOR = 3;
 // var ACCEL_FACTOR = 3;
