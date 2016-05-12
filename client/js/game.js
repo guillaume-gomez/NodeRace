@@ -1,6 +1,6 @@
 var VMAX = 200;
 
-const CELL_SIZE = 50;
+const CELL_SIZE = 25;
 const TRACK_OFFSET_POSITION = {
     x: 100,
     y: 100
