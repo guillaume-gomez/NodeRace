@@ -59,9 +59,9 @@
                     <td>
                         <label name="rotate" title="rotate selected sprite">Rotate</label>
                         <input id="rotate" type="number" step="90" min="0" max="360" name="scale" value="0" onchange="(function() {
-					current_cursor_image.style.imageOrientation = document.getElementById('rotate').value+'deg';
-					drawListImage();
-					}());" />
+                    current_cursor_image.style.imageOrientation = document.getElementById('rotate').value+'deg';
+                    drawListImage();
+                    }());" />
                     </td>
                     <td>
                         <button type="button" onclick="m_level.save()" class="myButton">Save</button>
@@ -84,9 +84,9 @@
     <h3>jaws log</h3>
     <div id="jaws-log"></div>
     <!--<?php
-		//if(isset($_GET['level']))
-		//	echo '<br>Niveau : '.$_GET['level'].' chargé';
-	?>-->
+        //if(isset($_GET['level']))
+        //  echo '<br>Niveau : '.$_GET['level'].' chargé';
+    ?>-->
     <p>
         <fieldset>
             <legend> Who ? </legend>
@@ -114,7 +114,7 @@
                     <td class="keyword">
                         <img src="css/z.png" alt="Z" />
                     </td>
-                    <td class="keyword"> Supprime la dernière tile</td>
+                    <td class="keyword"> Delete the last tile</td>
                 </tr>
                 <tr>
                     <td class="keyword">
@@ -184,7 +184,7 @@
         displayGrid = false;
 
         jaws.assets.add(m_listImgURL);
-        if( leveljson != "" ) {
+        if (leveljson != "") {
             jaws.assets.add("../" + leveljson + ".json");
         }
         jaws.start(Editor);

@@ -17,10 +17,14 @@ var gameEngine = require('./js/engine');
 var tools = require('./js/tools');
 //fonction pour la gestion de chat
 var chatF = require('./js/chat');
-
-
 // Chargement de socket.io
 var io = require('socket.io')(server);
+
+//load constants in server and client
+app.use('/public', express.static('public'));
+var constants = require('./public/constants.js');
+constants = new constants();
+
 
 //les variables
 var instances = [];
@@ -29,10 +33,12 @@ var cars = [];
 function tick(socket, carInfos) {
     //on met à jour la date coté serveur
     var currentDate = new Date();
+
     if (
         instances[socket.indexPartie].launched &&
         (currentDate.getTime() - socket.datePing.getTime()) > 5000) {
-        console.log(socket.login + " Deconnexion sur ping  " + socket.id);
+        console.log(socket.login + " disconnection : ping too high  " + socket.id);
+
         socket.conn.close();
         tools.disconnect(socket, instances, chatF);
     }
@@ -46,10 +52,12 @@ function tick(socket, carInfos) {
     //renvoit la position sur le circuit
     gameModel.getTrackPosition(instances[socket.indexPartie], io);
 
+
     if (gameModel.isFinish(instances[socket.indexPartie])) {
-        socket.emit('finPartie', "fin de partie");
-        socket.broadcast.to(instances[socket.indexPartie].room).emit('finPartie', "fin de partie");
+        socket.emit(constants.endGame, "fin de partie");
+        socket.broadcast.to(instances[socket.indexPartie].room).emit(constants.endGame, "fin de partie");
         instances[socket.indexPartie].launched = false;
+
 
     }
 
@@ -61,21 +69,25 @@ function tick(socket, carInfos) {
         lap: carInfos.lap
     }
 
-    socket.emit('myPosition', infos);
+    socket.emit(constants.myPosition, infos);
     //on envoit les coordonnées aux joueurs
-    socket.broadcast.to(instances[socket.indexPartie].room).emit('position', infos);
-}
 
+    socket.broadcast.to(instances[socket.indexPartie].room).emit(constants.position, infos);
+
+}
 // client connection
-io.on('connection', function(socket) {
+
+io.on(constants.connection, function(socket) {
+
 
     console.log("user connection");
 
     //connexion du futur module de chat
     chatF.getChatMessage(socket);
 
-    socket.on('login', function(message) {
-        // console.log(message);
+
+    socket.on(constants.login, function(message) {
+
         socket.datePing = new Date();
         //on recupere le login et on enverra l'id de le voiture dans la partie
         var index;
@@ -86,9 +98,11 @@ io.on('connection', function(socket) {
             var passwd = message.password;
             if (message.private != true) {
                 passwd = "";
+
             } else {
                 if (tools.isInstanceExist(instances, message.password)) {
-                    socket.emit("isExist", "Une partie existe deja avec ce mot de passe");
+                    socket.emit(constants.isExist, "Une partie existe deja avec ce mot de passe");
+
                 }
             }
 
@@ -122,8 +136,10 @@ io.on('connection', function(socket) {
             console.log("client");
             //on recherche une partie et donc son index
             var indexPart = tools.findGame(message.private, message.password, instances);
+
             if (indexPart == -1) {
-                socket.emit('erreur', 'Aucune partie trouvé');
+                socket.emit(constants.error, 'Aucune partie trouvé');
+
                 return false;
             }
             socket.indexPartie = indexPart;
@@ -142,10 +158,10 @@ io.on('connection', function(socket) {
         console.log('infoPartie : ');
         console.log(infoPartie);
         //
-        socket.emit('infoPart', infoPartie);
+        socket.emit(constants.infoPart, infoPartie);
         //on emet l'id au client
-        socket.emit('id', index);
-        socket.broadcast.emit('messageServeur', 'Un autre client vient de se connecter !');
+        socket.emit(constants.id, index);
+        socket.broadcast.emit(constants.serverMessage, 'Un autre client vient de se connecter !');
         // console.log(message.login + ' vient de se connecter');
 
         // console.log("---------------------------------------");
@@ -192,18 +208,20 @@ io.on('connection', function(socket) {
     });
 
     //quand le client envoit son acceleration
-    socket.on('accel', function(accel) {
+
+    socket.on(constants.acceleration, function(accel) {
         if (typeof instances[socket.indexPartie] !== 'undefined')
+
             instances[socket.indexPartie].cars[accel.id].accel = accel.percent;
     });
 
-    socket.on('ping', function(clientDate) {
+    socket.on(constants.ping, function(clientDate) {
         datePing = new Date();
         socket.datePing = datePing;
-        socket.emit('ping', clientDate);
+        socket.emit(constants.ping, clientDate);
     });
 
-    socket.on('switchTrack', function(trackInfo) {
+    socket.on(constants.switchTrack, function(trackInfo) {
         //reset engine
         //instances[ socket.indexPartie ].track.id = trackInfo.id;
         //gameEngine.reset( instances[ socket.indexPartie ] );
@@ -212,15 +230,17 @@ io.on('connection', function(socket) {
 
     // emitted when a player leave a race, a room,
     // not emitted when a socket disconnect, this is handled by 'disconnect'
-    socket.on('deconnexion', function(message) {
+
+    socket.on(constants.disconnection, function(message) {
         console.log(socket.login + ' disconnected from a game ( socket id :  ' + socket.id + ' ) ');
         socket.leave(instances[socket.indexPartie].room);
         tools.disconnect(socket, instances, chatF);
         clearInterval(socket.tick);
-        socket.emit('closeCo');
+        socket.emit(constants.closeCo);
     });
 
-    socket.on('disconnect', function() {
+    socket.on(constants.disconnect, function() {
+
 
         console.log('user disconnected');
 
@@ -229,12 +249,14 @@ io.on('connection', function(socket) {
 });
 
 
+
 app.get('/', function(req, res) {
     res.sendfile('index.html');
 });
 
 app.get('/tracksList.json', function(req, res) {
     res.sendfile(config.tracksList);
+
 });
 
 app.use(function(req, res, next) {

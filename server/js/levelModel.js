@@ -5,6 +5,9 @@ var fs = require('fs');
 
 var NB_RAIL = 2;
 
+var constants = require('./../public/constants.js');
+constants = new constants();
+
 exports.loadLevel = function(trackName) {
 
     var tiles = JSON.parse(fs.readFileSync(trackName + '.json', 'utf8'));
@@ -56,8 +59,8 @@ exports.loadLevel = function(trackName) {
         console.log(points);
 
         offset = {
-            x: lastPoints[lastPoints.length-1].x - points[0].x,
-            y: lastPoints[lastPoints.length-1].y - points[0].y
+            x: lastPoints[lastPoints.length - 1].x - points[0].x,
+            y: lastPoints[lastPoints.length - 1].y - points[0].y
         };
 
         for (var j = 1; j < points.length; j++) { // for each point of this part
@@ -81,8 +84,8 @@ exports.loadLevel = function(trackName) {
     points = rotate(tileInfoArrayPoints[part.id], -part.rotation);
 
     offset = {
-        x: lastPoints[lastPoints.length-1].x - points[0].x,
-        y: lastPoints[lastPoints.length-1].y - points[0].y
+        x: lastPoints[lastPoints.length - 1].x - points[0].x,
+        y: lastPoints[lastPoints.length - 1].y - points[0].y
     };
 
     for (var j = 1; j < points.length - 1; j++) { // for each point of this part
@@ -100,6 +103,7 @@ exports.loadLevel = function(trackName) {
     console.log(rails[0]);
 
     return rails;
+
 }
 
 exports.isFinish = function(instance) {
@@ -154,6 +158,7 @@ function rotateXY(point, a) {
         x: x * Math.cos(a) - y * Math.sin(a),
         y: y * Math.cos(a) + x * Math.sin(a)
     };
+
 
 }
 

@@ -54,7 +54,7 @@ function Car(image, frame_width, frame_height, frame_duration) {
     this.update = function(socket) {
         jaws.on_keydown(["up", "space"], function() {
             accel.percent = 1;
-            socket.emit('accel', accel);
+            socket.emit(jaws.constants.acceleration, accel);
         })
 
         jaws.on_keydown("right", function() {
@@ -63,13 +63,13 @@ function Car(image, frame_width, frame_height, frame_duration) {
             else
                 accel.percent = 0.5;
 
-            socket.emit('accel', accel);
+            socket.emit(jaws.constants.acceleration, accel);
         })
         jaws.on_keydown("shift", function() {
             if (jaws.pressed(["right"]))
                 accel.percent = 1;
 
-            socket.emit('accel', accel);
+            socket.emit(jaws.constants.acceleration, accel);
         })
 
         if (jaws.pressed('w'))
@@ -83,7 +83,7 @@ function Car(image, frame_width, frame_height, frame_duration) {
             else
                 accel.percent = 0;
 
-            socket.emit('accel', accel);
+            socket.emit(jaws.constants.acceleration, accel);
         })
     }
 
@@ -101,10 +101,10 @@ function Car(image, frame_width, frame_height, frame_duration) {
      **/
     // this.show = function ()
     // {
-    // 	if ( m_goRight )
-    // 	{
-    // 		m_car.setImage( m_car.go_right.next() );
-    // 	}
+    //  if ( m_goRight )
+    //  {
+    //      m_car.setImage( m_car.go_right.next() );
+    //  }
     // }
 
     this.haveToSend = function() {
@@ -120,7 +120,7 @@ function Car(image, frame_width, frame_height, frame_duration) {
         carInfos.position.y *= -1;
 
         m_car.moveTo(carInfos.position.x * cellSize + trackOffsetPosition.x + cellSize, carInfos.position.y * cellSize + trackOffsetPosition.y + cellSize);
-        m_car.rotateTo( carInfos.angle * 180 / Math.PI + 90 );
+        m_car.rotateTo(carInfos.angle * 180 / Math.PI + 90);
         // m_car.rotateTo( Math.PI * carInfos.angle / 180 );
         m_username.x = carInfos.position.x - 5;
         m_username.y = carInfos.position.y - 20;
@@ -164,4 +164,5 @@ function Car(image, frame_width, frame_height, frame_duration) {
 
         }
         //end of class
+
 }

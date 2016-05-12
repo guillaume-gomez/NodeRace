@@ -1,5 +1,6 @@
 // Tool module to handle some server operations
-
+var constants = require('./../public/constants.js');
+constants = new constants();
 
 //if index = -1, no games are available
 exports.findGame = function(isPrivate, passwd, instances)
@@ -43,9 +44,9 @@ exports.checkLaunch = function(instance, socket)
     {
         instance.launched = true;
         //emit a message to start the game
-        socket.emit('startGame', 'The game is starting');
+        socket.emit(constants.startGame, 'The game is starting');
         console.log( instance.room );
-        socket.broadcast.to( instance.room ).emit('startGame', 'The game is starting');
+        socket.broadcast.to( instance.room ).emit(constants.startGame, 'The game is starting');
 
         this.manageLaunch(instance, socket);
     }
@@ -58,8 +59,8 @@ exports.manageLaunch = function(instance, socket)
    console.log("instance.room "+ instance.room );
    function counting_function(instance, object)
    {
-        socket.emit('counting', counting);
-        socket.broadcast.to( instance.room ).emit('counting', counting);
+        socket.emit(constants.counting, counting);
+        socket.broadcast.to( instance.room ).emit(constants.counting, counting);
 
         console.log("counting "+counting);
         if(counting == 0)
@@ -98,8 +99,8 @@ exports.disconnect = function(socket, instances, chatFunction)
         {
             var msg = "The host has leaving the game";
             instances[ socket.indexPartie ].launched = false;
-            socket.emit('gameDeconnexion', msg);
-            socket.broadcast.to( instances[ socket.indexPartie ].room ).emit('gameDeconnexion', msg);
+            socket.emit(constants.gameDisconnect, msg);
+            socket.broadcast.to( instances[ socket.indexPartie ].room ).emit(constants.gameDisconnect, msg);
             console.log("disconnection of the current instance "+ instances[ socket.indexPartie ].host);
             // This comment will be remove later
             //pour l'instant ces 2 lignes sont commenté car il faut repenser la structure du tableau gerant les parties
@@ -134,7 +135,7 @@ exports.sendLogin = function (instance, socket)
         var message = { id: instance.cars[ i ].id,
                         username: instance.cars[ i ].nickname};
 
-        socket.emit('logins', message);
-        socket.broadcast.to( instance.room ).emit('logins', message);
+        socket.emit(constants.logins, message);
+        socket.broadcast.to( instance.room ).emit(constants.logins, message);
     }
 }
