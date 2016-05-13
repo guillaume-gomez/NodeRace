@@ -48,6 +48,8 @@
                 </select>
                 </br>
                 <script src="js/parseJsonFile.js">
+
+
                 </script>
                 Track:
                 <select id="track">
@@ -113,6 +115,7 @@
         });
         ParseJsonFile.createTracksSelectionMenu("track");
     }
+
     </script>
     <!-- la partie websocket qui permet la communication avec node.js -->
     <script src="/socket.io/socket.io.js"></script>
@@ -194,6 +197,7 @@
         alert("Handler for .unload() called.");
         socket.emit(jaws.constants.disconnection, 'disconnection');
     });
+
     </script>
 </body>
 
