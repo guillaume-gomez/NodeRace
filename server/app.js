@@ -145,12 +145,12 @@ io.on(constants.connection, function (socket) {
             socket.join( instances[ socket.uid ].room );
             instances[ socket.uid ].nbCars++;
         }
-        socket.emit(constants.id, id);
         var infoInstance = { laps: instances[ socket.uid ].nbLaps ,
                            nbComponents: instances[ socket.uid ].minCar,
                            track: instances[ socket.uid ].track
                         };
         socket.emit(constants.infoPart, infoInstance);
+        socket.emit(constants.id, id);
         socket.broadcast.emit(constants.serverMessage, 'Un autre client vient de se connecter !');
         console.log("{ " + message.login + " }: " + ' has been connected');
 
