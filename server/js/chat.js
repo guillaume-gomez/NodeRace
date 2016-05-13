@@ -11,7 +11,7 @@ exports.getChatMessage = function(socket)
             var newMessage = {'login' : socket.login, 'message' : message};
             for(var i = 0; i < ArrayMessages.length; i++)
 			{
-				if( socket.indexPartie == ArrayMessages[ i ].id )
+				if( socket.uid == ArrayMessages[ i ].id )
 				{
 					ArrayMessages[ i ].listMessage.push(newMessage);
             		socket.broadcast.to( ArrayMessages[ i ].room ).emit(constants.message, JSON.stringify(newMessage));
@@ -31,7 +31,7 @@ exports.getOldMessages = function(socket)
 {
   for(var i = 0; i < ArrayMessages.length; i++)
 	{
-		if( socket.indexPartie == ArrayMessages[ i ].id )
+		if( socket.uid == ArrayMessages[ i ].id )
 		{
 			if(ArrayMessages[ i ].listMessage.length > 0)
 			{
@@ -46,7 +46,7 @@ exports.addChatInstance = function(id, room)
 {
 	var newChat = {id: id, room: room, listMessage: []};
 	ArrayMessages.push(newChat);
-	console.log("nouvelle instance de chat id: "+id);
+	console.log("new instance channel: {"+ id + "}");
 
 }
 
@@ -56,7 +56,7 @@ exports.deleteChatInstance = function(id)
 	{
 		if( id == ArrayMessages[ i ].id )
 		{
-			console.log("destruction d'une instance de chat id: "+id);
+			console.log("deletion of the channel: {"+ id + "}");
 			ArrayMessages.splice(i, 1);
 			break;
 		}
