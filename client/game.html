@@ -80,7 +80,8 @@
             Your browser is not compatible !
         </canvas>
         </br>
-        <div id="speed"></div>
+        <div id="speed">
+        </div>
         <div id="live_info"></div>
         <div id="debug"> </div>
         <h3>jaws log</h3>
@@ -128,7 +129,7 @@
 
     });
 
-    socket.on(jaws.constants.error, function(message) {
+    socket.on(jaws.constants.instanceNotFound, function(message) {
         alert(message);
     });
 
