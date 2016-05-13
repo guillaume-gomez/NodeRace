@@ -20,7 +20,11 @@ npm install
 - At last for the 2D game Framework we are using JawsJs : https://github.com/ippa/jaws
 
   *You don't need to do anything for this one.*
-  
+
+### assets :
+
+The cars were made by [bagera3005](http://bagera3005.deviantart.com/)
+
 ## Running the application :
 
 In order to run the application go into `server` if you're not already in it and run :
@@ -34,6 +38,13 @@ Now you have the server running, a text in the terminal should indicate on which
 Open a browser and go to 127.0.0.1:<**port**> (by default http://127.0.0.1:51510).
 
 That's it ! now by default the server listens on all interfaces, so for example you can easily play on lan using your local ip address (for example 192.168.1.10)
+
+## sublime-project
+### packages
+
+Here are the packages you may want to add to [sublime-text](https://www.sublimetext.com/) if you want to edit the files
+
+- [HTML-CSS-JS Prettify](https://packagecontrol.io/packages/HTML-CSS-JS%20Prettify) **used to follow a clean coding style**
 
 ## Authors :
 - [Gomez Guillaume](https://github.com/guillaume-gomez)

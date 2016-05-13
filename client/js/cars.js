@@ -1,174 +1,168 @@
-function Car(image, frame_width, frame_height, frame_duration)
-{
+function Car(image, frame_width, frame_height, frame_duration) {
 
-	var m_car;
-	var m_speed;
-	var m_carFilename;
-	//this variable define your position by the algorithm made in the track class
-	var m_score;
-	var m_isIA;
-	var m_username;
-	var pushed;
-	var accel = {
-					id: 0,
-					percent: 0
-				}
-
-  this.constructor = function()
-	{
-		m_carFilename = image;
-		m_car = new jaws.Sprite({ image: m_carFilename, scale_image: 0.10, anchor_x:0.25, anchor_y:0.5, angle:180});
-		//m_car.animation = new jaws.Animation({sprite_sheet: jaws.assets.get(image), frame_size: [frame_width,frame_height], frame_duration: frame_duration , orientation :"right"});
-		//m_car.setImage(m_car.animation.frames[1]);
-		m_username = new jaws.Text({ text: "player", x: 0, y: 0, fontSize: 13, color: "Black", wordWrap:true, style:"italic"});
-		console.log(m_username.toJSON());
-		//creating 4 new variables for the sprite
-		m_car.vx = m_car.vy = 0;
-		m_car.agx = m_car.agy = 0;
-
-		m_isIA = false;
-		pushed = false;
+    var m_car;
+    var m_speed;
+    var m_carFilename;
+    //this variable define your position by the algorithm made in the track class
+    var m_score;
+    var m_isIA;
+    var m_username;
+    var pushed;
+    var accel = {
+        id: 0,
+        percent: 0
     }
 
-	this.move = function (elapsedTime /*,tile_map*/ )
-	{
-		m_car.vx = m_car.agx;
-		m_car.vy = m_car.agy;
+    this.constructor = function() {
+        m_carFilename = image;
+        m_car = new jaws.Sprite({
+            image: m_carFilename,
+            scale_image: 0.10,
+            anchor_x: 0.25,
+            anchor_y: 0.5,
+            angle: 180
+        });
+        //m_car.animation = new jaws.Animation({sprite_sheet: jaws.assets.get(image), frame_size: [frame_width,frame_height], frame_duration: frame_duration , orientation :"right"});
+        //m_car.setImage(m_car.animation.frames[1]);
+        m_username = new jaws.Text({
+            text: "player",
+            x: 0,
+            y: 0,
+            fontSize: 13,
+            color: "Black",
+            wordWrap: true,
+            style: "italic"
+        });
+        console.log(m_username.toJSON());
+        //creating 4 new variables for the sprite
+        m_car.vx = m_car.vy = 0;
+        m_car.agx = m_car.agy = 0;
 
-		m_car.move(elapsedTime * m_car.vx , elapsedTime * m_car.vy);
-		debug = document.getElementById("debug");
-		debug.innerHTML = "<p> move "+this.getX()+" :: "+this.getY()+"</p>";
-	}
+        m_isIA = false;
+        pushed = false;
+    }
 
-	this.update = function (socket)
-	{
-		jaws.on_keydown(["up","space"], function()
-		{
-			accel.percent = 1;
-			socket.emit(jaws.constants.acceleration, accel);
-		})
+    this.move = function(elapsedTime /*,tile_map*/ ) {
+        m_car.vx = m_car.agx;
+        m_car.vy = m_car.agy;
 
-		jaws.on_keydown("right", function()
-				{
-					if(jaws.pressed(["up","space","shift"]))
-						accel.percent = 1;
-					else
-						accel.percent = 0.5;
+        m_car.move(elapsedTime * m_car.vx, elapsedTime * m_car.vy);
+        debug = document.getElementById("debug");
+        debug.innerHTML = "<p> move " + this.getX() + " :: " + this.getY() + "</p>";
+    }
 
-        			socket.emit(jaws.constants.acceleration, accel);
-				}
-			)
-		jaws.on_keydown("shift", function()
-				{
-					if(jaws.pressed(["right"]))
-						accel.percent = 1;
+    this.update = function(socket) {
+        jaws.on_keydown(["up", "space"], function() {
+            accel.percent = 1;
+            socket.emit(jaws.constants.acceleration, accel);
+        })
 
-        			socket.emit(jaws.constants.acceleration, accel);
-				}
-			)
+        jaws.on_keydown("right", function() {
+            if (jaws.pressed(["up", "space", "shift"]))
+                accel.percent = 1;
+            else
+                accel.percent = 0.5;
 
-		if(jaws.pressed('w'))
-			m_car.rotate(5);
+            socket.emit(jaws.constants.acceleration, accel);
+        })
+        jaws.on_keydown("shift", function() {
+            if (jaws.pressed(["right"]))
+                accel.percent = 1;
 
-		jaws.on_keyup(["right","up","space","shift"], function()
-				{
-					if(jaws.pressed(["up","space"]) || jaws.pressed(["right","shift"], true))
-						accel.percent = 1;
-					else if(jaws.pressed("right"))
-						accel.percent = 0.5;
-					else
-						accel.percent = 0;
+            socket.emit(jaws.constants.acceleration, accel);
+        })
 
-        			socket.emit(jaws.constants.acceleration, accel);
-				}
-			)
-	}
+        if (jaws.pressed('w'))
+            m_car.rotate(5);
 
-	this.setMyID = function(_id)
-	{
-		accel.id = _id;
-	}
+        jaws.on_keyup(["right", "up", "space", "shift"], function() {
+            if (jaws.pressed(["up", "space"]) || jaws.pressed(["right", "shift"], true))
+                accel.percent = 1;
+            else if (jaws.pressed("right"))
+                accel.percent = 0.5;
+            else
+                accel.percent = 0;
 
-	this.draw = function (viewport)
-	{
-		viewport.draw(m_car);
-		viewport.draw(m_username);
-	}
+            socket.emit(jaws.constants.acceleration, accel);
+        })
+    }
 
-	/**
-	* @brief : gestion des sprites
-	**/
-	// this.show = function ()
-	// {
-	// 	if ( m_goRight )
-	// 	{
-	// 		m_car.setImage( m_car.go_right.next() );
-	// 	}
-	// }
+    this.setMyID = function(_id) {
+        accel.id = _id;
+    }
 
-	this.haveToSend = function ()
-	{
-		return pushed;
-	}
+    this.draw = function(viewport) {
+        viewport.draw(m_car);
+        viewport.draw(m_username);
+    }
 
-	this.getSprite = function ()
-	{
-		return m_car;
-	}
+    /**
+     * @brief : gestion des sprites
+     **/
+    // this.show = function ()
+    // {
+    //  if ( m_goRight )
+    //  {
+    //      m_car.setImage( m_car.go_right.next() );
+    //  }
+    // }
 
-	this.setPosition = function (carInfos)
-	{
-		m_car.moveTo(carInfos.position.x, carInfos.position.y);
-		m_car.rotateTo(-carInfos.angle/Math.PI*180-90);
-		m_username.x = carInfos.position.x - 5;
-		m_username.y = carInfos.position.y - 20;
-	}
+    this.haveToSend = function() {
+        return pushed;
+    }
 
-	this.getX = function()
-	{
-		return m_car.x;
-	}
+    this.getSprite = function() {
+        return m_car;
+    }
 
-	this.getY = function()
-	{
-		return m_car.y;
-	}
+    this.setPosition = function(carInfos, cellSize, trackOffsetPosition) {
 
-	this.setAccelerationX = function(agx)
-	{
-		m_car.agx = agx;
-	}
+        carInfos.position.y *= -1;
 
-	this.setAccelerationY = function(agy)
-	{
-		m_car.agy = agy;
-	}
+        m_car.moveTo(carInfos.position.x * cellSize + trackOffsetPosition.x + cellSize, carInfos.position.y * cellSize + trackOffsetPosition.y + cellSize);
+        m_car.rotateTo(carInfos.angle * 180 / Math.PI + 90);
+        // m_car.rotateTo( Math.PI * carInfos.angle / 180 );
+        m_username.x = carInfos.position.x - 5;
+        m_username.y = carInfos.position.y - 20;
+    }
 
-	this.getAccelerationX = function()
-	{
-		return m_car.agx;
-	}
+    this.getX = function() {
+        return m_car.x;
+    }
 
-	this.getAccelerationY = function()
-	{
-		return m_car.agy;
-	}
+    this.getY = function() {
+        return m_car.y;
+    }
 
-	this.setUsername = function(user)
-	{
-		m_username.text = user;
-	}
+    this.setAccelerationX = function(agx) {
+        m_car.agx = agx;
+    }
 
-	this.switchToIA = function()
-	{
+    this.setAccelerationY = function(agy) {
+        m_car.agy = agy;
+    }
+
+    this.getAccelerationX = function() {
+        return m_car.agx;
+    }
+
+    this.getAccelerationY = function() {
+        return m_car.agy;
+    }
+
+    this.setUsername = function(user) {
+        m_username.text = user;
+    }
+
+    this.switchToIA = function() {
 
 
-	}
+    }
 
-	this.switchToPlayer = function()
-	{
+    this.switchToPlayer = function() {
 
 
-	}
-//end of class
+        }
+        //end of class
+
 }

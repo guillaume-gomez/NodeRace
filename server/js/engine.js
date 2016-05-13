@@ -4,67 +4,68 @@ it computes position from players and notify them
 **/
 var levelModel = require('./levelModel');
 
-var VMAX = 500; // u/sec
+var VMAX = 10; // u/sec
 var VMAX_STABLE = 900;
 var FACTOR = 3;
 // var ACCEL_FACTOR = 3;
 // var SLOWDOWN_FACTOR = 3;
 
-exports.Engine = function(tracksID)
-{
-	this.rails = levelModel.loadLevel(tracksID);
+exports.Engine = function(trackName) {
 
-	this.getStart = function(railNumber)
-	{
-		return this.rails[railNumber][0];
-	}
+    this.rails = levelModel.loadLevel(trackName);
 
-	this.updateMove = function(carInfos, elapsedTime)
-	{
-		carInfos.speed += (carInfos.accel*VMAX*FACTOR - carInfos.speed*FACTOR) * elapsedTime;
 
-		var distance = carInfos.speed * elapsedTime;
-		var x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
-		var y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
+    this.getStart = function(railNumber) {
+        console.log('this.rails[railNumber][0] : ');
+        console.log(this.rails[railNumber][0]);
+        return this.rails[railNumber][0];
+    }
 
-		distance -= Math.sqrt(x*x+y*y);
+    this.updateMove = function(carInfos, elapsedTime) {
+        carInfos.speed += (carInfos.accel * VMAX * FACTOR - carInfos.speed * FACTOR) * elapsedTime;
 
-		while(distance > 0)
-		{
-			carInfos.position = this.rails[carInfos.id][carInfos.nextTrajectoryIndex];
+        var distance = carInfos.speed * elapsedTime;
+        var x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x - carInfos.position.x;
+        var y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y - carInfos.position.y;
 
-			if(++carInfos.nextTrajectoryIndex >= this.rails[carInfos.id].length)
-			{
-				carInfos.nextTrajectoryIndex = 0;
-				carInfos.lap++;
-				console.log("car "+carInfos.id+" in the lap '"+carInfos.lap+"'");
-			}
+        distance -= Math.sqrt(x * x + y * y);
 
-			x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x-carInfos.position.x;
-			y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y-carInfos.position.y;
+        while (distance > 0) {
+            carInfos.position.x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x;
+            carInfos.position.y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y;
 
-			// console.log("in x : "+x+" ; y "+y);
+            if (++carInfos.nextTrajectoryIndex >= this.rails[carInfos.id].length) {
+                carInfos.nextTrajectoryIndex = 0;
+                carInfos.lap++;
+                console.log("car " + carInfos.id + " in the lap '" + carInfos.lap + "'");
+            }
 
-			distance -= Math.sqrt(x*x+y*y);
-		}
 
-		var newAngle = Math.atan2(x, y);
-		// if(carInfos.angle != newAngle && carInfos.speed>VMAX_STABLE)
-		// 	carInfos.angle -= Math.PI/90*carInfos.speed/VMAX_STABLE;
-		// else
-		// {
-		// 	if(carInfos.angle<newAngle-Math.PI/90* VMAX_STABLE/carInfos.speed)
-		// 		carInfos.angle += Math.PI/90* VMAX_STABLE/carInfos.speed;
-		// 	else
-		// 		carInfos.angle = newAngle;
-		// }
-		carInfos.angle = newAngle;
+            x = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].x - carInfos.position.x;
+            y = this.rails[carInfos.id][carInfos.nextTrajectoryIndex].y - carInfos.position.y;
 
-		distance = distance/Math.sqrt(x*x+y*y)+1;
+            // console.log("in x : "+x+" ; y "+y);
 
-		carInfos.position.x += distance*x;
-		carInfos.position.y += distance*y;
-	}
+            distance -= Math.sqrt(x * x + y * y);
+        }
+
+        var newAngle = Math.atan2(x, y);
+        // if(carInfos.angle != newAngle && carInfos.speed>VMAX_STABLE)
+        // 	carInfos.angle -= Math.PI/90*carInfos.speed/VMAX_STABLE;
+        // else
+        // {
+        // 	if(carInfos.angle<newAngle-Math.PI/90* VMAX_STABLE/carInfos.speed)
+        // 		carInfos.angle += Math.PI/90* VMAX_STABLE/carInfos.speed;
+        // 	else
+        // 		carInfos.angle = newAngle;
+        // }
+        carInfos.angle = newAngle;
+
+        distance = distance / Math.sqrt(x * x + y * y) + 1;
+
+        carInfos.position.x += distance * x;
+        carInfos.position.y += distance * y;
+    }
 }
 
 // var rails = [];

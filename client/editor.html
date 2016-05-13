@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="fr">
+
 <head>
     <meta charset="utf-8" />
     <title>Editor</title>
 	<link href='http://fonts.googleapis.com/css?family=Jura' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/designEditeur.css" type="text/css"  media="screen">
+  <link rel="stylesheet" href="css/designEditeur.css" type="text/css"  media="screen">
 	<script src="js/editor.js"></script>
 	<script src="js/jaws.js"></script>
 	<script src="js/jaws-tile_map.js"></script>
@@ -12,10 +13,9 @@
 	<script src="js/makeLevel.js"></script>
 	<script src="js/tile.js"></script>
   <script src="js/editor-tool.js"></script>
-</head>
-<body>
-
-
+  <script src="js/tileset.js"></script>
+  <script src="js/parseJsonFile.js"></script>
+</head> 
 	<div id="colonne2">
 		<legend>SpriteSheet</legend>
 		<hr>
@@ -146,29 +146,40 @@
 
 	<div id="current-cursor-image"></div>
 
-	<script>
+	<script type="text/javascript">
+    window.onload = function() {
+        console.log(ArrayTileInfo);
+        var loc = location.search;
+        var vars = loc.split("=");
 
-	window.onload = function()
-    	{
-    		var loc = location.search;
-    		var vars = loc.split("=");
-    		leveljson = "";
-    		if(vars.length > 1)
-    		{
-    			leveljson = "tracks/"+vars[1];
-    		}
-			jaws.assets.root = "assets/";
+        leveljson = "";
 
-			m_listImgURL = new Array ("floor.png", "test.png", "caisse_black.png");
+        if (vars.length > 1) {
 
-			displayGrid = false;
+            leveljson = "tracks/" + vars[1];
 
-            jaws.assets.add(m_listImgURL);
-            jaws.assets.add("tracks/default.json");
-            jaws.assets.add("tracks/creation.json");
-        	jaws.start(Editor);
-    	}
-	</script>
+        }
+        console.log("leveljson : " + leveljson);
+
+
+        jaws.assets.root = "assets/";
+
+        m_listImgURL = [];
+
+        for (var i = 0; i < ArrayTileInfo.length; i++) {
+
+            m_listImgURL.push(ArrayTileInfo[i].url);
+        };
+
+        displayGrid = false;
+
+        jaws.assets.add(m_listImgURL);
+        if (leveljson != "") {
+            jaws.assets.add("../" + leveljson + ".json");
+        }
+        jaws.start(Editor);
+    }
+    </script>
 
 	<script>
 		function isGrid()

@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "dependencies": {
     "express": "~3.3.4",
-    "socket.io": "~1.0.0"
+    "socket.io": "~1.0.0",
+    "uuid": "^2.0.2"
   },
   "author": "Guillaume Gomez <guillaume.gomez@email.com>, Jarretier Adrien <jarretier.adrien@gmail.com>",
   "description": "A Network video game to learn basic NodeJs Skills and socket.io",
