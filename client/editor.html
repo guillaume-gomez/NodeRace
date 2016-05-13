@@ -55,7 +55,7 @@
 			<td>
 				<label name="rotate" title="rotate selected sprite">Rotate</label>
 				<input id="rotate" type="number" step="90" min="0" max="360" name="scale"
-					value="0" onchange="(function() {
+					value="0" onchange="(function(e) {
 					current_cursor_image.style.imageOrientation = document.getElementById('rotate').value+'deg';
 					drawListImage();
           m_level.drawImageCurrent();
@@ -73,7 +73,7 @@
 
 		<fieldset id="fieldCurrent">
 		  <legend>Current sprite : </legend>
-		  <canvas id="current-image"></canvas>
+		  <canvas id="current-image" width=150></canvas>
 		</fieldset>
 
 		<textarea name="positive" rows=20 cols=140 id="save"></textarea>
