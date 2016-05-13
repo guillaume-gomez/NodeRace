@@ -16,19 +16,19 @@ function drawListImage ()
   oldAngle = document.getElementById('rotate').value;
 }
   
-function drawImageByContext(url, id ,onclick = null,  width = null) 
+function drawImageByContext(url, id ,onclick = null) 
 {
-  var c = document.getElementById(id);
-  var w = (width == null) ? c.width : width; 
-  var ctx = c.getContext("2d");
+  var canvas = document.getElementById(id);
   var img = document.createElement("IMG");
-  ctx.clearRect ( 0 , 0 , w , w );
-  ctx.translate( w/2, w/2);
   img.src = url;
   img.onclick = onclick;
-  ctx.rotate(Math.PI*(document.getElementById('rotate').value)/180);
-  ctx.translate(-w/2, -w/2);
-  ctx.drawImage(img,0,0);
+  var context = canvas.getContext("2d");
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.save();
+  context.translate(canvas.width/2, canvas.height/2);
+  context.rotate(Math.PI*(document.getElementById('rotate').value)/180);
+  context.drawImage(img, -img.width/2, -img.width/2);
+  context.restore();
 }
   
   function Editor ( )
