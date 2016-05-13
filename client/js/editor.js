@@ -42,6 +42,8 @@ function drawListImage ()
 
 function Editor ( )
 {
+	console.log("Editor called by");
+   	console.log(arguments.callee.caller);
 	var m_viewport;
 	this.m_level;
 	var m_background;
