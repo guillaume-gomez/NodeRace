@@ -3,7 +3,8 @@
 	[
 		{
 			"path": ".",
-			"file_exclude_patterns": ["*.sublime-workspace"]
+			"file_exclude_patterns": ["*.sublime-workspace", "*.ods", "*.png", "*.jpg"],
+			"folder_exclude_patterns": ["node_modules"]
 		}
 	]
 }
