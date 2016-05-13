@@ -147,7 +147,7 @@
     socket.on(jaws.constants.infoPart, function(infos) {
         laps = infos.laps;
         nbCarsPlayed = infos.nbComponents;
-        trackID = infos.track;
+        trackName = infos.track;
     });
 
     // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
