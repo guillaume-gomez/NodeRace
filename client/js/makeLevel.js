@@ -73,7 +73,7 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
             console.log(jaws.assets.src_list);
             // m_spriteList.load(jaws.assets.get("../"+leveljson+".json"));
 
-            var tileSet = new TileSet(m_viewport, cell_size, "../"+leveljson);
+            var tileSet = new TileSet(m_viewport, cell_size, "../" + leveljson);
             tileSet.constructor();
 
             m_spriteList = tileSet.getSpriteList();
@@ -190,18 +190,21 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
 
         for (var i = 0; i < m_spriteList.length; i++) {
 
-            trackParts.push( {
+            trackParts.push({
 
-                id : partsId[m_spriteList.at(i).m_image],
-                rotation : m_spriteList.at(i).angle
+                id: partsId[m_spriteList.at(i).m_image],
+                rotation: m_spriteList.at(i).angle
 
             });
 
         };
 
-        var track = { reversed : false, parts : trackParts };
+        var track = {
+            reversed: false,
+            parts: trackParts
+        };
 
-        var jsonTrack = JSON.stringify( track, null, 4 );
+        var jsonTrack = JSON.stringify(track, null, 4);
 
         console.log("save / m_spriteList : ");
         console.log(m_spriteList);
