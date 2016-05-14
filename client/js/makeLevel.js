@@ -25,9 +25,7 @@ function pushInSpriteList(spriteList, tile) {
         spriteList.push(tile);
 
     }
-
 }
-
 
 function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
 
@@ -223,27 +221,31 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         saveName = '';
     }
 
-    this.drawImageCurrent = function() {
-        var path = 'assets/';
-        var url = path + m_currentImg[m_indiceIMG];
+  this.drawImageCurrent = function( )
+  {
+    	var path = 'assets/';
+    	var url = path + m_currentImg[ m_indiceIMG ] ;
 
-        var idImage = document.getElementById(m_indiceIMG);
-        var ratio = 1;
-        if (idImage != null) {
+    	var idImage = document.getElementById(m_indiceIMG);
+    	var ratio = 1 ;
+    	if ( idImage != null )
+    	{
 
-            for (var i = 0; i < idImage.width && idImage.width % 3 != 0; i += 10) {
-                if (i % 3 == 0) {
-                    ratio = i / 100;
-                }
-            }
-        }
+    		for ( var i = 0 ; i < idImage.width && idImage.width % 3 != 0 ; i+=10)
+    		{
+    			if ( i % 3 == 0 )
+    			{
+    			  ratio = i/100;
+    			}
+    		}
+    	}
 
-        var _scale = document.getElementById('scale');
-        _scale.value = ratio;
-
-        current_image.innerHTML = '<img src="' + url + '" width="' + this.width * ratio + '">';
-        current_cursor_image.innerHTML = '<img src="' + url + '" width="' + this.width * ratio + '" >';
-    }
+  	var _scale = document.getElementById('scale');
+  	_scale.value = ratio  ;
+  	drawImageByContext(url, current_image.id, null, this.width);
+  	//current_image.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'">';
+  	current_cursor_image.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'" >';
+  }
 
     this.switchToSelectedTile = function(value_ratio) {
         var path = 'assets/';
