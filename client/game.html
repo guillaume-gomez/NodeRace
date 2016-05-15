@@ -126,10 +126,9 @@
     jaws.constants = new Constants();
     // by default connect to the host that served this page
 
-    socket.on(jaws.constants.serverMessage, function(position) {
+    socket.on(jaws.constants.serverMessage, function() {
         //prevenir le jeu qu'un nouveau joueur
-        var message = $('#info').html("<p>A player just connected</p>");
-
+        $('#info').html("<p>A player just connected</p>");
     });
 
     socket.on(jaws.constants.instanceNotFound, function(message) {
@@ -179,11 +178,6 @@
         manageChat(socket);
         console.log(window.location);
         return false; // Permet de bloquer l'envoi "classique" du formulaire
-    });
-
-    socket.on(jaws.constants.startGame, function(message) {
-        var demarre = true;
-        console.log("The game is starting");
     });
 
     socket.on(jaws.constants.instanceDisconnection, function(message) {

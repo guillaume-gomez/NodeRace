@@ -148,7 +148,7 @@ io.on(constants.connection, function(socket) {
         };
         socket.emit(constants.infoPart, infoInstance);
         socket.emit(constants.id, id);
-        socket.broadcast.emit(constants.serverMessage, 'Un autre client vient de se connecter !');
+        socket.broadcast.emit(constants.serverMessage);
         console.log("{ " + message.login + " }: " + ' has been connected');
 
         var car = {
