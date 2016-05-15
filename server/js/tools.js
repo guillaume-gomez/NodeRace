@@ -32,10 +32,7 @@ exports.checkLaunch = function(instance, socket) {
     if (instance.minCar == instance.nbCars) {
         instance.launched = true;
         //emit a message to start the game
-        socket.emit(constants.startGame, 'The game is starting');
-        console.log(instance.room);
-        socket.broadcast.to(instance.room).emit(constants.startGame, 'The game is starting');
-
+        setTimeout(this.sendLogin, 100, instance, socket, this);
         this.manageLaunch(instance, socket);
     }
     return instance;
@@ -53,7 +50,6 @@ exports.manageLaunch = function(instance, socket) {
         if (counting == 0) {
             clearInterval(inter);
             console.log("the game for the host is starting :'" + instance.host + "'");
-            object.sendLogin(instance, socket);
         }
         counting--;
     }
@@ -101,8 +97,8 @@ exports.sendLogin = function(instance, socket) {
             username: instance.cars[i].nickname
         };
 
-        socket.emit(constants.logins, message);
-        socket.broadcast.to(instance.room).emit(constants.logins, message);
+        socket.emit(constants.startGame, message);
+        socket.broadcast.to(instance.room).emit(constants.startGame, message);
     }
 }
 
