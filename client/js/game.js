@@ -133,7 +133,7 @@ function Game(socket, myId, trackName) {
 
         var elapsedTime = (m_date.getTime() - oldDate.getTime()) / 1000;
 
-        if (m_hubTxt.text == 0) {
+        if (this.gameIsStarted()) {
             m_cars[m_myId].update(socket);
         }
         //m_cars[m_myId].move(elapsedTime);
@@ -153,11 +153,13 @@ function Game(socket, myId, trackName) {
         m_viewport.centerAround(m_cars[m_myId].getSprite());
 
         m_viewport.drawTileMap(m_level.getTileMap());
-        for (var i = 0; i < m_cars.length; i++) {
-            m_cars[i].draw(m_viewport);
+        if(this.gameIsStarted()) {
+            for (var i = 0; i < m_cars.length; i++) {
+                m_cars[i].draw(m_viewport);
+            }
         }
 
-        if (m_hubTxt.text != 0) {
+        if (!this.gameIsStarted()) {
             m_hubTxt.draw();
         }
         m_positionTxt.draw();
@@ -200,6 +202,10 @@ function Game(socket, myId, trackName) {
             debug = document.getElementById("debug");
             debug.innerHTML = "<p> move " + this.getMyPositionX().toFixed(2) + " :: " + this.getMyPositionY().toFixed(2) + "</p>";
         }
+    }
+
+    this.gameIsStarted = function () {
+        return m_hubTxt.text == 0;
     }
 
     //end of class
