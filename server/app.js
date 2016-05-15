@@ -57,20 +57,17 @@ function tick(socket, carInfos) {
         gameModel.getTrackPosition(instances[socket.uid], io);
 
         if (gameModel.isFinish(instances[socket.uid])) {
-            socket.emit(constants.endGame, "fin de partie");
-            socket.broadcast.to(instances[socket.uid].room).emit(constants.endGame, "fin de partie");
-            tools.destroyInstance(socket, instances, chatF);
-        } else {
-            var infos = {
-                id: carInfos.id,
-                speed: carInfos.speed,
-                position: carInfos.position,
-                angle: carInfos.angle,
-                lap: carInfos.lap
-            }
-            socket.emit(constants.myPosition, infos);
-            socket.broadcast.to(instances[socket.uid].room).emit(constants.position, infos);
+           tools.notifyGameIsFinish(instances, socket, chatF);
         }
+        var infos = {
+            id: carInfos.id,
+            speed: carInfos.speed,
+            position: carInfos.position,
+            angle: carInfos.angle,
+            lap: carInfos.lap
+        }
+        socket.emit(constants.myPosition, infos);
+        socket.broadcast.to(instances[socket.uid].room).emit(constants.position, infos);
     }
 }
 
