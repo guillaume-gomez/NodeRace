@@ -17,7 +17,6 @@ var Constants = (function() {
     Constants.prototype.instanceDisconnection = "instanceDisconnection";
     Constants.prototype.isExist = "isExist";
     Constants.prototype.login = "login";
-    Constants.prototype.logins = "logins";
     Constants.prototype.message = "message";
     Constants.prototype.myPosition = "myPosition";
     Constants.prototype.oldMessages = "oldMessages";
