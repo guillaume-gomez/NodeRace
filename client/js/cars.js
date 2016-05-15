@@ -8,12 +8,14 @@ function Car(image, frame_width, frame_height, frame_duration) {
     var m_isIA;
     var m_username;
     var pushed;
+    var m_visible;
     var accel = {
         id: 0,
         percent: 0
     }
 
     this.constructor = function() {
+        m_visible = false;
         m_carFilename = image;
         m_car = new jaws.Sprite({
             image: m_carFilename,
@@ -33,7 +35,7 @@ function Car(image, frame_width, frame_height, frame_duration) {
             wordWrap: true,
             style: "italic"
         });
-        console.log(m_username.toJSON());
+        //console.log(m_username.toJSON());
         //creating 4 new variables for the sprite
         m_car.vx = m_car.vy = 0;
         m_car.agx = m_car.agy = 0;
@@ -92,8 +94,10 @@ function Car(image, frame_width, frame_height, frame_duration) {
     }
 
     this.draw = function(viewport) {
-        viewport.draw(m_car);
-        viewport.draw(m_username);
+        if( m_visible ) {
+            viewport.draw(m_car);
+            viewport.draw(m_username);
+        }
     }
 
     /**
@@ -152,6 +156,10 @@ function Car(image, frame_width, frame_height, frame_duration) {
 
     this.setUsername = function(user) {
         m_username.text = user;
+    }
+
+    this.setVisible = function() {
+        m_visible = true;
     }
 
     this.switchToIA = function() {
