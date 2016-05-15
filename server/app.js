@@ -36,7 +36,7 @@ function tick(socket, carInfos) {
         var currentDate = new Date();
         if (
             instances[socket.uid].launched &&
-            (currentDate.getTime() - socket.datePing.getTime()) > 5000) {
+            (currentDate.getTime() - socket.datePing.getTime()) > constants.TimeDisconnected) {
             console.log("{ " + socket.login + "}:  disconnection : ping too high   " + socket.id);
             car = tools.findCar(instances[socket.uid], socket.id);
             if (car != -1 && car.isHost) {

@@ -27,6 +27,8 @@ var Constants = (function() {
     Constants.prototype.switchTrack = "switchTrack";
     Constants.prototype.trackPosition = "trackPosition";
 
+    Constants.prototype.TimeDisconnected = 15000;
+
     return Constants;
 })();
 
