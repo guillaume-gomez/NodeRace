@@ -78,8 +78,10 @@ function Game(socket, myId, trackName) {
             game.setPosition(carInfos);
         });
 
-        socket.on(jaws.constants.logins, function(infosLogin) {
-            m_cars[infosLogin.id].setUsername(infosLogin.username);
+        socket.on(jaws.constants.startGame, function(infosLogin) {
+            console.log(infosLogin)
+             m_cars[infosLogin.id].setUsername(infosLogin.username);
+             m_cars[infosLogin.id].setVisible();
         });
 
         socket.on(jaws.constants.counting, function(count) {
@@ -153,10 +155,8 @@ function Game(socket, myId, trackName) {
         m_viewport.centerAround(m_cars[m_myId].getSprite());
 
         m_viewport.drawTileMap(m_level.getTileMap());
-        if(this.gameIsStarted()) {
-            for (var i = 0; i < m_cars.length; i++) {
+        for (var i = 0; i < m_cars.length; i++) {
                 m_cars[i].draw(m_viewport);
-            }
         }
 
         if (!this.gameIsStarted()) {
