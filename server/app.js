@@ -27,7 +27,6 @@ constants = new constants();
 
 //les variables
 var instances = {};
-var cars = [];
 
 function tick(socket, carInfos) {
 
