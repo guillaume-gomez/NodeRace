@@ -1,14 +1,6 @@
 // push tile in m_spriteList,
 // after checking if there isn't already a sprite at this position
 function pushInSpriteList(spriteList, tile) {
-    console.log("pushInSpriteList()");
-
-    console.log("spriteList :");
-    console.log(spriteList);
-
-    console.log("tile :");
-    console.log(tile);
-
     var spaceFree = true;
     for (var i = 0; i < spriteList.length; i++) {
 
@@ -35,14 +27,7 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
     var m_viewport;
     var saveName = "nom_du_level";
     var m_indiceIMG = 0;
-    var m_nbEnnemy;
     var m_spriteList;
-    var m_spriteLight;
-    var m_filenameHero;
-    var m_spriteHero;
-    var m_indiceHero;
-    var m_indiceEnnemie;
-    var m_filenameLight;
 
     this.constructor = function() {
         console.log("MakeLevel.constructor() called by");
@@ -62,11 +47,7 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         m_viewport.x = 0;
         m_viewport.y = 0;
 
-        m_nbEnnemy = 0;
-
-        m_spriteListEnnemys = new jaws.SpriteList();
         m_spriteList = new jaws.SpriteList();
-
 
         if (leveljson != "") {
             console.log("assets :");
@@ -90,11 +71,7 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         //Draw a tile
         // if ( jaws.pressed("left_mouse_button") )
         jaws.on_keydown("left_mouse_button", function() {
-            //environnement
-            //if ( isValid()  )
-            //{
             var tangle = document.getElementById('rotate').value;
-            console.log("tangle : " + tangle);
             tangle = parseInt(tangle);
             temp = new Tile({
                 x: (jaws.mouse_x + viewport.x) -
@@ -122,16 +99,11 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
 
             for (var i = 0; i < ArrayTileInfo.length; i++) {
                 if (ArrayTileInfo[i].url == m_currentImg[m_indiceIMG]) {
-                    console.log(ArrayTileInfo[i]);
-                    // var list = temp.loadCurves(ArrayTileInfo[i].ListPoint);
                     break;
                 }
             }
-            console.log("m_spriteList :");
-            console.log(m_spriteList);
             pushInSpriteList(m_spriteList, temp);
-            //}
-        })
+        });
 
         //delete the last tile
         jaws.on_keydown("z", function() {
@@ -148,7 +120,6 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         if (jaws.pressed("right_mouse_button")) {
             m_spriteList.remove(m_tile_map.at(jaws.mouse_x + viewport.x, jaws.mouse_y + viewport.y)[0]);
         }
-
 
         if (jaws.pressed("p")) {
             m_indiceIMG = (m_indiceIMG + 1) % m_listImgURL.length;
