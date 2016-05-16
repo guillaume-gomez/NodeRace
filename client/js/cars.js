@@ -1,5 +1,10 @@
 function Car(image, frame_width, frame_height, frame_duration) {
 
+    const USERNAME_OFFSET = {
+        x: -45,
+        y: -15
+    }
+
     var m_car;
     var m_speed;
     var m_carFilename;
@@ -29,9 +34,11 @@ function Car(image, frame_width, frame_height, frame_duration) {
             x: 0,
             y: 0,
             fontSize: 17,
-            color: "Black",
+            color: "rgb(0,240,0)",
             wordWrap: true,
-            style: "bold"
+            style: "bold",
+            shadowColor: "green",
+            shadowBlur: 4
         });
         console.log(m_username.toJSON());
         //creating 4 new variables for the sprite
@@ -122,8 +129,8 @@ function Car(image, frame_width, frame_height, frame_duration) {
         m_car.moveTo(carInfos.position.x * cellSize + trackOffsetPosition.x + cellSize, carInfos.position.y * cellSize + trackOffsetPosition.y + cellSize);
         m_car.rotateTo(carInfos.angle * 180 / Math.PI + 90);
         // m_car.rotateTo( Math.PI * carInfos.angle / 180 );
-        m_username.x = m_car.x - 20;
-        m_username.y = m_car.y - 20;
+        m_username.x = m_car.x + USERNAME_OFFSET.x;
+        m_username.y = m_car.y + USERNAME_OFFSET.y;
     }
 
     this.getX = function() {
