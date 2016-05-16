@@ -56,8 +56,8 @@ function tick(socket, carInfos) {
         gameModel.getTrackPosition(instances[socket.uid], io);
 
         if (gameModel.isFinish(instances[socket.uid])) {
-            socket.emit(constants.endGame, "fin de partie");
-            socket.broadcast.to(instances[socket.uid].room).emit(constants.endGame, "fin de partie");
+            socket.emit(constants.endGame);
+            socket.broadcast.to(instances[socket.uid].room).emit(constants.endGame);
             tools.destroyInstance(socket, instances, chatF);
         } else {
             var infos = {
@@ -96,7 +96,7 @@ io.on(constants.connection, function(socket) {
 
             } else {
                 if (tools.isInstanceExist(instances, message.password)) {
-                    socket.emit(constants.isExist, "Une partie existe deja avec ce mot de passe");
+                    socket.emit(constants.isExist);
 
                 }
             }
@@ -130,7 +130,7 @@ io.on(constants.connection, function(socket) {
         } else {
             var uid = tools.findGame(message.private, message.password, instances);
             if (uid == -1) {
-                socket.emit(constants.instanceNotFound, 'Aucune partie trouvé');
+                socket.emit(constants.instanceNotFound);
                 return false;
             }
             socket.uid = uid;

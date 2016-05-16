@@ -132,8 +132,8 @@
 
     });
 
-    socket.on(jaws.constants.instanceNotFound, function(message) {
-        alert(message);
+    socket.on(jaws.constants.instanceNotFound, function() {
+        alert('no game found');
     });
 
     socket.on(jaws.constants.id, function(id) {
@@ -190,8 +190,8 @@
         alert(message);
     });
 
-    socket.on(jaws.constants.isExist, function(message) {
-        alert(message);
+    socket.on(jaws.constants.isExist, function() {
+        alert('There is already an ongoing game with this password');
     });
 
     $(window).unload(function() {
