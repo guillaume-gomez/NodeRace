@@ -23,7 +23,6 @@ var Constants = (function() {
     Constants.prototype.oldMessages = "oldMessages";
     Constants.prototype.ping = "ping";
     Constants.prototype.position = "position";
-    Constants.prototype.serverMessage = "serverMessage";
     Constants.prototype.startGame = "startGame";
     Constants.prototype.switchTrack = "switchTrack";
     Constants.prototype.trackPosition = "trackPosition";

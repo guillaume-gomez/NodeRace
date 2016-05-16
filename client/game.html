@@ -126,9 +126,9 @@
     jaws.constants = new Constants();
     // by default connect to the host that served this page
 
-    socket.on(jaws.constants.serverMessage, function(position) {
+    socket.on(jaws.constants.login, function(username) {
         //prevenir le jeu qu'un nouveau joueur
-        var message = $('#info').html("<p>A player just connected</p>");
+        var message = $('#info').html("<p>player " + username + " just connected</p>");
 
     });
 
