@@ -11,7 +11,6 @@ var Constants = (function() {
     Constants.prototype.disconnection = "disconnection";
     Constants.prototype.endGame = "endGame";
     Constants.prototype.instanceNotFound = "instanceNotFound";
-    Constants.prototype.gameDisconnect = "gameDisconnect"; // this isn't used anywhere, maybe should be related to tools.js line 74
     Constants.prototype.id = "id";
     Constants.prototype.infoPart = "infoPart";
     Constants.prototype.instanceDisconnection = "instanceDisconnection";
