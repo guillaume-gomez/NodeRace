@@ -164,7 +164,9 @@
         var lap = $('#laps').val();
         trackName = $('#track').val();
 
-        if(log == "") {
+        var emptyPattern = / */;
+
+        if (emptyPattern.test(log)) {
             alert("Please set the login");
         }
 
