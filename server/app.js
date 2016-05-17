@@ -253,8 +253,7 @@ app.get('/tracksList.json', function(req, res) {
 });
 
 app.use(function(req, res, next) {
-    res.setHeader('Content-Type', 'text/plain');
-    res.send(404, 'Page introuvable !');
+    res.status(404).sendfile('404.html');
 });
 
 server.listen(config.port, function() {
