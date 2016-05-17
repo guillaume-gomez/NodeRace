@@ -33,10 +33,16 @@ var ParseJsonFile = {
 
                 var option = document.createElement("option");
                 option.text = carsList[i];
+                option.style.background = 'url(assets/cars/previews/' + carsList[i] + '.png) no-repeat right';
+                option.style.backgroundSize = 'auto 50%';
+                option.style.padding = '4px';
+                option.style.paddingBottom = '16px';
+                option.style.height = 64 / 2 + 'px';
+                option.style.width = 253 / 2 + 64 + 'px';
                 option.value = carsList[i];
                 select.appendChild(option);
 
-                jaws.assets.add('cars/'+carsList[i]+'.png');
+                jaws.assets.add('cars/' + carsList[i] + '.png');
 
             }
 
@@ -51,7 +57,7 @@ var ParseJsonFile = {
 
         ParseJsonFile.parseJson(url, function(tracksList) {
 
-        var select = document.getElementById(menuId);
+            var select = document.getElementById(menuId);
 
             for (var i = 0; i < tracksList.length; i++) {
 
