@@ -114,9 +114,11 @@ exports.findCar = function(instance, socketId) {
 }
 
 exports.notifyGameIsFinish = function(instances, socket, chatFunction) {
-    function delayGameIsFinishMessage(instance) {
-       socket.emit(constants.endGame, "fin de partie");
-       socket.broadcast.to(instances[socket.uid].room).emit(constants.endGame, "fin de partie");
+    function delayGameIsFinishMessage() {
+      if(instances[socket.uid] && instances[socket.uid] !== undefined) {
+       socket.emit(constants.endGame);
+       socket.broadcast.to(instances[socket.uid].room).emit(constants.endGame);
+     }
     }
-    setTimeout(delayGameIsFinishMessage, constants.DelayFinishMessageTimer, instances[socket.uid]);
+    setTimeout(delayGameIsFinishMessage, constants.DelayFinishMessageTimer);
 }
