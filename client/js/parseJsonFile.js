@@ -40,11 +40,20 @@ var ParseJsonFile = {
                 option.style.height = 64 / 2 + 'px';
                 option.style.width = 253 / 2 + 64 + 'px';
                 option.value = carsList[i];
+
                 select.appendChild(option);
 
                 jaws.assets.add('cars/' + carsList[i] + '.png');
 
             }
+
+            select.onchange = function() {
+
+                var selectedOption = select.options[select.options.selectedIndex];
+
+                select.style.background = selectedOption.style.background;
+
+            };
 
         });
 
