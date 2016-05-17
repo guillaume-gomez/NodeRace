@@ -32,9 +32,9 @@ exports.checkLaunch = function(instance, socket) {
     if (instance.minCar == instance.nbCars) {
         instance.launched = true;
         //emit a message to start the game
-        socket.emit(constants.startGame, 'The game is starting');
+        socket.emit(constants.startGame);
         console.log(instance.room);
-        socket.broadcast.to(instance.room).emit(constants.startGame, 'The game is starting');
+        socket.broadcast.to(instance.room).emit(constants.startGame);
 
         this.manageLaunch(instance, socket);
     }
@@ -70,8 +70,8 @@ exports.destroyInstance = function(socket, instances, chatFunction) {
 
 exports.disconnect = function(socket, instances, chatFunction) {
     if (instances[socket.uid].nbCars == 1) {
-        var msg = "The host has leaving the game";
-        socket.emit('gameDeconnexion', msg);
+        // var msg = "The host has leaving the game"; // this event isn't handled anywhere in the client
+        // socket.emit('gameDeconnexion', msg);
         this.destroyInstance(socket, instances, chatFunction);
         return 0;
 

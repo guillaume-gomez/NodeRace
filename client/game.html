@@ -181,7 +181,7 @@
         return false; // Permet de bloquer l'envoi "classique" du formulaire
     });
 
-    socket.on(jaws.constants.startGame, function(message) {
+    socket.on(jaws.constants.startGame, function() {
         var demarre = true;
         console.log("The game is starting");
     });
