@@ -29,11 +29,16 @@ var ParseJsonFile = {
 
             var select = document.getElementById(menuId);
 
+            var option = document.createElement("option");
+            option.text = 'chose your car !';
+            option.value = '';
+            select.appendChild(option);
+
             for (var i = 0; i < carsList.length; i++) {
 
-                var option = document.createElement("option");
+                option = document.createElement("option");
                 option.text = carsList[i];
-                option.style.background = 'url(assets/cars/previews/' + carsList[i] + '.png) no-repeat right';
+                option.style.background = 'url(assets/cars/previews/' + carsList[i] + '.png) no-repeat right 16px center';
                 option.style.backgroundSize = 'auto 50%';
                 option.style.padding = '4px';
                 option.style.paddingBottom = '16px';
