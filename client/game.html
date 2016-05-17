@@ -98,9 +98,6 @@
     window.onload = function() {
         jaws.unpack();
         jaws.assets.root = "assets/";
-        jaws.assets.add(["cars/Viper.png", "cars/Cobra.png",
-            "cars/Firebird1980.png", "cars/Herbie.png"
-        ]);
 
         var arrayTileInfo = [];
         ParseJsonFile.getTileInfo(function(arrayTileInfo) {

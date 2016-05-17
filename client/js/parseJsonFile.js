@@ -35,6 +35,8 @@ var ParseJsonFile = {
                 var select = document.getElementById(menuId);
                 select.appendChild(option);
 
+                jaws.assets.add('cars/'+carsList[i]+'.png');
+
             }
 
         });
