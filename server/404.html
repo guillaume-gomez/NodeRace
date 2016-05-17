@@ -39,7 +39,6 @@
     <footer>
         A game developed by Adrien Jarretier and Gomez Guillaume.
     </footer>
-    <!-- Chargement du jeu -->
     <script>
     username = "";
     trackName = "";
@@ -85,19 +84,13 @@
     }
 
     </script>
-    <!-- la partie websocket qui permet la communication avec node.js -->
+    <!-- websockets to communicate with node.js -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/jquery-1.11.1.min.js"></script>
     <script>
     var socket = io();
     jaws.constants = new Constants();
     // by default connect to the host that served this page
-
-    socket.on(jaws.constants.login, function(username) {
-        //prevenir le jeu qu'un nouveau joueur
-        var message = $('#info').html("<p>player " + username + " just connected</p>");
-
-    });
 
     socket.on(jaws.constants.instanceNotFound, function() {
         alert('no game found');
@@ -106,7 +99,7 @@
     socket.on(jaws.constants.id, function(id) {
         username = '404';
 
-        //on lance le jeu quand on a recuperer l'id de connexion
+        //launch the game when we get the id
         game = new Game(socket, id, trackName);
         jaws.start(game);
     });
@@ -121,15 +114,10 @@
 
     socket.on(jaws.constants.startGame, function(message) {
         var demarre = true;
-        console.log("The game is starting");
     });
 
     socket.on(jaws.constants.instanceDisconnection, function(message) {
         alert(message);
-    });
-
-    socket.on(jaws.constants.isExist, function() {
-        alert('There is already an ongoing game with this password');
     });
 
     $(window).unload(function() {
