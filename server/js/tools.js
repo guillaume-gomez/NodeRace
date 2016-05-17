@@ -70,8 +70,6 @@ exports.destroyInstance = function(socket, instances, chatFunction) {
 
 exports.disconnect = function(socket, instances, chatFunction) {
     if (instances[socket.uid].nbCars == 1) {
-        // var msg = "The host has leaving the game"; // this event isn't handled anywhere in the client
-        // socket.emit('gameDeconnexion', msg);
         this.destroyInstance(socket, instances, chatFunction);
         return 0;
 
@@ -113,4 +111,12 @@ exports.findCar = function(instance, socketId) {
         }
     }
     return -1;
+}
+
+exports.notifyGameIsFinish = function(instances, socket, chatFunction) {
+    function delayGameIsFinishMessage(instance) {
+       socket.emit(constants.endGame, "fin de partie");
+       socket.broadcast.to(instances[socket.uid].room).emit(constants.endGame, "fin de partie");
+    }
+    setTimeout(delayGameIsFinishMessage, constants.DelayFinishMessageTimer, instances[socket.uid]);
 }

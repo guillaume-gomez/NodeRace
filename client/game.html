@@ -164,20 +164,28 @@
         var lap = $('#laps').val();
         trackName = $('#track').val();
 
-        var message = {
-            login: log,
-            minCar: minCar,
-            maxCar: maxCar,
-            host: isHost,
-            private: isPrivate,
-            password: passwd,
-            laps: lap,
-            track: trackName
-        };
-        socket.emit(jaws.constants.login, message);
+        var emptyPattern = /[a-z]/i;
 
-        manageChat(socket);
-        console.log(window.location);
+        if (!emptyPattern.test(log)) {
+            alert("Please set the login");
+        } else {
+
+            var message = {
+                login: log,
+                minCar: minCar,
+                maxCar: maxCar,
+                host: isHost,
+                private: isPrivate,
+                password: passwd,
+                laps: lap,
+                track: trackName
+            };
+            socket.emit(jaws.constants.login, message);
+
+            manageChat(socket);
+            console.log(window.location);
+
+        }
         return false; // Permet de bloquer l'envoi "classique" du formulaire
     });
 

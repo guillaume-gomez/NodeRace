@@ -27,6 +27,9 @@ var Constants = (function() {
     Constants.prototype.switchTrack = "switchTrack";
     Constants.prototype.trackPosition = "trackPosition";
 
+
+    Constants.prototype.DelayFinishMessageTimer = 150;
+
     return Constants;
 })();
 
