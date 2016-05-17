@@ -34,10 +34,10 @@ function Car(image, frame_width, frame_height, frame_duration) {
             x: 0,
             y: 0,
             fontSize: 17,
-            color: "rgb(0,240,0)",
+            color: "rgb(128,208,64)",
             wordWrap: true,
             style: "bold",
-            shadowColor: "green",
+            shadowColor: "black",
             shadowBlur: 4
         });
         console.log(m_username.toJSON());
