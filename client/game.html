@@ -126,14 +126,14 @@
     jaws.constants = new Constants();
     // by default connect to the host that served this page
 
-    socket.on(jaws.constants.serverMessage, function(position) {
+    socket.on(jaws.constants.login, function(username) {
         //prevenir le jeu qu'un nouveau joueur
-        var message = $('#info').html("<p>A player just connected</p>");
+        var message = $('#info').html("<p>player " + username + " just connected</p>");
 
     });
 
-    socket.on(jaws.constants.instanceNotFound, function(message) {
-        alert(message);
+    socket.on(jaws.constants.instanceNotFound, function() {
+        alert('no game found');
     });
 
     socket.on(jaws.constants.id, function(id) {
@@ -189,7 +189,7 @@
         return false; // Permet de bloquer l'envoi "classique" du formulaire
     });
 
-    socket.on(jaws.constants.startGame, function(message) {
+    socket.on(jaws.constants.startGame, function() {
         var demarre = true;
         console.log("The game is starting");
     });
@@ -198,8 +198,8 @@
         alert(message);
     });
 
-    socket.on(jaws.constants.isExist, function(message) {
-        alert(message);
+    socket.on(jaws.constants.isExist, function() {
+        alert('There is already an ongoing game with this password');
     });
 
     $(window).unload(function() {

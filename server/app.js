@@ -93,7 +93,7 @@ io.on(constants.connection, function(socket) {
 
             } else {
                 if (tools.isInstanceExist(instances, message.password)) {
-                    socket.emit(constants.isExist, "Une partie existe deja avec ce mot de passe");
+                    socket.emit(constants.isExist);
 
                 }
             }
@@ -127,7 +127,7 @@ io.on(constants.connection, function(socket) {
         } else {
             var uid = tools.findGame(message.private, message.password, instances);
             if (uid == -1) {
-                socket.emit(constants.instanceNotFound, 'Aucune partie trouvé');
+                socket.emit(constants.instanceNotFound);
                 return false;
             }
             socket.uid = uid;
@@ -144,8 +144,8 @@ io.on(constants.connection, function(socket) {
         };
         socket.emit(constants.infoPart, infoInstance);
         socket.emit(constants.id, id);
-        socket.broadcast.emit(constants.serverMessage, 'Un autre client vient de se connecter !');
-        console.log("{ " + message.login + " }: " + ' has been connected');
+        socket.broadcast.emit(constants.login, message.login);
+        console.log("{ " + message.login + " }: " + ' connected');
 
         var car = {
                 id: id,
@@ -250,8 +250,7 @@ app.get('/tracksList.json', function(req, res) {
 });
 
 app.use(function(req, res, next) {
-    res.setHeader('Content-Type', 'text/plain');
-    res.send(404, 'Page introuvable !');
+    res.status(404).sendfile('404.html');
 });
 
 server.listen(config.port, function() {
