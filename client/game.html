@@ -40,11 +40,7 @@
                 <input type="text" name="user" id="login" autocomplete="on" autofocus>
                 </br>
                 Car:
-                <select>
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="mercedes">Mercedes</option>
-                    <option value="audi">Audi</option>
+                <select id="cars">
                 </select>
                 </br>
                 <script src="js/parseJsonFile.js">
@@ -114,6 +110,7 @@
             };
 
         });
+        ParseJsonFile.createCarsSelectionMenu("cars");
         ParseJsonFile.createTracksSelectionMenu("track");
     }
 

@@ -20,6 +20,27 @@ var ParseJsonFile = {
 
     },
 
+    createCarsSelectionMenu: function(menuId) {
+
+        var url = "carsList.json";
+        var carsList = [];
+
+        ParseJsonFile.parseJson(url, function(carsList) {
+
+            for (var i = 0; i < carsList.length; i++) {
+
+                var option = document.createElement("option");
+                option.text = carsList[i];
+                option.value = carsList[i];
+                var select = document.getElementById(menuId);
+                select.appendChild(option);
+
+            }
+
+        });
+
+    },
+
     createTracksSelectionMenu: function(menuId) {
 
         var url = "tracksList.json";

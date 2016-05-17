@@ -249,6 +249,11 @@ app.get('/tracksList.json', function(req, res) {
 
 });
 
+app.get('/carsList.json', function(req, res) {
+    res.sendfile(config.carsList, {'root': '..'});
+
+});
+
 app.use(function(req, res, next) {
     res.setHeader('Content-Type', 'text/plain');
     res.send(404, 'Page introuvable !');
