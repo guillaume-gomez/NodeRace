@@ -29,19 +29,11 @@ function pushInSpriteList(spriteList, tile) {
 
 function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
 
-    var m_background;
     var m_currentImg;
     var m_viewport;
     var saveName = "nom_du_level";
     var m_indiceIMG = 0;
-    var m_nbEnnemy;
     var m_spriteList;
-    var m_spriteLight;
-    var m_filenameHero;
-    var m_spriteHero;
-    var m_indiceHero;
-    var m_indiceEnnemie;
-    var m_filenameLight;
 
     this.constructor = function() {
         console.log("MakeLevel.constructor() called by");
@@ -60,8 +52,6 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         m_viewport = viewport;
         m_viewport.x = 0;
         m_viewport.y = 0;
-
-        m_nbEnnemy = 0;
 
         m_spriteListEnnemys = new jaws.SpriteList();
         m_spriteList = new jaws.SpriteList();
@@ -263,7 +253,7 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
     this.getCamY = function() {
         return m_viewport.y;
     }
-    
+
     function foundSprite(sprite) {
         return (
             (sprite.x == (jaws.mouse_x + viewport.x) - (jaws.mouse_x + viewport.x) % cell_size) &&
