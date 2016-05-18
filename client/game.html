@@ -40,11 +40,7 @@
                 <input type="text" name="user" id="login" autocomplete="on" autofocus>
                 </br>
                 Car:
-                <select>
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="mercedes">Mercedes</option>
-                    <option value="audi">Audi</option>
+                <select id="cars">
                 </select>
                 </br>
                 <script src="js/parseJsonFile.js">
@@ -102,9 +98,6 @@
     window.onload = function() {
         jaws.unpack();
         jaws.assets.root = "assets/";
-        jaws.assets.add(["cars/Viper.png", "cars/Cobra.png",
-            "cars/Firebird1980.png", "cars/Herbie.png"
-        ]);
 
         var arrayTileInfo = [];
         ParseJsonFile.getTileInfo(function(arrayTileInfo) {
@@ -114,6 +107,7 @@
             };
 
         });
+        ParseJsonFile.createCarsSelectionMenu("cars");
         ParseJsonFile.createTracksSelectionMenu("track");
     }
 

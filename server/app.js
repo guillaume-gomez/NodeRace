@@ -249,6 +249,11 @@ app.get('/tracksList.json', function(req, res) {
 
 });
 
+app.get('/carsList.json', function(req, res) {
+    res.sendfile(config.carsList, {'root': '..'});
+
+});
+
 app.use(function(req, res, next) {
     res.status(404).sendfile('404.html');
 });
