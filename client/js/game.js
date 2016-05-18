@@ -206,5 +206,12 @@ function Game(socket, myId, trackName, cars) {
         }
     }
 
+    this.addCar = function(carId, carName) {
+
+        m_cars[carId] = new Car('cars/' + carName + '.png', 0, 0, 50);
+        m_cars[carId].constructor();
+
+    }
+
     //end of class
 }

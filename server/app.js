@@ -144,6 +144,7 @@ io.on(constants.connection, function(socket) {
         var infoInstance = {
             laps: instances[socket.uid].nbLaps,
             nbComponents: instances[socket.uid].minCar,
+            selectedCarNames: instances[socket.uid].selectedCarNames,
             track: instances[socket.uid].track
         };
         socket.emit(constants.infoPart, infoInstance);

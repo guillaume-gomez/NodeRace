@@ -127,6 +127,8 @@
 
         cars[loginInfos.id] = loginInfos.carName;
 
+        game.addCar(loginInfos.id, loginInfos.carName);
+
         //prevenir le jeu qu'un nouveau joueur
         var message = $('#info').html("<p>player " + loginInfos.username + " just connected</p>");
 
@@ -143,8 +145,6 @@
             window.location = 'game.html#gameCanvas';
         }
 
-        cars[id] = carName;
-
         //on lance le jeu quand on a recuperer l'id de connexion
         game = new Game(socket, id, trackName, cars);
         jaws.start(game);
@@ -154,6 +154,7 @@
         laps = infos.laps;
         nbCarsPlayed = infos.nbComponents;
         trackName = infos.track;
+        cars = infos.selectedCarNames;
     });
 
     // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
