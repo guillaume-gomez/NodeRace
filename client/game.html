@@ -93,6 +93,7 @@
     <script>
     username = "";
     trackName = "";
+    carName = "";
 
     var game;
     window.onload = function() {
@@ -120,9 +121,16 @@
     jaws.constants = new Constants();
     // by default connect to the host that served this page
 
-    socket.on(jaws.constants.login, function(username) {
+    var cars = [];
+
+    socket.on(jaws.constants.login, function(loginInfos) {
+
+        cars[loginInfos.id] = loginInfos.carName;
+
+        game.addCar(loginInfos.id, loginInfos.carName);
+
         //prevenir le jeu qu'un nouveau joueur
-        var message = $('#info').html("<p>player " + username + " just connected</p>");
+        var message = $('#info').html("<p>player " + loginInfos.username + " just connected</p>");
 
     });
 
@@ -136,8 +144,9 @@
         if (window.location.search == '') {
             window.location = 'game.html#gameCanvas';
         }
+
         //on lance le jeu quand on a recuperer l'id de connexion
-        game = new Game(socket, id, trackName);
+        game = new Game(socket, id, trackName, cars);
         jaws.start(game);
     });
 
@@ -145,6 +154,7 @@
         laps = infos.laps;
         nbCarsPlayed = infos.nbComponents;
         trackName = infos.track;
+        cars = infos.selectedCarNames;
     });
 
     // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
@@ -156,6 +166,7 @@
         var isHost = ($('#host').is(":checked"));
         var isPrivate = ($('#private').is(":checked"));
         var lap = $('#laps').val();
+        carName = $('#cars').val();
         trackName = $('#track').val();
 
         var emptyPattern = /[a-z]/i;
@@ -165,6 +176,7 @@
         } else {
 
             var message = {
+                car: carName,
                 login: log,
                 minCar: minCar,
                 maxCar: maxCar,
