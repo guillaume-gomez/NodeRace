@@ -36,10 +36,10 @@
     <div id="centre">
         <form action="/" method="post" id="formulaire">
             <fieldset>
-                Login:
+                <label for="login">Login:</label>
                 <input type="text" name="user" id="login" autocomplete="on" autofocus>
                 </br>
-                Car:
+                <label for="cars">Car:</label>
                 <select id="cars">
                 </select>
                 </br>
@@ -47,21 +47,23 @@
 
 
                 </script>
-                Track:
+                <label for="track">Track:</label>
                 <select id="track">
                 </select>
                 </br>
-                Laps
+                <label for="laps">Laps</label>
                 <input type="number" id="laps" value="2" max="16" min="2" step="1">
                 </br>
-                <input type="Checkbox" id="host" name="host" value="false" onclick="handleClick(this);">Host
+                <input type="Checkbox" id="host" name="host" value="false" onclick="handleClick(this);">
+                <label for="host">Host</label>
                 </br>
-                <input type="Checkbox" id="private" name="private" value="false">Private game
+                <input type="Checkbox" id="private" name="private" value="false">
+                <label for="private">Private game</label>
                 </br>
-                Password:
+                <label for="password">Password:</label>
                 <input type="text" name="user" id="password" autocomplete="on">
                 </br>
-                Number of players
+                <label for="minCar">Number of players</label>
                 <input type="number" id="minCar" value="2" max="8" min="2" step="1">
                 </br>
                 </br>
