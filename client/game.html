@@ -11,6 +11,7 @@
     <script src="js/jaws-sprite_list.js"></script>
     <script src="js/jaws-tile_map.js"></script>
     <script src="js/manageChat.js"></script>
+    <script src="js/parseJsonFile.js"></script>
     <script src="js/tile.js"></script>
     <script src="js/tileset.js"></script>
     <script src="public/constants.js"></script>
@@ -43,29 +44,28 @@
                 <select id="cars">
                 </select>
                 </br>
-                <script src="js/parseJsonFile.js">
-
-
-                </script>
-                <label for="track">Track:</label>
-                <select id="track">
-                </select>
-                </br>
-                <label for="laps">Laps</label>
-                <input type="number" id="laps" value="2" max="16" min="2" step="1">
-                </br>
-                <input type="Checkbox" id="host" name="host" value="false" onclick="handleClick(this);">
-                <label for="host">Host</label>
-                </br>
                 <input type="Checkbox" id="private" name="private" value="false">
                 <label for="private">Private game</label>
                 </br>
                 <label for="password">Password:</label>
                 <input type="text" name="user" id="password" autocomplete="on">
-                </br>
-                <label for="minCar">Number of players</label>
-                <input type="number" id="minCar" value="2" max="8" min="2" step="1">
-                </br>
+                <br>
+                <br>
+                <fieldset>
+                    <input type="Checkbox" id="host" name="host" value="false" onclick="handleClick(this);">
+                    <label for="host">Host</label>
+                    </br>
+                    <label for="track">Track:</label>
+                    <select id="track">
+                    </select>
+                    </br>
+                    <label for="laps">Laps</label>
+                    <input type="number" id="laps" value="2" max="16" min="2" step="1">
+                    </br>
+                    <label for="minCar">Number of players</label>
+                    <input type="number" id="minCar" value="2" max="8" min="2" step="1">
+                    </br>
+                </fieldset>
                 </br>
                 <input type="submit" value="Submit" id="submit">
             </fieldset>
