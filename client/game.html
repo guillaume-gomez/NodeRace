@@ -54,7 +54,7 @@
                 Laps
                 <input type="number" id="laps" value="2" max="16" min="2" step="1">
                 </br>
-                <input type="Checkbox" id="host" name="host" value="false">Host
+                <input type="Checkbox" id="host" name="host" value="false" onclick="handleClick(this);">Host
                 </br>
                 <input type="Checkbox" id="private" name="private" value="false">Private game
                 <div id="subMenu">
@@ -90,6 +90,24 @@
     <script>
     username = "";
     trackName = "";
+
+    function handleClick(cb) {
+
+        if (cb.checked) {
+
+            document.getElementById('laps').style.visibility = 'visible';
+            document.getElementById('minCar').style.visibility = 'visible';
+            document.getElementById('track').style.visibility = 'visible';
+
+        } else {
+
+            document.getElementById('laps').style.visibility = 'hidden';
+            document.getElementById('minCar').style.visibility = 'hidden';
+            document.getElementById('track').style.visibility = 'hidden';
+
+        }
+
+    }
 
     var game;
     window.onload = function() {
