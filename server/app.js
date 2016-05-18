@@ -109,6 +109,7 @@ io.on(constants.connection, function(socket) {
                 track: message.track,
                 engine: new gameEngine.Engine(config.tracksDirectory + '/' + message.track),
                 nbLaps: message.laps,
+                selectedCarNames: [message.car],
                 cars: [],
                 nbCars: 1,
                 minCar: message.minCar,
@@ -136,7 +137,10 @@ io.on(constants.connection, function(socket) {
             //add the new car
             socket.join(instances[socket.uid].room);
             instances[socket.uid].nbCars++;
+
+            instances[socket.uid].selectedCarNames.push(message.car);
         }
+
         var infoInstance = {
             laps: instances[socket.uid].nbLaps,
             nbComponents: instances[socket.uid].minCar,
