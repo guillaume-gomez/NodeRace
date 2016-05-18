@@ -94,7 +94,6 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
             //if ( isValid()  )
             //{
             var tangle = document.getElementById('rotate').value;
-            console.log("tangle : " + tangle);
             tangle = parseInt(tangle);
             var anchor = "top_left";
             //yurk but haven't got so much time
@@ -118,10 +117,8 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
                 anchor: anchor
             });
             temp.setMyImage(m_currentImg[m_indiceIMG]);
-
             for (var i = 0; i < ArrayTileInfo.length; i++) {
                 if (ArrayTileInfo[i].url == m_currentImg[m_indiceIMG]) {
-                    console.log(ArrayTileInfo[i]);
                     // var list = temp.loadCurves(ArrayTileInfo[i].ListPoint);
                     break;
                 }
@@ -145,7 +142,7 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
 
         //Delete the selected tile
         if (jaws.pressed("right_mouse_button")) {
-            m_spriteList.remove(m_tile_map.at(jaws.mouse_x + viewport.x, jaws.mouse_y + viewport.y)[0]);
+            m_spriteList.removeIf(foundSprite);
         }
 
 
@@ -160,7 +157,6 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
             this.drawImageCurrent();
             this.switchToSelectedTile();
         }
-
         m_tile_map.clear();
         m_tile_map.push(m_spriteList);
     }
@@ -295,6 +291,13 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
             }
         }
         return false;
+    }
+
+    function foundSprite(sprite) {
+        return (
+            (sprite.x == (jaws.mouse_x + viewport.x) - (jaws.mouse_x + viewport.x) % cell_size) &&
+            (sprite.y == (jaws.mouse_y + viewport.y) - (jaws.mouse_y + viewport.y) % cell_size)
+        )
     }
     //end of class
 }
