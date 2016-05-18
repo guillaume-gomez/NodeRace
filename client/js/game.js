@@ -91,8 +91,8 @@ function Game(socket, myId, trackName) {
             m_hubTxt.text = m_counting;
         });
 
-        socket.on(jaws.constants.endGame, function(message) {
-            m_hubTxt.text = message;
+        socket.on(jaws.constants.endGame, function() {
+            m_hubTxt.text = 'end of game';
             console.log("End Game ");
             socket.emit(jaws.constants.disconnection, 'fin');
         });

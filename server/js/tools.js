@@ -32,7 +32,7 @@ exports.checkLaunch = function(instance, socket) {
     if (instance.minCar == instance.nbCars) {
         instance.launched = true;
         //emit a message to start the game
-        setTimeout(this.sendLogin, 100, instance, socket, this);
+        setTimeout(this.sendLogin, 500, instance, socket, this);
         this.manageLaunch(instance, socket);
     }
     return instance;
@@ -66,8 +66,6 @@ exports.destroyInstance = function(socket, instances, chatFunction) {
 
 exports.disconnect = function(socket, instances, chatFunction) {
     if (instances[socket.uid].nbCars == 1) {
-        var msg = "The host has leaving the game";
-        socket.emit('gameDeconnexion', msg);
         this.destroyInstance(socket, instances, chatFunction);
         return 0;
 
@@ -96,7 +94,8 @@ exports.sendLogin = function(instance, socket) {
             id: instance.cars[i].id,
             username: instance.cars[i].nickname
         };
-
+        console.error("sendLogin");
+        console.log(message);
         socket.emit(constants.startGame, message);
         socket.broadcast.to(instance.room).emit(constants.startGame, message);
     }
@@ -109,4 +108,14 @@ exports.findCar = function(instance, socketId) {
         }
     }
     return -1;
+}
+
+exports.notifyGameIsFinish = function(instances, socket, chatFunction) {
+    function delayGameIsFinishMessage() {
+      if(instances[socket.uid] && instances[socket.uid] !== undefined) {
+       socket.emit(constants.endGame);
+       socket.broadcast.to(instances[socket.uid].room).emit(constants.endGame);
+     }
+    }
+    setTimeout(delayGameIsFinishMessage, constants.DelayFinishMessageTimer);
 }
