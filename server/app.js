@@ -56,7 +56,7 @@ function tick(socket, carInfos) {
         gameModel.getTrackPosition(instances[socket.uid], io);
 
         if (gameModel.isFinish(instances[socket.uid])) {
-           tools.notifyGameIsFinish(instances, socket, chatF);
+            tools.notifyGameIsFinish(instances, socket, chatF);
         }
         var infos = {
             id: carInfos.id,
@@ -144,7 +144,16 @@ io.on(constants.connection, function(socket) {
         };
         socket.emit(constants.infoPart, infoInstance);
         socket.emit(constants.id, id);
-        socket.broadcast.emit(constants.login, message.login);
+
+        var loginInfos = {
+
+            id: id,
+            carName: message.car,
+            username: message.login
+
+        };
+
+        socket.broadcast.emit(constants.login, loginInfos);
         console.log("{ " + message.login + " }: " + ' connected');
 
         var car = {
@@ -250,7 +259,9 @@ app.get('/tracksList.json', function(req, res) {
 });
 
 app.get('/carsList.json', function(req, res) {
-    res.sendfile(config.carsList, {'root': '..'});
+    res.sendfile(config.carsList, {
+        'root': '..'
+    });
 
 });
 

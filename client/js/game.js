@@ -6,7 +6,7 @@ const TRACK_OFFSET_POSITION = {
     y: 100
 };
 
-function Game(socket, myId, trackName) {
+function Game(socket, myId, trackName, cars) {
 
     var m_viewport;
     var m_cars;
@@ -20,6 +20,7 @@ function Game(socket, myId, trackName) {
     var m_lapsTxt;
 
     this.setup = function() {
+
         live_info = document.getElementById("live_info");
         cell_size = 50;
 
@@ -60,11 +61,14 @@ function Game(socket, myId, trackName) {
 
         // var x = Math.floor((Math.random() * jaws.width) + 1);
         // var y = Math.floor((Math.random() * jaws.height) + 1);
-        m_cars[0] = new Car("cars/Firebird1980.png", 0, 0, 50);
-        m_cars[0].constructor();
 
-        m_cars[1] = new Car("cars/Cobra.png", 0, 0, 50);
-        m_cars[1].constructor();
+        for (var i = 0; i < cars.length; i++) {
+            m_cars[i] = new Car('cars/' + cars[i] + '.png', 0, 0, 50);
+            m_cars[i].constructor();
+
+        };
+
+        console.log(cars);
 
         m_cars[m_myId].setMyID(m_myId);
         m_cars[m_myId].setUsername(username);
