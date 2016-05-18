@@ -47,17 +47,6 @@ exports.loadLevel = function(trackName) {
         part = tiles.parts[i];
         points = rotate(tileInfoArrayPoints[part.id], -part.rotation);
 
-        console.log("");
-        console.log("part :");
-        console.log(part);
-        console.log("tileInfoArrayPoints[part.id] :");
-        console.log(tileInfoArrayPoints[part.id]);
-
-        console.log("lastPoints :");
-        console.log(lastPoints);
-        console.log("points :");
-        console.log(points);
-
         offset = {
             x: lastPoints[lastPoints.length - 1].x - points[0].x,
             y: lastPoints[lastPoints.length - 1].y - points[0].y
@@ -98,9 +87,6 @@ exports.loadLevel = function(trackName) {
             rails[k].push(points[j]);
         }
     }
-
-    console.log("rail :");
-    console.log(rails[0]);
 
     return rails;
 
