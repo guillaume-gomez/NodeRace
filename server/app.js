@@ -107,7 +107,7 @@ io.on(constants.connection, function(socket) {
                 password: passwd,
                 //track.id sera l'id du circuit
                 track: message.track,
-                engine: new gameEngine.Engine(config.tracksDirectory + '/' + message.track),
+                engine: new gameEngine.Engine(config.tracksDirectory + '/' + message.track, message.minCar),
                 nbLaps: message.laps,
                 cars: [],
                 nbCars: 1,

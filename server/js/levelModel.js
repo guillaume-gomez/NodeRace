@@ -3,12 +3,12 @@ This module loads levels for each game
 */
 var fs = require('fs');
 
-var NB_RAIL = 2;
-
 var constants = require('./../public/constants.js');
 constants = new constants();
 
-exports.loadLevel = function(trackName) {
+exports.loadLevel = function(trackName, railsCount) {
+
+    const NB_RAIL = railsCount;
 
     var tiles = JSON.parse(fs.readFileSync(trackName + '.json', 'utf8'));
     var rails = [];
