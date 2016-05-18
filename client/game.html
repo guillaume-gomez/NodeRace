@@ -55,15 +55,17 @@
                     <input type="Checkbox" id="host" name="host" value="false" onclick="handleClick(this);">
                     <label for="host">Host</label>
                     </br>
-                    <label for="track">Track:</label>
-                    <select id="track">
-                    </select>
-                    </br>
-                    <label for="laps">Laps</label>
-                    <input type="number" id="laps" value="2" max="16" min="2" step="1">
-                    </br>
-                    <label for="minCar">Number of players</label>
-                    <input type="number" id="minCar" value="2" max="8" min="2" step="1">
+                    <div id="hostOptions">
+                        <label for="track">Track:</label>
+                        <select id="track">
+                        </select>
+                        </br>
+                        <label for="laps">Laps</label>
+                        <input type="number" id="laps" value="2" max="16" min="2" step="1">
+                        </br>
+                        <label for="minCar">Number of players</label>
+                        <input type="number" id="minCar" value="2" max="8" min="2" step="1">
+                    </div>
                     </br>
                 </fieldset>
                 </br>
@@ -96,15 +98,11 @@
 
         if (cb.checked) {
 
-            document.getElementById('laps').style.visibility = 'visible';
-            document.getElementById('minCar').style.visibility = 'visible';
-            document.getElementById('track').style.visibility = 'visible';
+            document.getElementById('hostOptions').style.visibility = 'visible';
 
         } else {
 
-            document.getElementById('laps').style.visibility = 'hidden';
-            document.getElementById('minCar').style.visibility = 'hidden';
-            document.getElementById('track').style.visibility = 'hidden';
+            document.getElementById('hostOptions').style.visibility = 'hidden';
 
         }
 
