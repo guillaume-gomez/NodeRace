@@ -15,77 +15,87 @@
     <script src="js/tile.js"></script>
     <script src="js/tileset.js"></script>
     <script src="public/constants.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     <header>
         <h1>NodeRace</h1>
     </header>
-    <div id="colonne1">
-        <h3>Chat Room</h3>
-        <hr>
-        <div>
-            <form>
-                Message:
-                <input type="text" name="user" id="message" placeholder="votre message">
-                <input type="submit" value="Submit" id="submitChatMessage">
-            </form>
-        </div>
-        <div id="oldMessages"></div>
-        <div id="listMessage"></div>
-        </br>
-    </div>
-    <div id="centre">
-        <form action="/" method="post" id="formulaire">
-            <fieldset>
-                <label for="login">Login:</label>
-                <input type="text" name="user" id="login" autocomplete="on" autofocus>
-                </br>
-                <label for="cars">Car:</label>
-                <select id="cars">
-                </select>
-                </br>
-                <input type="Checkbox" id="private" name="private" value="false">
-                <label for="private">Private game</label>
-                </br>
-                <label for="password">Password:</label>
-                <input type="text" name="user" id="password" autocomplete="on">
-                <br>
-                <br>
-                <fieldset>
-                    <input type="Checkbox" id="host" name="host" value="false" onclick="handleClick(this);">
-                    <label for="host">Host</label>
-                    </br>
-                    <div id="hostOptions">
-                        <label for="track">Track:</label>
-                        <select id="track">
-                        </select>
-                        </br>
-                        <label for="laps">Laps</label>
-                        <input type="number" id="laps" value="2" max="16" min="2" step="1">
-                        </br>
-                        <label for="minCar">Number of players</label>
-                        <input type="number" id="minCar" value="2" max="8" min="2" step="1">
+    <div class="row">
+        <div id="colonne1" class="col-sm-3">
+            <h3>Chat Room</h3>
+            <hr>
+            <div>
+                <form class="form-inline" role="form">
+                  <div class="form-group">
+                    <label for="message" class="control-label col-sm-3">Message:</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="user" id="message" placeholder="votre message">
+                      <input type="submit" value="Submit" id="submitChatMessage">
                     </div>
-                    </br>
-                </fieldset>
-                </br>
-                <input type="submit" value="Submit" id="submit">
-            </fieldset>
-        </form>
-        </br>
-        <div id="info"></div>
-        <canvas id="gameCanvas" width="1000" height="500">
-            Your browser is not compatible !
-        </canvas>
-        </br>
-        <div id="speed">
+                  </div>
+                </form>
+            </div>
+            <div id="oldMessages"></div>
+            <div id="listMessage"></div>
+            </br>
         </div>
-        <div id="live_info"></div>
-        <div id="debug"> </div>
-        <h3>jaws log</h3>
-        <div id="jaws-log"></div>
-    </div>
+        <div id="centre" class="col-sm-9">
+            <form class="form-horizontal" role="form" action="/" method="post" id="formulaire">
+                <fieldset>
+                    <label for="login">Login:</label>
+                    <input type="text" name="user" id="login" autocomplete="on" autofocus>
+                    </br>
+                    <label for="cars">Car:</label>
+                    <select id="cars">
+                    </select>
+                    </br>
+                    <input type="Checkbox" id="private" name="private" value="false">
+                    <label for="private">Private game</label>
+                    </br>
+                    <label for="password">Password:</label>
+                    <input type="text" name="user" id="password" autocomplete="on">
+                    <br>
+                    <br>
+                    <fieldset>
+                        <input type="Checkbox" id="host" name="host" value="false" onclick="handleClick(this);">
+                        <label for="host">Host</label>
+                        </br>
+                        <div id="hostOptions">
+                            <label for="track">Track:</label>
+                            <select id="track">
+                            </select>
+                            </br>
+                            <label for="laps">Laps</label>
+                            <input type="number" id="laps" value="2" max="16" min="2" step="1">
+                            </br>
+                            <label for="minCar">Number of players</label>
+                            <input type="number" id="minCar" value="2" max="8" min="2" step="1">
+                        </div>
+                        </br>
+                    </fieldset>
+                    </br>
+                    <input type="submit" value="Submit" id="submit">
+                </fieldset>
+            </form>
+            </br>
+            <div id="info"></div>
+            <canvas id="gameCanvas" width="1000" height="500">
+                Your browser is not compatible !
+            </canvas>
+            </br>
+            <div id="speed">
+            </div>
+            <div id="live_info"></div>
+            <div id="debug"> </div>
+            <h3>jaws log</h3>
+            <div id="jaws-log"></div>
+        </div>
+      </div>
     </br>
     <footer>
         A game developed by Adrien Jarretier and Gomez Guillaume.

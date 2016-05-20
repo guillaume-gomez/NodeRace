@@ -17,20 +17,8 @@ legend {
     text-align: center;
 }
 
-div#colonne1 {
-    float: left;
-    font-weight: bold;
-    width: 22%;
-    margin-right: 10px;
-    font: 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
 #colonne1 h3 {
     text-align: center;
-}
-
-div#centre {
-    overflow: hidden;
 }
 
 canvas {
