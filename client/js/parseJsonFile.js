@@ -33,7 +33,7 @@ var ParseJsonFile = {
             option.text = 'chose your car !';
             option.value = '';
             select.appendChild(option);
-            select.style.width =  253 / 2 + 40 +"px";
+            select.style.width =  253 / 2 + 60 +"px";
 
             for (var i = 0; i < carsList.length; i++) {
 
@@ -44,7 +44,7 @@ var ParseJsonFile = {
                 option.style.padding = '4px';
                 option.style.paddingBottom = '16px';
                 //253 is the widthest car preview
-                option.style.width = 253 / 2 + 40 + 'px';
+                option.style.width = 253 / 2 + 60 + 'px';
                 option.value = carsList[i];
 
                 select.appendChild(option);

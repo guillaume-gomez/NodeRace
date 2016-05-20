@@ -45,42 +45,65 @@
             </br>
         </div>
         <div id="centre" class="col-sm-9">
-            <form class="form-horizontal" role="form" action="/" method="post" id="formulaire">
+            <form  role="form" action="/" method="post" id="formulaire">
+                <div class="form-group row">
+                    <label for="login" class="control-label col-sm-2 text-left" >Login:</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="user" id="login" autocomplete="on" autofocus>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="cars" class="control-label col-sm-2" >Car:</label>
+                    <div class="col-sm-10">
+                        <select id="cars"></select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="private" class="control-label col-sm-2">Private game</label>
+                    <div class="col-sm-10">
+                        <input type="Checkbox" id="private" name="private" value="false">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="control-label col-sm-2" >Password:</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="user" id="password" autocomplete="on">
+                    </div>
+                </div>
                 <fieldset>
-                    <label for="login">Login:</label>
-                    <input type="text" name="user" id="login" autocomplete="on" autofocus>
-                    </br>
-                    <label for="cars">Car:</label>
-                    <select id="cars">
-                    </select>
-                    </br>
-                    <input type="Checkbox" id="private" name="private" value="false">
-                    <label for="private">Private game</label>
-                    </br>
-                    <label for="password">Password:</label>
-                    <input type="text" name="user" id="password" autocomplete="on">
-                    <br>
-                    <br>
-                    <fieldset>
-                        <input type="Checkbox" id="host" name="host" value="false" onclick="handleClick(this);">
-                        <label for="host">Host</label>
-                        </br>
-                        <div id="hostOptions">
-                            <label for="track">Track:</label>
-                            <select id="track">
-                            </select>
-                            </br>
-                            <label for="laps">Laps</label>
-                            <input type="number" id="laps" value="2" max="16" min="2" step="1">
-                            </br>
-                            <label for="minCar">Number of players</label>
-                            <input type="number" id="minCar" value="2" max="8" min="2" step="1">
+                    <div class="form-group row">
+                        <label for="host" class="control-label col-sm-2">Host</label>
+                        <div class="col-sm-10">
+                            <input type="Checkbox" id="host" name="host" value="false" onclick="handleClick(this);">
                         </div>
-                        </br>
-                    </fieldset>
+                    </div>
+                    <div id="hostOptions">
+                        <div class="form-group row">
+                            <label for="track" class="control-label col-sm-2">Track:</label>
+                            <div class="col-sm-10">
+                                <select id="track"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="laps" class="control-label col-sm-2">Laps</label>
+                            <div class="col-sm-10">
+                                <input type="number" id="laps" value="2" max="16" min="2" step="1">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="minCar" class="control-label col-sm-2">Number of players</label>
+                            <div class="col-sm-10">
+                                <input type="number" id="minCar" value="2" max="8" min="2" step="1">
+                            </div>
+                        </div>
+                    </div>
                     </br>
-                    <input type="submit" value="Submit" id="submit">
                 </fieldset>
+                <div class="form-group row">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" value="Submit" id="submit">
+                    </div>
+                </div>
             </form>
             </br>
             <div id="info"></div>
