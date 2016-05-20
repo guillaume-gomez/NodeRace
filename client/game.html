@@ -35,7 +35,7 @@
                     <label for="message" class="control-label col-sm-3">Message:</label>
                     <div class="col-sm-9">
                       <input type="text" name="user" id="message" placeholder="votre message">
-                      <input type="submit" value="Submit" id="submitChatMessage">
+                      <input class="btn btn-default" type="submit" value="Submit" id="submitChatMessage">
                     </div>
                   </div>
                 </form>
@@ -101,7 +101,7 @@
                 </fieldset>
                 <div class="form-group row">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <input type="submit" value="Submit" id="submit">
+                        <input class="btn btn-default" type="submit" value="Submit" id="submit">
                     </div>
                 </div>
             </form>
@@ -129,17 +129,7 @@
     trackName = "";
 
     function handleClick(cb) {
-
-        if (cb.checked) {
-
-            document.getElementById('hostOptions').style.visibility = 'visible';
-
-        } else {
-
-            document.getElementById('hostOptions').style.visibility = 'hidden';
-
-        }
-
+        $( ".hostOptions" ).toggle();
     }
 
     var game;
