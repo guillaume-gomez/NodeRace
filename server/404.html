@@ -99,9 +99,20 @@
     socket.on(jaws.constants.id, function(id) {
         username = '404';
 
-        //launch the game when we get the id
-        game = new Game(socket, id, trackName);
-        jaws.start(game);
+        var url = "carsList.json";
+
+        ParseJsonFile.parseJson(url, function(carsList) {
+
+            var max = carsList.length - 1;
+            var min = 0;
+
+            var randomlySelected = Math.floor(Math.random() * (max - min + 1)) + min;
+
+            //launch the game when we get the id with a random car
+            game = new Game(socket, id, trackName, [carsList[randomlySelected]]);
+            jaws.start(game);
+
+        });
     });
 
     socket.on(jaws.constants.infoPart, function(infos) {
@@ -129,3 +140,4 @@
 </body>
 
 </html>
+
