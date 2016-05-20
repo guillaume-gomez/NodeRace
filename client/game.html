@@ -129,7 +129,14 @@
     trackName = "";
 
     function handleClick(cb) {
-        $( ".hostOptions" ).toggle();
+        $("#hostOptions").toggle(cb.checked);
+        if (cb.checked) {
+            document.getElementById('hostOptions').style.visibility = 'visible';
+
+        } else {
+            document.getElementById('hostOptions').style.visibility = 'hidden';
+        }
+
     }
 
     var game;
@@ -147,6 +154,7 @@
         });
         ParseJsonFile.createCarsSelectionMenu("cars");
         ParseJsonFile.createTracksSelectionMenu("track");
+        $("#hostOptions").hide();
     }
 
     </script>
