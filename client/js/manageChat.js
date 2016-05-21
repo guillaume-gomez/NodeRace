@@ -13,9 +13,10 @@ function manageChat(socket) {
 
     $('#submitChatMessage').click(function() {
         var message = $('#message').val();
+        var formattedMessage = message.replace(/(.{1,69})(?:\n|$| )/g, "$1\n");
         var listMessage = document.getElementById("listMessage");
-        listMessage.innerHTML += "<p class='text-muted'>Moi : " + message + "</p>";
-        socket.emit(jaws.constants.message, message);
+        listMessage.innerHTML += "<p class='text-muted'>Moi : " + formattedMessage + "</p>";
+        socket.emit(jaws.constants.message, formattedMessage);
         $('#message').val('');
         return false;
     })
