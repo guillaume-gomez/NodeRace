@@ -121,12 +121,6 @@
         trackName = infos.track;
     });
 
-
-
-    socket.on(jaws.constants.startGame, function() {
-        var demarre = true;
-    });
-
     socket.on(jaws.constants.instanceDisconnection, function(message) {
         alert(message);
     });

@@ -94,7 +94,8 @@ exports.sendLogin = function(instance, socket) {
             id: instance.cars[i].id,
             username: instance.cars[i].nickname
         };
-
+        console.error("sendLogin");
+        console.log(message);
         socket.emit(constants.startGame, message);
         socket.broadcast.to(instance.room).emit(constants.startGame, message);
     }
