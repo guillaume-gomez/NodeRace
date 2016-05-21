@@ -1,3 +1,5 @@
+const ORIGINAL_WIDTH = 50;
+
 function Editor() {
     console.log("Editor called by");
     console.log(arguments.callee.caller);
@@ -110,13 +112,17 @@ function Editor() {
             current_cursor_image.style.display = 'inline';
             current_cursor_image.style.opacity = 0.7;
             document.onmousemove = function(e) {
+                var $img = $('#subImg');
                 //ratio = document.getElementById('scale').value;
-                //current_cursor_image.
-                current_cursor_image.style.left = (e.pageX + 1) + 'px';
-                current_cursor_image.style.top = (e.pageY + 1) + 'px';
-                current_cursor_image.style.width = "10px";
-                //var url = path + m_currentImg[ m_indiceIMG ] ;
-                //current_cursor_image.width = this.width*ratio;
+                $img.offset({
+                    top: e.pageY + 5,
+                    left: e.pageX - 5
+                });
+                $img.rotate(parseInt($("#rotate").val()));
+                $img.attr("src", m_level.getCurrentImgUrl());  
+                var ratio = parseInt($("#scale").val());
+                $img.css("width", ORIGINAL_WIDTH * ratio);
+
             };
         } else
             current_cursor_image.style.display = 'none';

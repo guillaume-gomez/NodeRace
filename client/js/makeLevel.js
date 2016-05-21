@@ -30,8 +30,8 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
     var m_spriteList;
 
     this.constructor = function() {
-        console.log("MakeLevel.constructor() called by");
-        console.log(arguments.callee.caller);
+        //console.log("MakeLevel.constructor() called by");
+        //console.log(arguments.callee.caller);
         if (leveljson != "") {
             saveName = leveljson;
         }
@@ -124,13 +124,11 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         if (jaws.pressed("p")) {
             m_indiceIMG = (m_indiceIMG + 1) % m_listImgURL.length;
             this.drawImageCurrent();
-            this.switchToSelectedTile();
         }
 
         if (jaws.pressed("m")) {
             m_indiceIMG = (m_indiceIMG - 1 < 0) ? m_listImgURL.length - 1 : m_indiceIMG - 1;
             this.drawImageCurrent();
-            this.switchToSelectedTile();
         }
 
         m_tile_map.clear();
@@ -194,38 +192,32 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
 
   this.drawImageCurrent = function( )
   {
-    	var path = 'assets/';
-    	var url = path + m_currentImg[ m_indiceIMG ] ;
+    var path = 'assets/';
+    var url = path + m_currentImg[ m_indiceIMG ] ;
 
-    	var idImage = document.getElementById(m_indiceIMG);
-    	var ratio = 1 ;
-    	if ( idImage != null )
-    	{
-
-    		for ( var i = 0 ; i < idImage.width && idImage.width % 3 != 0 ; i+=10)
-    		{
-    			if ( i % 3 == 0 )
-    			{
-    			  ratio = i/100;
-    			}
-    		}
-    	}
-
-  	var _scale = document.getElementById('scale');
-  	_scale.value = ratio  ;
-  	drawImageByContext(url, current_image.id, null, this.width);
-  	//current_image.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'">';
-  	current_cursor_image.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'" >';
-  }
-
-    this.switchToSelectedTile = function(value_ratio) {
-        var path = 'assets/';
-        var url = path + m_currentImg[m_indiceIMG];
-
-        current_cursor_image.innerHTML = '';
-        current_cursor_image.innerHTML = '<img src="' + url + '" whith="17" >';
+    var idImage = document.getElementById(m_indiceIMG);
+    var ratio = 1 ;
+    if ( idImage != null )
+    {
+        for ( var i = 0 ; i < idImage.width && idImage.width % 3 != 0 ; i+=10)
+        {
+        	if ( i % 3 == 0 )
+        	{
+        	  ratio = i/100;
+        	}
+        }
     }
 
+    var _scale = document.getElementById('scale');
+    _scale.value = ratio  ;
+    console.log("kjkjk")
+    drawImageByContext(url, current_image.id, null, this.width);
+  }
+
+  this.getCurrentImgUrl = function() {
+    var path = 'assets/';
+    return path + m_currentImg[ m_indiceIMG ];
+  }
 
     this.setIndice = function(newIndice) {
         m_indiceIMG = newIndice;
