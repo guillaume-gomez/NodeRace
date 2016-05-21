@@ -20,6 +20,50 @@ var ParseJsonFile = {
 
     },
 
+    createCarsSelectionMenu: function(menuId) {
+
+        var url = "carsList.json";
+        var carsList = [];
+
+        ParseJsonFile.parseJson(url, function(carsList) {
+
+            var select = document.getElementById(menuId);
+
+            var option = document.createElement("option");
+            option.text = 'chose your car !';
+            option.value = '';
+            select.appendChild(option);
+
+            for (var i = 0; i < carsList.length; i++) {
+
+                option = document.createElement("option");
+                option.text = carsList[i];
+                option.style.background = 'url(assets/cars/previews/' + carsList[i] + '.png) no-repeat right 16px center';
+                option.style.backgroundSize = 'auto 50%';
+                option.style.padding = '4px';
+                option.style.paddingBottom = '16px';
+                option.style.height = 64 / 2 + 'px';
+                option.style.width = 253 / 2 + 64 + 'px';
+                option.value = carsList[i];
+
+                select.appendChild(option);
+
+                jaws.assets.add('cars/' + carsList[i] + '.png');
+
+            }
+
+            select.onchange = function() {
+
+                var selectedOption = select.options[select.options.selectedIndex];
+
+                select.style.background = selectedOption.style.background;
+
+            };
+
+        });
+
+    },
+
     createTracksSelectionMenu: function(menuId) {
 
         var url = "tracksList.json";
@@ -27,12 +71,13 @@ var ParseJsonFile = {
 
         ParseJsonFile.parseJson(url, function(tracksList) {
 
+            var select = document.getElementById(menuId);
+
             for (var i = 0; i < tracksList.length; i++) {
 
                 var option = document.createElement("option");
                 option.text = tracksList[i];
                 option.value = tracksList[i];
-                var select = document.getElementById(menuId);
                 select.appendChild(option);
 
             }

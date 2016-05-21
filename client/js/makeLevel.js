@@ -21,8 +21,6 @@ function pushInSpriteList(spriteList, tile) {
 
 function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
 
-    var m_tile_map;
-    var m_background;
     var m_currentImg;
     var m_viewport;
     var saveName = "nom_du_level";
@@ -60,12 +58,6 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
             m_spriteList = tileSet.getSpriteList();
 
         }
-
-        m_tile_map = new jaws.TileMap({
-            size: [m_viewport.max_x / cell_size + 10, m_viewport.max_y / cell_size + 10],
-            cell_size: [cell_size, cell_size]
-        });
-
         this.drawImageCurrent();
 
         //Draw a tile
@@ -73,6 +65,15 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         jaws.on_keydown("left_mouse_button", function() {
             var tangle = document.getElementById('rotate').value;
             tangle = parseInt(tangle);
+            var anchor = "top_left";
+            //yurk but haven't got so much time
+            if (tangle == 90) {
+                anchor = "bottom_left";
+            } else if (tangle == 180 || tangle == 380) {
+                anchor = "bottom_right";
+            } else if (tangle == 270 || tangle == -90) {
+                anchor = "top_right"
+            }
             temp = new Tile({
                 x: (jaws.mouse_x + viewport.x) -
                     (jaws.mouse_x + viewport.x) % cell_size,
@@ -82,23 +83,13 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
                 image: m_currentImg[m_indiceIMG],
 
                 scale: document.getElementById('scale').value,
-                angle: tangle
+                angle: tangle,
+                anchor: anchor
             });
-
-            //yurk but haven't got so much time
-            if (tangle == 90) {
-                temp.x += cell_size;
-            } else if (tangle == 180 || tangle == 380) {
-                temp.x += cell_size;
-                temp.y += cell_size;
-            } else if (tangle == 270 || tangle == -90) {
-                temp.y += cell_size;
-            }
-
             temp.setMyImage(m_currentImg[m_indiceIMG]);
-
             for (var i = 0; i < ArrayTileInfo.length; i++) {
                 if (ArrayTileInfo[i].url == m_currentImg[m_indiceIMG]) {
+                    // var list = temp.loadCurves(ArrayTileInfo[i].ListPoint);
                     break;
                 }
             }
@@ -118,21 +109,18 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
 
         //Delete the selected tile
         if (jaws.pressed("right_mouse_button")) {
-            m_spriteList.remove(m_tile_map.at(jaws.mouse_x + viewport.x, jaws.mouse_y + viewport.y)[0]);
+            m_spriteList.removeIf(foundSprite);
         }
 
         if (jaws.pressed("p")) {
             m_indiceIMG = (m_indiceIMG + 1) % m_listImgURL.length;
-            this.drawImageCurrent();
+            this.updateRotationTiles();
         }
 
         if (jaws.pressed("m")) {
             m_indiceIMG = (m_indiceIMG - 1 < 0) ? m_listImgURL.length - 1 : m_indiceIMG - 1;
-            this.drawImageCurrent();
+            this.updateRotationTiles();
         }
-
-        m_tile_map.clear();
-        m_tile_map.push(m_spriteList);
     }
 
 
@@ -227,11 +215,6 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         m_indiceIMG = newIndice;
     }
 
-
-    this.getTileMap = function() {
-        return m_tile_map;
-    }
-
     this.changeBackground = function() {
         background.setImage(document.getElementById('background').value);
     }
@@ -252,17 +235,11 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         return m_viewport.y;
     }
 
-    function isValid() {
-        var _y = (jaws.mouse_y + viewport.y) - (jaws.mouse_y + viewport.y) % cell_size;
-        var _x = (jaws.mouse_x + viewport.x) - (jaws.mouse_x + viewport.x) % cell_size;
-        //if outside the viewport
-
-        if (_x >= 0 && _x < viewport.max_x && _y >= 0 && _y < viewport.max_y) {
-            if (!m_tile_map.at(jaws.mouse_x + viewport.x, jaws.mouse_y + viewport.y)[0]) {
-                return true;
-            }
-        }
-        return false;
+    function foundSprite(sprite) {
+        return (
+            (sprite.x == (jaws.mouse_x + viewport.x) - (jaws.mouse_x + viewport.x) % cell_size) &&
+            (sprite.y == (jaws.mouse_y + viewport.y) - (jaws.mouse_y + viewport.y) % cell_size)
+        )
     }
     //end of class
 }
