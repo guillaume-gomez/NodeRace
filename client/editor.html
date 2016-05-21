@@ -59,10 +59,10 @@
                 <td>
                     <label name="rotate" title="rotate selected sprite">Rotate</label>
                     <input id="rotate" type="number" step="90" min="0" max="360" name="scale" value="0" onchange="(function(e) {
-					current_cursor_image.style.imageOrientation = document.getElementById('rotate').value+'deg';
-					drawListImage();
-          m_level.drawImageCurrent();
-					}());" />
+                        current_cursor_image.style.imageOrientation = document.getElementById('rotate').value+'deg';
+                        drawListImage();
+                        m_level.drawImageCurrent();
+                    ());" />
                 </td>
                 <td>
                     <button type="button" onclick="m_level.save()" class="myButton">Save</button>
