@@ -68,7 +68,7 @@ function Editor() {
         if (displayGrid) {
             drawGrid();
         }
-        m_viewport.drawTileMap(m_level.getTileMap());
+        m_viewport.draw(m_level.getSpriteList());
     }
 
     function moveScreen() {
