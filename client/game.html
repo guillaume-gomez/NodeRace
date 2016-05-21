@@ -170,10 +170,19 @@
         trackName = $('#track').val();
 
         var emptyPattern = /[a-z]/i;
+        var valid = true;
 
         if (!emptyPattern.test(log)) {
             alert("Please set the login");
-        } else {
+            valid = false;
+        }
+
+        if(!emptyPattern.test(carName)) {
+            alert("Please select a car")
+            valid = false;
+        }
+
+        if(valid) {
 
             var message = {
                 car: carName,
@@ -187,7 +196,6 @@
                 track: trackName
             };
             socket.emit(jaws.constants.login, message);
-
             manageChat(socket);
             console.log(window.location);
 
