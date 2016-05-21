@@ -69,7 +69,7 @@
                 </td>
                 <td>
                     Display the grid :
-                    <input type="checkbox" value="false" id="grid" onClick="isGrid()">
+                    <input type="checkbox" checked id="grid">
                 </td>
             </tr>
         </table>
@@ -163,20 +163,11 @@ window.onload = function() {
 
         m_listImgURL.push(ArrayTileInfo[i].url);
     };
-
-    displayGrid = false;
-
     jaws.assets.add(m_listImgURL);
     if (leveljson != "") {
         jaws.assets.add("../" + leveljson + ".json");
     }
     jaws.start(Editor);
-}
-
-</script>
-<script>
-function isGrid() {
-    displayGrid = ($('#grid').is(":checked"));
 }
 
 </script>

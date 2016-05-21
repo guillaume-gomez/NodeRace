@@ -65,7 +65,7 @@ function Editor() {
     this.draw = function() {
         jaws.clear();
         m_viewport.draw(background);
-        if (displayGrid) {
+        if ($('#grid').is(":checked")) {
             drawGrid();
         }
         m_viewport.drawTileMap(m_level.getTileMap());
