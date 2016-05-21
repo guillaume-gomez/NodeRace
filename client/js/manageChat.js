@@ -12,11 +12,11 @@ function manageChat(socket) {
     })
 
     $('#submitChatMessage').click(function() {
-        var message = document.getElementById("message").value;
+        var message = $('#message').val();
         var listMessage = document.getElementById("listMessage");
         listMessage.innerHTML += "<p class='text-muted'>Moi : " + message + "</p>";
-        console.log(message);
         socket.emit(jaws.constants.message, message);
+        $('#message').val('');
         return false;
     })
 
