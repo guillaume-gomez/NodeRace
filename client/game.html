@@ -35,7 +35,7 @@
                     <label for="message" class="control-label col-sm-3">Message:</label>
                     <div class="col-sm-9">
                       <input type="text" name="user" id="message" placeholder="votre message">
-                      <input class="btn btn-default" type="submit" value="Submit" id="submitChatMessage">
+                      <input class="btn btn-default" type="submit" value="Submit" id="submitChatMessage" disabled>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
@@ -231,7 +231,7 @@
                 track: trackName
             };
             socket.emit(jaws.constants.login, message);
-
+            $("#submitChatMessage").prop( "disabled", false );
             manageChat(socket);
             console.log(window.location);
 
