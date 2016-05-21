@@ -2,6 +2,11 @@ a {
     text-decoration: none;
 }
 
+p {
+    max-width:300px;
+    word-wrap:break-word;
+}
+
 html,
 body {
     margin: 0;
