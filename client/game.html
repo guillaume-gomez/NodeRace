@@ -40,11 +40,7 @@
                 <input type="text" name="user" id="login" autocomplete="on" autofocus>
                 </br>
                 Car:
-                <select>
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="mercedes">Mercedes</option>
-                    <option value="audi">Audi</option>
+                <select id="cars">
                 </select>
                 </br>
                 <script src="js/parseJsonFile.js">
@@ -97,14 +93,12 @@
     <script>
     username = "";
     trackName = "";
+    carName = "";
 
     var game;
     window.onload = function() {
         jaws.unpack();
         jaws.assets.root = "assets/";
-        jaws.assets.add(["cars/Viper.png", "cars/Cobra.png",
-            "cars/Firebird1980.png", "cars/Herbie.png"
-        ]);
 
         var arrayTileInfo = [];
         ParseJsonFile.getTileInfo(function(arrayTileInfo) {
@@ -114,6 +108,7 @@
             };
 
         });
+        ParseJsonFile.createCarsSelectionMenu("cars");
         ParseJsonFile.createTracksSelectionMenu("track");
     }
 
@@ -125,14 +120,21 @@
     var socket = io();
     jaws.constants = new Constants();
     // by default connect to the host that served this page
+    var cars = [];
 
-    socket.on(jaws.constants.serverMessage, function() {
+    socket.on(jaws.constants.login, function(loginInfos) {
+
+        cars[loginInfos.id] = loginInfos.carName;
+
+        game.addCar(loginInfos.id, loginInfos.carName);
+
         //prevenir le jeu qu'un nouveau joueur
-        $('#info').html("<p>A player just connected</p>");
+        var message = $('#info').html("<p>player " + loginInfos.username + " just connected</p>");
+
     });
 
-    socket.on(jaws.constants.instanceNotFound, function(message) {
-        alert(message);
+    socket.on(jaws.constants.instanceNotFound, function() {
+        alert('no game found');
     });
 
     socket.on(jaws.constants.id, function(id) {
@@ -141,8 +143,9 @@
         if (window.location.search == '') {
             window.location = 'game.html#gameCanvas';
         }
+
         //on lance le jeu quand on a recuperer l'id de connexion
-        game = new Game(socket, id, trackName);
+        game = new Game(socket, id, trackName, cars);
         jaws.start(game);
     });
 
@@ -150,6 +153,7 @@
         laps = infos.laps;
         nbCarsPlayed = infos.nbComponents;
         trackName = infos.track;
+        cars = infos.selectedCarNames;
     });
 
     // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
@@ -161,22 +165,32 @@
         var isHost = ($('#host').is(":checked"));
         var isPrivate = ($('#private').is(":checked"));
         var lap = $('#laps').val();
+        carName = $('#cars').val();
         trackName = $('#track').val();
 
-        var message = {
-            login: log,
-            minCar: minCar,
-            maxCar: maxCar,
-            host: isHost,
-            private: isPrivate,
-            password: passwd,
-            laps: lap,
-            track: trackName
-        };
-        socket.emit(jaws.constants.login, message);
+        var emptyPattern = /[a-z]/i;
 
-        manageChat(socket);
-        console.log(window.location);
+        if (!emptyPattern.test(log)) {
+            alert("Please set the login");
+        } else {
+
+            var message = {
+                car: carName,
+                login: log,
+                minCar: minCar,
+                maxCar: maxCar,
+                host: isHost,
+                private: isPrivate,
+                password: passwd,
+                laps: lap,
+                track: trackName
+            };
+            socket.emit(jaws.constants.login, message);
+
+            manageChat(socket);
+            console.log(window.location);
+
+        }
         return false; // Permet de bloquer l'envoi "classique" du formulaire
     });
 
@@ -184,8 +198,8 @@
         alert(message);
     });
 
-    socket.on(jaws.constants.isExist, function(message) {
-        alert(message);
+    socket.on(jaws.constants.isExist, function() {
+        alert('There is already an ongoing game with this password');
     });
 
     $(window).unload(function() {

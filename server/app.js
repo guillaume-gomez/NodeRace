@@ -27,7 +27,6 @@ constants = new constants();
 
 //les variables
 var instances = {};
-var cars = [];
 
 function tick(socket, carInfos) {
 
@@ -57,20 +56,17 @@ function tick(socket, carInfos) {
         gameModel.getTrackPosition(instances[socket.uid], io);
 
         if (gameModel.isFinish(instances[socket.uid])) {
-            socket.emit(constants.endGame, "fin de partie");
-            socket.broadcast.to(instances[socket.uid].room).emit(constants.endGame, "fin de partie");
-            tools.destroyInstance(socket, instances, chatF);
-        } else {
-            var infos = {
-                id: carInfos.id,
-                speed: carInfos.speed,
-                position: carInfos.position,
-                angle: carInfos.angle,
-                lap: carInfos.lap
-            }
-            socket.emit(constants.myPosition, infos);
-            socket.broadcast.to(instances[socket.uid].room).emit(constants.position, infos);
+            tools.notifyGameIsFinish(instances, socket, chatF);
         }
+        var infos = {
+            id: carInfos.id,
+            speed: carInfos.speed,
+            position: carInfos.position,
+            angle: carInfos.angle,
+            lap: carInfos.lap
+        }
+        socket.emit(constants.myPosition, infos);
+        socket.broadcast.to(instances[socket.uid].room).emit(constants.position, infos);
     }
 }
 
@@ -97,7 +93,7 @@ io.on(constants.connection, function(socket) {
 
             } else {
                 if (tools.isInstanceExist(instances, message.password)) {
-                    socket.emit(constants.isExist, "Une partie existe deja avec ce mot de passe");
+                    socket.emit(constants.isExist);
 
                 }
             }
@@ -111,8 +107,9 @@ io.on(constants.connection, function(socket) {
                 password: passwd,
                 //track.id sera l'id du circuit
                 track: message.track,
-                engine: new gameEngine.Engine(config.tracksDirectory + '/' + message.track),
+                engine: new gameEngine.Engine(config.tracksDirectory + '/' + message.track, message.minCar),
                 nbLaps: message.laps,
+                selectedCarNames: [message.car],
                 cars: [],
                 nbCars: 1,
                 minCar: message.minCar,
@@ -131,7 +128,7 @@ io.on(constants.connection, function(socket) {
         } else {
             var uid = tools.findGame(message.private, message.password, instances);
             if (uid == -1) {
-                socket.emit(constants.instanceNotFound, 'Aucune partie trouvé');
+                socket.emit(constants.instanceNotFound);
                 return false;
             }
             socket.uid = uid;
@@ -140,16 +137,29 @@ io.on(constants.connection, function(socket) {
             //add the new car
             socket.join(instances[socket.uid].room);
             instances[socket.uid].nbCars++;
+
+            instances[socket.uid].selectedCarNames.push(message.car);
         }
+
         var infoInstance = {
             laps: instances[socket.uid].nbLaps,
             nbComponents: instances[socket.uid].minCar,
+            selectedCarNames: instances[socket.uid].selectedCarNames,
             track: instances[socket.uid].track
         };
         socket.emit(constants.infoPart, infoInstance);
         socket.emit(constants.id, id);
-        socket.broadcast.emit(constants.serverMessage);
-        console.log("{ " + message.login + " }: " + ' has been connected');
+
+        var loginInfos = {
+
+            id: id,
+            carName: message.car,
+            username: message.login
+
+        };
+
+        socket.broadcast.emit(constants.login, loginInfos);
+        console.log("{ " + message.login + " }: " + ' connected');
 
         var car = {
                 id: id,
@@ -253,9 +263,15 @@ app.get('/tracksList.json', function(req, res) {
 
 });
 
+app.get('/carsList.json', function(req, res) {
+    res.sendfile(config.carsList, {
+        'root': '..'
+    });
+
+});
+
 app.use(function(req, res, next) {
-    res.setHeader('Content-Type', 'text/plain');
-    res.send(404, 'Page introuvable !');
+    res.status(404).sendfile('404.html');
 });
 
 server.listen(config.port, function() {
