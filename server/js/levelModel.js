@@ -3,12 +3,12 @@ This module loads levels for each game
 */
 var fs = require('fs');
 
-var NB_RAIL = 2;
-
 var constants = require('./../public/constants.js');
 constants = new constants();
 
-exports.loadLevel = function(trackName) {
+exports.loadLevel = function(trackName, railsCount) {
+
+    const NB_RAIL = railsCount;
 
     var tiles = JSON.parse(fs.readFileSync(trackName + '.json', 'utf8'));
     var rails = [];
@@ -46,17 +46,6 @@ exports.loadLevel = function(trackName) {
 
         part = tiles.parts[i];
         points = rotate(tileInfoArrayPoints[part.id], -part.rotation);
-
-        console.log("");
-        console.log("part :");
-        console.log(part);
-        console.log("tileInfoArrayPoints[part.id] :");
-        console.log(tileInfoArrayPoints[part.id]);
-
-        console.log("lastPoints :");
-        console.log(lastPoints);
-        console.log("points :");
-        console.log(points);
 
         offset = {
             x: lastPoints[lastPoints.length - 1].x - points[0].x,
@@ -98,9 +87,6 @@ exports.loadLevel = function(trackName) {
             rails[k].push(points[j]);
         }
     }
-
-    console.log("rail :");
-    console.log(rails[0]);
 
     return rails;
 
