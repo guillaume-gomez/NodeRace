@@ -15,26 +15,35 @@
     <script src="js/tile.js"></script>
     <script src="js/tileset.js"></script>
     <script src="public/constants.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     <header>
         <h1>UHOH ! what happened ?</h1>
     </header>
-    <div id="centre">
-        </br>
-        <div id="info"></div>
-        <canvas id="gameCanvas" width="1000" height="500">
-            Your browser is not compatible !
-        </canvas>
-        </br>
-        <div id="speed">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-md-12">
+
+                    <div id="info"></div>
+                    <canvas id="gameCanvas" width="1000" height="500">
+                        Your browser is not compatible !
+                    </canvas>
+                    </br>
+                    <div id="speed">
+                    </div>
+                    <div id="live_info"></div>
+                    <div id="debug"> </div>
+                    <h3>jaws log</h3>
+                    <div id="jaws-log"></div>
+                </div>
+            </div>
         </div>
-        <div id="live_info"></div>
-        <div id="debug"> </div>
-        <h3>jaws log</h3>
-        <div id="jaws-log"></div>
-    </div>
     </br>
     <footer>
         A game developed by Adrien Jarretier and Gomez Guillaume.

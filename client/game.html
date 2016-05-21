@@ -11,80 +11,124 @@
     <script src="js/jaws-sprite_list.js"></script>
     <script src="js/jaws-tile_map.js"></script>
     <script src="js/manageChat.js"></script>
+    <script src="js/parseJsonFile.js"></script>
     <script src="js/tile.js"></script>
     <script src="js/tileset.js"></script>
     <script src="public/constants.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     <header>
         <h1>NodeRace</h1>
     </header>
-    <div id="colonne1">
-        <legend>Chat Room</legend>
-        <hr>
-        <div>
-            Message:
-            <input type="text" name="user" id="message" placeholder="votre message">
-            <input type="submit" value="Submit" id="submit">
-            </form>
-        </div>
-        <div id="oldMessages"></div>
-        <div id="listMessage"></div>
-        </br>
-    </div>
-    <div id="centre">
-        <form action="/" method="post" id="formulaire">
-            <fieldset>
-                Login:
-                <input type="text" name="user" id="login" autocomplete="on" autofocus>
-                </br>
-                Car:
-                <select id="cars">
-                </select>
-                </br>
-                <script src="js/parseJsonFile.js">
-
-
-                </script>
-                Track:
-                <select id="track">
-                </select>
-                </br>
-                Laps
-                <input type="range" id="laps" value="3" max="10" min="1" step="1">
-                </br>
-                <input type="Checkbox" id="host" name="host" value="false">Host
-                </br>
-                <input type="Checkbox" id="private" name="private" value="false">Private game
-                <div id="subMenu">
-                    Password:
-                    <input type="text" name="user" id="password" autocomplete="on">
-                    </br>
-                    Minimum opponents
-                    <input type="range" id="minCar" value="2" max="8" min="2" step="1">
-                    </br>
-                    Maximum opponents
-                    <input type="range" id="maxCar" value="8" max="8" min="3" step="1">
-                    </br>
+    <div class="row">
+        <div id="colonne1" class="col-sm-3">
+            <h3>Chat Room</h3>
+            <hr>
+            <div>
+                <form class="form-inline" role="form">
+                  <div class="form-group">
+                    <label for="message" class="control-label col-sm-3">Message:</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="user" id="message" placeholder="votre message">
+                      <input class="btn btn-default" type="submit" value="Submit" id="submitChatMessage" disabled>
+                    </div>
+                  </div>
+                </form>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div id="oldMessages"></div>
+                     </div>
                 </div>
-                </br>
-                <input type="submit" value="Submit" id="submit">
-            </fieldset>
-        </form>
-        </br>
-        <div id="info"></div>
-        <canvas id="gameCanvas" width="1000" height="500">
-            Your browser is not compatible !
-        </canvas>
-        </br>
-        <div id="speed">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div id="listMessage"></div>
+                    </div>
+                </div>
+            </div>
+            </br>
         </div>
-        <div id="live_info"></div>
-        <div id="debug"> </div>
-        <h3>jaws log</h3>
-        <div id="jaws-log"></div>
-    </div>
+        <div id="centre" class="col-sm-9">
+            <div class="well">
+                <form  role="form" action="/" method="post" id="formulaire">
+                    <div class="form-group row">
+                        <label for="login" class="control-label col-sm-2 text-left" >Login:</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="user" id="login" autocomplete="on" autofocus>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="cars" class="control-label col-sm-2" >Car:</label>
+                        <div class="col-sm-10">
+                            <select id="cars"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="private" class="control-label col-sm-2">Private game</label>
+                        <div class="col-sm-10">
+                            <input type="Checkbox" id="private" name="private" value="false">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="password" class="control-label col-sm-2" >Password:</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="user" id="password" autocomplete="on">
+                        </div>
+                    </div>
+                    <fieldset>
+                        <div class="form-group row">
+                            <label for="host" class="control-label col-sm-2">Host</label>
+                            <div class="col-sm-10">
+                                <input type="Checkbox" id="host" name="host" value="false" onclick="handleClick(this);">
+                            </div>
+                        </div>
+                        <div id="hostOptions">
+                            <div class="form-group row">
+                                <label for="track" class="control-label col-sm-2">Track:</label>
+                                <div class="col-sm-10">
+                                    <select id="track"></select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="laps" class="control-label col-sm-2">Laps</label>
+                                <div class="col-sm-10">
+                                    <input type="number" id="laps" value="2" max="16" min="2" step="1">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="minCar" class="control-label col-sm-2">Number of players</label>
+                                <div class="col-sm-10">
+                                    <input type="number" id="minCar" value="2" max="8" min="2" step="1">
+                                </div>
+                            </div>
+                        </div>
+                        </br>
+                    </fieldset>
+                    <div class="form-group row">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input class="btn btn-default" type="submit" value="Submit" id="submit">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            </br>
+            <div id="info"></div>
+            <canvas id="gameCanvas" width="1000" height="500">
+                Your browser is not compatible !
+            </canvas>
+            </br>
+            <div id="speed">
+            </div>
+            <div id="live_info"></div>
+            <div id="debug"> </div>
+            <h3>jaws log</h3>
+            <div id="jaws-log"></div>
+        </div>
+      </div>
     </br>
     <footer>
         A game developed by Adrien Jarretier and Gomez Guillaume.
@@ -94,6 +138,17 @@
     username = "";
     trackName = "";
     carName = "";
+
+    function handleClick(cb) {
+        $("#hostOptions").toggle(cb.checked);
+        if (cb.checked) {
+            document.getElementById('hostOptions').style.visibility = 'visible';
+
+        } else {
+            document.getElementById('hostOptions').style.visibility = 'hidden';
+        }
+
+    }
 
     var game;
     window.onload = function() {
@@ -110,6 +165,7 @@
         });
         ParseJsonFile.createCarsSelectionMenu("cars");
         ParseJsonFile.createTracksSelectionMenu("track");
+        $("#hostOptions").hide();
     }
 
     </script>
@@ -196,6 +252,7 @@
                 track: trackName
             };
             socket.emit(jaws.constants.login, message);
+            $("#submitChatMessage").prop( "disabled", false );
             manageChat(socket);
             console.log(window.location);
 

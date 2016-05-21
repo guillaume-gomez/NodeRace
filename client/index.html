@@ -9,18 +9,17 @@
 </head>
 
 <body>
-    <fieldset id="group">
+    <fieldset>
         <legend>The Game</legend>
         <a href="game.html">
-            <button>Play Online Cars</button>
+            Play Online Cars
         </a>
     </fieldset>
-    <fieldset id="group">
+    <fieldset>
         <legend>The editor</legend>
         <a href="editor.html">
-            <button>Make a Level</button>
-        </a>
-        OR
+            Make a Level
+        </a> OR
         <script src="js/parseJsonFile.js">
 
 
@@ -29,7 +28,7 @@
         ParseJsonFile.createTracksSelectionMenu("level");
 
         </script>
-        <form action="editor.html" method="url">
+        <form action="editor.html" method="get">
             <p>Load a level :
                 <br/>
                 <select name="level" id="level">

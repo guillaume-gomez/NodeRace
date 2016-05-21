@@ -1,3 +1,12 @@
+a {
+    text-decoration: none;
+}
+
+p {
+    max-width:300px;
+    word-wrap:break-word;
+}
+
 html,
 body {
     margin: 0;
@@ -13,16 +22,8 @@ legend {
     text-align: center;
 }
 
-div#colonne1 {
-    float: left;
-    font-style: bold;
-    width: 22%;
-    margin-right: 10px;
-    font: 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-div#centre {
-    overflow: hidden;
+#colonne1 h3 {
+    text-align: center;
 }
 
 canvas {
@@ -39,10 +40,6 @@ button {
     vertical-align: baseline;
     font-family: inherit;
     color: inherit;
-    -webkit-appearance: none;
-    -ms-appearance: none;
-    -o-appearance: none;
-    appearance: none;
 }
 
 body {
@@ -51,11 +48,6 @@ body {
     background: #eaeaea url('bg.png');
     color: #4d4d4d;
     margin: 0 auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-font-smoothing: antialiased;
-    -ms-font-smoothing: antialiased;
-    -o-font-smoothing: antialiased;
-    font-smoothing: antialiased;
 }
 
 #log {
@@ -64,4 +56,8 @@ body {
 
 #newLog {
     font-style: italic;
+}
+
+#hostOptions {
+    visibility: hidden;
 }
