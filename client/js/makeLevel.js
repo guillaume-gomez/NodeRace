@@ -140,6 +140,11 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         return m_spriteList;
     }
 
+    this.updateRotationTiles = function() {
+        this.drawImageCurrent();
+        reloadListImage();
+    }
+
 
     this.save = function() {
         console.log('MakeLevel.save()');
@@ -190,7 +195,7 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         saveName = '';
     }
 
-  this.drawImageCurrent = function( )
+  this.drawImageCurrent = function()
   {
     var path = 'assets/';
     var url = path + m_currentImg[ m_indiceIMG ] ;
@@ -210,7 +215,6 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
 
     var _scale = document.getElementById('scale');
     _scale.value = ratio  ;
-    console.log("kjkjk")
     drawImageByContext(url, current_image.id, null, this.width);
   }
 

@@ -1,19 +1,23 @@
 function drawListImage ()
 {
-  var path = 'assets/';
   var insert = '';
   for ( var i = 0 ; i < m_listImgURL.length ; i++ )
   {
-    insert += '<canvas id="myCanvas'+i+'" width="30" height="30" onclick="(function(){m_level.setIndice('+i+');m_level.drawImageCurrent();}());">';
+    insert += '<canvas id="myCanvas'+i+'" width="30" height="30" onclick="(function(){m_level.setIndice('+i+')});">';
     insert += '</canvas>';
   }
   liste_image.innerHTML = insert;
-  var onClickFunction = "(function(){m_level.setIndice('+i+');m_level.drawImageCurrent();}());";
+  reloadListImage();
+}
+
+function reloadListImage() {
+  console.log(m_listImgURL.length)
+  var path = 'assets/';
+  var onClickFunction = "(function(){m_level.setIndice('+i+')});";
   for ( var i = 0 ; i < m_listImgURL.length ; i++ )
   {
       drawImageByContext(path + m_listImgURL[i], "myCanvas"+i, onClickFunction);
   }
-  oldAngle = document.getElementById('rotate').value;
 }
   
 function drawImageByContext(url, id ,onclick = null) 
