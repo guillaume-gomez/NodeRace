@@ -158,7 +158,7 @@ io.on(constants.connection, function(socket) {
 
         };
 
-        socket.broadcast.emit(constants.login, loginInfos);
+        socket.broadcast.to(instances[socket.uid].room).emit(constants.login, loginInfos);
         console.log("{ " + message.login + " }: " + ' connected');
 
         var car = {
