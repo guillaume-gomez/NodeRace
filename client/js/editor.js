@@ -119,7 +119,7 @@ function Editor() {
                     left: e.pageX - 5
                 });
                 $img.rotate(parseInt($("#rotate").val()));
-                $img.attr("src", m_level.getCurrentImgUrl());  
+                m_level.setCursorImage(); 
                 var ratio = parseInt($("#scale").val());
                 $img.css("width", ORIGINAL_WIDTH * ratio);
 
