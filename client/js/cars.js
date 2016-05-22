@@ -79,10 +79,7 @@ function Car(image, frame_width, frame_height, frame_duration) {
             socket.emit(jaws.constants.acceleration, accel);
         })
 
-        if (jaws.pressed('w'))
-            m_car.rotate(5);
-
-        jaws.on_keyup(["right", "up", "space", "shift"], function() {
+         jaws.on_keyup(["right", "up", "space", "shift"], function() {
             if (jaws.pressed(["up", "space"]) || jaws.pressed(["right", "shift"], true))
                 accel.percent = 1;
             else if (jaws.pressed("right"))
@@ -92,6 +89,21 @@ function Car(image, frame_width, frame_height, frame_duration) {
 
             socket.emit(jaws.constants.acceleration, accel);
         })
+
+        if (jaws.pressed('w'))
+            m_car.rotate(5);
+
+        //need smartphone-controls.js
+        if(jaws.mobileVersion) {
+            if(window.screenTouched) {
+                accel.percent = 1;
+                socket.emit(jaws.constants.acceleration, accel);
+            }
+            else {
+                accel.percent = 0;
+                socket.emit(jaws.constants.acceleration, accel);
+            }
+        }
     }
 
     this.setMyID = function(_id) {
