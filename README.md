@@ -21,7 +21,7 @@ npm install
 
 - At last for the 2D game Framework we are using **JawsJs** : https://github.com/ippa/jaws
 
-  *You don't need to do anything for this one.*
+  *You don't need to do anything for these ones, they're included in the source code.*
 
 ### assets :
 
