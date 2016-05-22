@@ -19,7 +19,7 @@ npm install
 
 - The library **jqueryrotate**, (a plugin to rotate Dom elements) : http://jqueryrotate.com/
 
-- At last for the 2D game Framework we are using JawsJs : https://github.com/ippa/jaws
+- At last for the 2D game Framework we are using **JawsJs** : https://github.com/ippa/jaws
 
   *You don't need to do anything for this one.*
 
