@@ -8,6 +8,7 @@ This application is an example of what it is possible to do with html5 and webso
 - We are using **Nodejs** to run the server : https://github.com/nodejs/node
 - The module **Express**, as web framework : https://github.com/expressjs/express
 - The module **socket.io** (a higher abstraction of websockets) : https://github.com/socketio/socket.io
+_ The library **jqueryrotate**, (a plugin to rotate Dom elements) : http://jqueryrotate.com/
 
 To install all those dependencies you need to have nodejs and npm installed.
 
