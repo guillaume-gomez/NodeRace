@@ -131,6 +131,7 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
     this.updateRotationTiles = function() {
         this.drawImageCurrent();
         reloadListImage();
+        $('#subImg').attr("src", this.getCurrentImgUrl());
     }
 
 
