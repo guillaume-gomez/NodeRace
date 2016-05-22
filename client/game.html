@@ -122,9 +122,6 @@
                 Your browser is not compatible !
             </canvas>
             </br>
-            <br>
-                <button onclick="startup()">Initialize</button>
-            <br>
             <div id="speed">
             </div>
             <div id="live_info"></div>
@@ -170,6 +167,12 @@
         ParseJsonFile.createCarsSelectionMenu("cars");
         ParseJsonFile.createTracksSelectionMenu("track");
         $("#hostOptions").hide();
+
+        jaws.mobileVersion = false;
+        if(window.mobileAndTabletcheck()) {
+            jaws.mobileVersion = true;
+            startup();
+        }
     }
 
     </script>
