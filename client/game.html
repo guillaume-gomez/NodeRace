@@ -14,6 +14,7 @@
     <script src="js/parseJsonFile.js"></script>
     <script src="js/tile.js"></script>
     <script src="js/tileset.js"></script>
+    <script src="js/smartphone-controls.js"></script>
     <script src="public/constants.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     
@@ -166,6 +167,12 @@
         ParseJsonFile.createCarsSelectionMenu("cars");
         ParseJsonFile.createTracksSelectionMenu("track");
         $("#hostOptions").hide();
+
+        jaws.mobileVersion = false;
+        if(window.mobileAndTabletcheck()) {
+            jaws.mobileVersion = true;
+            startup();
+        }
     }
 
     </script>
