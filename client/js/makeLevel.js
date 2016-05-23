@@ -1,14 +1,6 @@
 // push tile in m_spriteList,
 // after checking if there isn't already a sprite at this position
 function pushInSpriteList(spriteList, tile) {
-    console.log("pushInSpriteList()");
-
-    console.log("spriteList :");
-    console.log(spriteList);
-
-    console.log("tile :");
-    console.log(tile);
-
     var spaceFree = true;
     for (var i = 0; i < spriteList.length; i++) {
 
@@ -36,8 +28,8 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
     var m_spriteList;
 
     this.constructor = function() {
-        console.log("MakeLevel.constructor() called by");
-        console.log(arguments.callee.caller);
+        //console.log("MakeLevel.constructor() called by");
+        //console.log(arguments.callee.caller);
         if (leveljson != "") {
             saveName = leveljson;
         }
@@ -53,9 +45,7 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         m_viewport.x = 0;
         m_viewport.y = 0;
 
-        m_spriteListEnnemys = new jaws.SpriteList();
         m_spriteList = new jaws.SpriteList();
-
 
         if (leveljson != "") {
             console.log("assets :");
@@ -73,7 +63,6 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         //Draw a tile
         // if ( jaws.pressed("left_mouse_button") )
         jaws.on_keydown("left_mouse_button", function() {
-            //environnement
             var tangle = document.getElementById('rotate').value;
             tangle = parseInt(tangle);
             var anchor = "top_left";
@@ -104,11 +93,8 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
                     break;
                 }
             }
-            // console.log("m_spriteList :");
-            // console.log(m_spriteList);
             pushInSpriteList(m_spriteList, temp);
-            //}
-        })
+        });
 
         //delete the last tile
         jaws.on_keydown("z", function() {
@@ -126,23 +112,30 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
             m_spriteList.removeIf(foundSprite);
         }
 
-
         if (jaws.pressed("p")) {
             m_indiceIMG = (m_indiceIMG + 1) % m_listImgURL.length;
-            this.drawImageCurrent();
-            this.switchToSelectedTile();
+            this.updateRotationTiles();
         }
 
         if (jaws.pressed("m")) {
             m_indiceIMG = (m_indiceIMG - 1 < 0) ? m_listImgURL.length - 1 : m_indiceIMG - 1;
-            this.drawImageCurrent();
-            this.switchToSelectedTile();
+            this.updateRotationTiles();
         }
     }
 
 
     this.getSpriteList = function() {
         return m_spriteList;
+    }
+
+    this.updateRotationTiles = function() {
+        this.drawImageCurrent();
+        reloadListImage();
+        this.setCursorImage();
+    }
+
+    this.setCursorImage = function() {
+        $('#subImg').attr("src", this.getCurrentImgUrl());
     }
 
 
@@ -195,40 +188,33 @@ function MakeLevel(cell_size, listeURLimg, viewport, listEnnemies) {
         saveName = '';
     }
 
-  this.drawImageCurrent = function( )
+  this.drawImageCurrent = function()
   {
-    	var path = 'assets/';
-    	var url = path + m_currentImg[ m_indiceIMG ] ;
+    var path = 'assets/';
+    var url = path + m_currentImg[ m_indiceIMG ] ;
 
-    	var idImage = document.getElementById(m_indiceIMG);
-    	var ratio = 1 ;
-    	if ( idImage != null )
-    	{
-
-    		for ( var i = 0 ; i < idImage.width && idImage.width % 3 != 0 ; i+=10)
-    		{
-    			if ( i % 3 == 0 )
-    			{
-    			  ratio = i/100;
-    			}
-    		}
-    	}
-
-  	var _scale = document.getElementById('scale');
-  	_scale.value = ratio  ;
-  	drawImageByContext(url, current_image.id, null, this.width);
-  	//current_image.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'">';
-  	current_cursor_image.innerHTML = '<img src="'+url+'" width="'+this.width*ratio+'" >';
-  }
-
-    this.switchToSelectedTile = function(value_ratio) {
-        var path = 'assets/';
-        var url = path + m_currentImg[m_indiceIMG];
-
-        current_cursor_image.innerHTML = '';
-        current_cursor_image.innerHTML = '<img src="' + url + '" whith="17" >';
+    var idImage = document.getElementById(m_indiceIMG);
+    var ratio = 1 ;
+    if ( idImage != null )
+    {
+        for ( var i = 0 ; i < idImage.width && idImage.width % 3 != 0 ; i+=10)
+        {
+        	if ( i % 3 == 0 )
+        	{
+        	  ratio = i/100;
+        	}
+        }
     }
 
+    var _scale = document.getElementById('scale');
+    _scale.value = ratio  ;
+    drawImageByContext(url, current_image.id, null, this.width);
+  }
+
+  this.getCurrentImgUrl = function() {
+    var path = 'assets/';
+    return path + m_currentImg[ m_indiceIMG ];
+  }
 
     this.setIndice = function(newIndice) {
         m_indiceIMG = newIndice;

@@ -54,22 +54,18 @@
             <tr>
                 <td>
                     <label name="scale" title="scale selected sprite">Scale</label>
-                    <input id="scale" type="number" step="0.1" min="0.1" max="3.0" name="scale" size="2" value="1" onchange="m_level.switchToSelectedTile(this.value)" />
+                    <input id="scale" type="number" step="0.1" min="0.1" max="3.0" name="scale" size="2" value="1" onchange="" />
                 </td>
                 <td>
                     <label name="rotate" title="rotate selected sprite">Rotate</label>
-                    <input id="rotate" type="number" step="90" min="0" max="360" name="scale" value="0" onchange="(function(e) {
-					current_cursor_image.style.imageOrientation = document.getElementById('rotate').value+'deg';
-					drawListImage();
-          m_level.drawImageCurrent();
-					}());" />
+                    <input id="rotate" type="number" step="90" min="0" max="360" name="scale" value="0" onchange="m_level.updateRotationTiles()" />
                 </td>
                 <td>
                     <button type="button" onclick="m_level.save()" class="myButton">Save</button>
                 </td>
                 <td>
                     Display the grid :
-                    <input type="checkbox" value="false" id="grid" onClick="isGrid()">
+                    <input type="checkbox" checked id="grid">
                 </td>
             </tr>
         </table>
@@ -138,7 +134,7 @@
     </fieldset>
 </p>
 <p>An editor built by Adrien Jarretier and Guillaume Gomez</p>
-<div id="current-cursor-image"></div>
+<div id="current-cursor-image"><img id="subImg"></img></div>
 <script type="text/javascript">
 window.onload = function() {
     console.log(ArrayTileInfo);
@@ -163,9 +159,6 @@ window.onload = function() {
 
         m_listImgURL.push(ArrayTileInfo[i].url);
     };
-
-    displayGrid = false;
-
     jaws.assets.add(m_listImgURL);
     if (leveljson != "") {
         jaws.assets.add("../" + leveljson + ".json");
@@ -174,13 +167,8 @@ window.onload = function() {
 }
 
 </script>
-<script>
-function isGrid() {
-    displayGrid = ($('#grid').is(":checked"));
-}
-
-</script>
 <script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jRotate.js"></script>
 <script type="text/javascript">
 var ArrayTileInfo = new Array();
 

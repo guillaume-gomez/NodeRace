@@ -17,9 +17,11 @@ npm install
 ```
 *this will install the module dependancies.*
 
-- At last for the 2D game Framework we are using JawsJs : https://github.com/ippa/jaws
+- The library **jqueryrotate**, (a plugin to rotate Dom elements) : http://jqueryrotate.com/
 
-  *You don't need to do anything for this one.*
+- At last for the 2D game Framework we are using **JawsJs** : https://github.com/ippa/jaws
+
+  *You don't need to do anything for these ones, they're included in the source code.*
 
 ### assets :
 
