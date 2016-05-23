@@ -29,7 +29,6 @@ constants = new constants();
 var instances = {};
 
 function tick(socket, carInfos) {
-
     //update server date
     if (instances[socket.uid] && instances[socket.uid] !== undefined) {
         var currentDate = new Date();
@@ -44,7 +43,8 @@ function tick(socket, carInfos) {
                 return;
             }
             instances[socket.uid].nbCars--;
-            socket.conn.close();
+            clearInterval(car.tick);
+            return;
         }
 
         elapsedTime = (currentDate.getTime() - carInfos.lastTimeUpdate) / 1000;
@@ -186,6 +186,7 @@ io.on(constants.connection, function(socket) {
                 isHost: (id == 0)
             }
             //add car in the right instance
+        car.tick = setInterval(tick, 8, socket, car);
         instances[socket.uid].cars.push(car);
         console.log("information room " + JSON.stringify(instances[socket.uid].nbCars));
 
@@ -193,9 +194,6 @@ io.on(constants.connection, function(socket) {
         //check if the game will start
         var instanceModified = tools.checkLaunch(instances[socket.uid], socket);
         instances[socket.uid] = instanceModified;
-
-        socket.tick = setInterval(tick, 8, socket, car);
-
         //handle chat
         socket.login = message.login;
         chatF.getOldMessages(socket);
@@ -237,7 +235,8 @@ io.on(constants.connection, function(socket) {
                 return;
             }
             instances[socket.uid].nbCars--;
-            clearInterval(socket.tick);
+            console.log("disconnection");
+            clearInterval(car.tick);
 
             socket.emit(constants.closeCo);
         }

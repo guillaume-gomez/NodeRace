@@ -120,5 +120,8 @@ exports.notifyGameIsFinish = function(instances, socket, chatFunction) {
        socket.broadcast.to(instances[socket.uid].room).emit(constants.endGame);
      }
     }
+    for(var i = 0; i < instances[socket.uid].cars.length; i++) {
+        clearInterval(instances[socket.uid].cars[i].tick);
+    }
     setTimeout(delayGameIsFinishMessage, constants.DelayFinishMessageTimer);
 }
