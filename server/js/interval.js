@@ -1,4 +1,4 @@
-export.Interval = function(fn, time) {
+var Interval = function(fn, time) {
     var timer = false;
     this.start = function () {
         if (!this.isRunning())
@@ -13,10 +13,12 @@ export.Interval = function(fn, time) {
     };
 }
 
-var i = new Interval(fncName, 1000);
-i.start();
+module.exports = Interval;
 
-if (i.isRunning())
-    // ...
+// var i = new Interval(fncName, 1000);
+// i.start();
 
-i.stop();
+// if (i.isRunning())
+//     // ...
+
+// i.stop();
