@@ -113,9 +113,6 @@ function Game(socket, myId, trackName, cars) {
             m_positionTxt.text = "Position : " + position + " / " + nbCarsPlayed;
         });
 
-
-
-
         setInterval(function() {
                 var date = new Date();
                 socket.emit(jaws.constants.ping, date.getTime());
