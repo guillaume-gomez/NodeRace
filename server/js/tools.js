@@ -52,7 +52,7 @@ exports.manageLaunch = function(instance, socket) {
 
         if (counting == 0) {
             clearInterval(inter);
-            console.log("the game for the host is starting :'" + instance.host + "'");
+            //console.log("the game for the host is starting :'" + instance.host + "'");
             object.sendLogin(instance, socket);
         }
         counting--;
@@ -62,10 +62,10 @@ exports.manageLaunch = function(instance, socket) {
 }
 
 exports.destroyInstance = function(socket, instances, chatFunction) {
-    console.log("disconnection of the current instance " + instances[socket.uid].host + "by " + socket.uid);
+    //console.log("disconnection of the current instance " + instances[socket.uid].host + "by " + socket.uid);
     delete instances[socket.uid];
     chatFunction.deleteChatInstance(socket.uid);
-    console.log("number of instances in the server :" + Object.keys(instances).length);
+    //console.log("number of instances in the server :" + Object.keys(instances).length);
 }
 
 exports.disconnect = function(socket, instances, chatFunction) {
@@ -113,7 +113,7 @@ exports.findCar = function(instance, socketId) {
     return -1;
 }
 
-exports.notifyGameIsFinish = function(instances, socket, chatFunction) {
+exports.notifyGameIsFinish = function(instances, socket, chatFunction, intervalManager) {
     function delayGameIsFinishMessage() {
       if(instances[socket.uid] && instances[socket.uid] !== undefined) {
        socket.emit(constants.endGame);
@@ -121,7 +121,7 @@ exports.notifyGameIsFinish = function(instances, socket, chatFunction) {
      }
     }
     for(var i = 0; i < instances[socket.uid].cars.length; i++) {
-        clearInterval(instances[socket.uid].cars[i].tick);
+        intervalManager.removeTimer(instances[socket.uid].cars[i].sock);
     }
     setTimeout(delayGameIsFinishMessage, constants.DelayFinishMessageTimer);
 }

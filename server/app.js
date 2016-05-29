@@ -12,10 +12,10 @@ app.use(express.static(__dirname + '/../client'));
 app.use('/tracks', express.static(config.tracksDirectory));
 
 var gameModel = require('./js/levelModel')
-
 var gameEngine = require('./js/engine');
 var tools = require('./js/tools');
 var chatF = require('./js/chat');
+var intervalManager = require('./js/intervalManager');
 
 var io = require('socket.io')(server);
 
@@ -23,9 +23,6 @@ var io = require('socket.io')(server);
 app.use('/public', express.static('public'));
 var constants = require('./public/constants.js');
 constants = new constants();
-
-
-//les variables
 var instances = {};
 
 function tick(socket, carInfos) {
@@ -43,7 +40,7 @@ function tick(socket, carInfos) {
                 return;
             }
             instances[socket.uid].nbCars--;
-            clearInterval(car.tick);
+            intervalManager.removeTimer(car.sock);
             return;
         }
 
@@ -56,7 +53,7 @@ function tick(socket, carInfos) {
         gameModel.getTrackPosition(instances[socket.uid], io);
 
         if (gameModel.isFinish(instances[socket.uid])) {
-            tools.notifyGameIsFinish(instances, socket, chatF);
+            tools.notifyGameIsFinish(instances, socket, chatF, intervalManager);
         }
         var infos = {
             id: carInfos.id,
@@ -163,7 +160,6 @@ io.on(constants.connection, function(socket) {
 
         var car = {
                 id: id,
-
                 sock: socket.id,
                 uid: socket.uid,
                 nickname: message.login,
@@ -186,7 +182,9 @@ io.on(constants.connection, function(socket) {
                 isHost: (id == 0)
             }
             //add car in the right instance
-        car.tick = setInterval(tick, 8, socket, car);
+        //car.tick = setInterval(tick, 8, socket, car);
+        intervalManager.addTimer(car.sock, function() {return tick(socket, car)}, 8);
+        
         instances[socket.uid].cars.push(car);
         console.log("information room " + JSON.stringify(instances[socket.uid].nbCars));
 
@@ -236,8 +234,7 @@ io.on(constants.connection, function(socket) {
             }
             instances[socket.uid].nbCars--;
             console.log("disconnection");
-            clearInterval(car.tick);
-
+            intervalManager.removeTimer(car.sock);
             socket.emit(constants.closeCo);
         }
     });
