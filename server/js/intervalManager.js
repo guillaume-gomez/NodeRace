@@ -6,12 +6,17 @@ var intervalManager = function() {
 	this.addTimer = function(uid, fn, time) {
         timers[uid] = new Interval(fn, time);
         timers[uid].start();
-        console.log("addTimer "+this.length());
+        console.log("IntervalManager::addTimer "+this.length());
 	};
 
     this.removeTimer = function(uid) {
-        timers[uid].stop();
+        var timer = timers[uid];
+        if (!timer) {
+            return;
+        }
+        timer.stop();
         delete timers[uid];
+        console.log("IntervalManager::removeTimer "+this.length());
     }
 
     this.isRunning = function(uid) {
@@ -19,7 +24,7 @@ var intervalManager = function() {
     }
 
     this.length = function() {
-        return timers.length;
+        return Object.keys(timers).length;
     }
 }
 
