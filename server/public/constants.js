@@ -26,6 +26,8 @@ var Constants = (function() {
     Constants.prototype.switchTrack = "switchTrack";
     Constants.prototype.trackPosition = "trackPosition";
 
+    Constants.prototype.notifyNewPlayerMessage = " is connected";
+
 
     Constants.prototype.DelayFinishMessageTimer = 150;
 
