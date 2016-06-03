@@ -74,7 +74,7 @@ function tick(socket, carInfos) {
 
 io.on(constants.connection, function(socket) {
 
-    chatF.getChatMessage(socket);
+    chatF.addNewMessage(socket);
 
     socket.on(constants.login, function(message) {
 
