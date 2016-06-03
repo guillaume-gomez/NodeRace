@@ -47,14 +47,14 @@ exports.deleteChatInstance = function(id) {
 }
 
 function performNewMessage(message) {
-    var socketVar = this;
+    var socket = this;
     // get the nickname
     var newMessage = {
-        'login': socketVar.login,
+        'login': socket.login,
         'message': message
     };
-    var messages = getArrayMessage(socketVar.uid);
-    socketVar.broadcast.to(messages.room).emit(constants.message, JSON.stringify(newMessage));
+    var messages = getArrayMessage(socket.uid);
+    socket.broadcast.to(messages.room).emit(constants.message, JSON.stringify(newMessage));
     if (messages.listMessage.length > 15) {
         //delete the oldest messages
         messages.listMessage.splice(0, 1);
