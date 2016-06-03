@@ -192,8 +192,8 @@
 
         game.addCar(loginInfos.id, loginInfos.carName);
 
-        //prevenir le jeu qu'un nouveau joueur
-        var message = $('#info').html("<p>player " + loginInfos.username + " just connected</p>");
+        //display that a new player is connected
+        var message = $('#info').html("<p><i>" + loginInfos.username + "</i> is just connected</p>");
 
     });
 
