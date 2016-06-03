@@ -94,12 +94,7 @@ function Game(socket, myId, trackName, cars) {
             m_hubTxt.text = m_counting;
         });
 
-        socket.on(jaws.constants.endGame, function() {
-            debugger;
-            m_hubTxt.text = "You are finished "+m_positionTrack;
-            console.log("End Game ");
-            socket.emit(jaws.constants.disconnection, 'fin');
-        });
+        socket.on(jaws.constants.endGame, this.endGameFunction.bind(this));
 
         socket.on(jaws.constants.closeCo, function() {
             socket.disconnect();
@@ -232,6 +227,11 @@ function Game(socket, myId, trackName, cars) {
                 return m_positionTrack+"th";
             break;
         }
+    }
+
+    this.endGameFunction = function() {
+        m_hubTxt.text = "You are finished "+this.formatPositionText();
+        socket.emit(jaws.constants.disconnection, 'fin');
     }
 
     //end of class
