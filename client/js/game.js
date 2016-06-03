@@ -18,6 +18,7 @@ function Game(socket, myId, trackName, cars) {
     var m_hubTxt;
     var m_positionTxt;
     var m_lapsTxt;
+    var m_positionTrack;
 
     this.setup = function() {
 
@@ -25,6 +26,7 @@ function Game(socket, myId, trackName, cars) {
         cell_size = 50;
 
         m_counting = -1;
+        m_positionTrack = 1;
         m_speed = 0;
         m_myId = myId;
         m_date = new Date();
@@ -93,7 +95,8 @@ function Game(socket, myId, trackName, cars) {
         });
 
         socket.on(jaws.constants.endGame, function() {
-            m_hubTxt.text = 'end of game';
+            debugger;
+            m_hubTxt.text = "You are finished "+m_positionTrack;
             console.log("End Game ");
             socket.emit(jaws.constants.disconnection, 'fin');
         });
@@ -111,6 +114,7 @@ function Game(socket, myId, trackName, cars) {
 
         socket.on(jaws.constants.trackPosition, function(position) {
             m_positionTxt.text = "Position : " + position + " / " + nbCarsPlayed;
+            m_positionTrack = position;
         });
 
 
@@ -211,6 +215,23 @@ function Game(socket, myId, trackName, cars) {
         m_cars[carId] = new Car('cars/' + carName + '.png', 0, 0, 50);
         m_cars[carId].constructor();
 
+    }
+
+    this.formatPositionText = function() {
+        switch(m_positionTrack) {
+            case 1: 
+                return "1st";
+            break;
+            case 2:
+                return "2nd";
+            break;
+            case 3:
+                return "3rd";
+            break;
+            default:
+                return m_positionTrack+"th";
+            break;
+        }
     }
 
     //end of class
