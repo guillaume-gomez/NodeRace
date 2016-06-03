@@ -3,7 +3,7 @@ constants = new constants();
 
 var ArrayMessages = new Array();
 
-exports.getChatMessage = function(socket) {
+exports.addNewMessage = function(socket) {
     // trigger on 'send' button
     socket.on(constants.message, function(message) {
         // get the nickname
@@ -25,6 +25,7 @@ exports.getChatMessage = function(socket) {
         }
     });
 }
+
 
 exports.getOldMessages = function(socket) {
     for (var i = 0; i < ArrayMessages.length; i++) {

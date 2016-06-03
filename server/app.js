@@ -76,7 +76,6 @@ io.on(constants.connection, function(socket) {
 
     chatF.getChatMessage(socket);
 
-
     socket.on(constants.login, function(message) {
 
         socket.datePing = new Date();
@@ -97,10 +96,6 @@ io.on(constants.connection, function(socket) {
 
                 }
             }
-
-            // console.log("message.track :");
-            // console.log(message.track);
-
             var newInstance = {
                 host: socket.id,
                 room: new Date().toString(),
