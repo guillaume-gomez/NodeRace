@@ -193,6 +193,7 @@ io.on(constants.connection, function(socket) {
 
         //handle chat
         socket.login = message.login;
+        chatF.notifyNewPlayer(socket);
         chatF.getOldMessages(socket);
     });
 

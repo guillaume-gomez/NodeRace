@@ -9,9 +9,9 @@ exports.addNewMessage = function(socket) {
     socket.on(constants.message, fnc);
 }
 
-exports.notifyNewPlayer = function(socket) {
-    var message = "'socket.login' " + constants.notifyNewPlayerMessage;
-    performNewMessage(message)(socket);
+exports.notifyNewPlayer = function(socket,login) {
+    var fnc = performNewMessage.bind(socket);
+    fnc(constants.notifyNewPlayerMessage);
 }
 
 exports.getOldMessages = function(socket) {
