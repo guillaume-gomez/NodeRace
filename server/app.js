@@ -39,6 +39,7 @@ function tick(socket, carInfos) {
             console.log("{ " + socket.login + "}:  disconnection : ping too high   " + socket.id);
             car = tools.findCar(instances[socket.uid], socket.id);
             if (car != -1 && car.isHost) {
+                tools.hostIsLeaving(socket, instances[socket.uid]);
                 tools.disconnectEveryone(socket, instances[socket.uid]);
                 tools.disconnect(socket, instances, chatF);
                 return;
@@ -232,6 +233,7 @@ io.on(constants.connection, function(socket) {
             //get info from the recipient
             car = tools.findCar(instances[socket.uid], socket.id);
             if (car != -1 && car.isHost) {
+                tools.hostIsLeaving(socket, instances[socket.uid]);
                 tools.disconnectEveryone(socket, instances[socket.uid]);
                 tools.disconnect(socket, instances, chatF);
                 return;

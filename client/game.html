@@ -280,6 +280,10 @@
         alert('There is already an ongoing game with this password');
     });
 
+    socket.on(jaws.constants.hostIsLeaving, function() {
+        alert("Game is over, host has leaving the game");
+    })
+
     $(window).unload(function() {
         alert("Handler for .unload() called.");
         socket.emit(jaws.constants.disconnection, 'disconnection');
