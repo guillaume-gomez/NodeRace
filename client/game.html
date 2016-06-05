@@ -199,7 +199,10 @@
     });
 
     socket.on(jaws.constants.instanceNotFound, function() {
-        BootstrapDialog.alert('no game found');
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_WARNING,
+            message: 'no game found'
+        });
     });
 
     socket.on(jaws.constants.id, function(id) {
@@ -237,12 +240,18 @@
         var valid = true;
 
         if (!emptyPattern.test(log)) {
-            BootstrapDialog.alert("Please set the login");
+            BootstrapDialog.alert({
+                type: BootstrapDialog.TYPE_PRIMARY,
+                message: "Please set the login"
+            });
             valid = false;
         }
 
         if(!emptyPattern.test(carName)) {
-            BootstrapDialog.alert("Please select a car")
+            BootstrapDialog.alert({
+                type: BootstrapDialog.TYPE_PRIMARY,
+                message: "Please select a car"
+            })
             valid = false;
         }
 
@@ -278,15 +287,24 @@
     });
 
     socket.on(jaws.constants.isExist, function() {
-        BootstrapDialog.alert('There is already an ongoing game with this password');
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_WARNING,
+            message:'There is already an ongoing game with this password'
+        });
     });
 
     socket.on(jaws.constants.hostIsLeaving, function() {
-        BootstrapDialog.alert("Game is over, host has leaving the game. Refresh the page");
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_DANGER,
+            message: "Game is over, host has leaving the game. Refresh the page"
+        });
     })
 
     $(window).unload(function() {
-        BootstrapDialog.alert("Handler for .unload() called.");
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_DANGER,
+            message: "Handler for .unload() called."
+        });
         socket.emit(jaws.constants.disconnection, 'disconnection');
     });
 
