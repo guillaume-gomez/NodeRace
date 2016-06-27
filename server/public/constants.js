@@ -27,6 +27,8 @@ var Constants = (function() {
     Constants.prototype.trackPosition = "trackPosition";
     Constants.prototype.hostIsLeaving = "hostIsLeaving";
 
+    Constants.prototype.notifyNewPlayerMessage = " is connected";
+
 
     Constants.prototype.DelayFinishMessageTimer = 150;
 

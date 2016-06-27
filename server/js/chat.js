@@ -3,27 +3,15 @@ constants = new constants();
 
 var ArrayMessages = new Array();
 
-exports.getChatMessage = function(socket) {
+exports.addNewMessage = function(socket) {
     // trigger on 'send' button
-    socket.on(constants.message, function(message) {
-        // get the nickname
-        var newMessage = {
-            'login': socket.login,
-            'message': message
-        };
-        for (var i = 0; i < ArrayMessages.length; i++) {
-            if (socket.uid == ArrayMessages[i].id) {
-                ArrayMessages[i].listMessage.push(newMessage);
-                socket.broadcast.to(ArrayMessages[i].room).emit(constants.message, JSON.stringify(newMessage));
+    var fnc = performNewMessage.bind(socket);
+    socket.on(constants.message, fnc);
+}
 
-                if (ArrayMessages[i].listMessage.length > 15) {
-                    //delete the oldest messages
-                    ArrayMessages[i].listMessage.splice(0, 1);
-                }
-                break;
-            }
-        }
-    });
+exports.notifyNewPlayer = function(socket,login) {
+    var fnc = performNewMessage.bind(socket);
+    fnc(constants.notifyNewPlayerMessage);
 }
 
 exports.getOldMessages = function(socket) {
@@ -56,4 +44,28 @@ exports.deleteChatInstance = function(id) {
             break;
         }
     }
+}
+
+function performNewMessage(message) {
+    var socket = this;
+    // get the nickname
+    var newMessage = {
+        'login': socket.login,
+        'message': message
+    };
+    var messages = getArrayMessage(socket.uid);
+    socket.broadcast.to(messages.room).emit(constants.message, JSON.stringify(newMessage));
+    if (messages.listMessage.length > 15) {
+        //delete the oldest messages
+        messages.listMessage.splice(0, 1);
+    }
+}
+
+function getArrayMessage(socketUid) {
+    for (var i = 0; i < ArrayMessages.length; i++) {
+         if (socketUid == ArrayMessages[i].id) {
+            return ArrayMessages[i];
+         }
+    }
+    return null;
 }

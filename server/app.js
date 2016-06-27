@@ -72,8 +72,7 @@ function tick(socket, carInfos) {
 
 io.on(constants.connection, function(socket) {
 
-    chatF.getChatMessage(socket);
-
+    chatF.addNewMessage(socket);
 
     socket.on(constants.login, function(message) {
 
@@ -95,10 +94,6 @@ io.on(constants.connection, function(socket) {
 
                 }
             }
-
-            // console.log("message.track :");
-            // console.log(message.track);
-
             var newInstance = {
                 host: socket.id,
                 room: new Date().toString(),
@@ -195,6 +190,7 @@ io.on(constants.connection, function(socket) {
         instances[socket.uid] = instanceModified;
         //handle chat
         socket.login = message.login;
+        chatF.notifyNewPlayer(socket);
         chatF.getOldMessages(socket);
     });
 
