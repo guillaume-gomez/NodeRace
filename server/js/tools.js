@@ -87,6 +87,10 @@ exports.isInstanceExist = function(instances, newPasswd) {
     return false;
 }
 
+exports.hostIsLeaving = function(socket, instance) {
+    socket.broadcast.to(instance.room).emit(constants.hostIsLeaving);
+}
+
 exports.disconnectEveryone = function(socket, instance) {
     socket.emit(constants.closeCo);
     socket.broadcast.to(instance.room).emit(constants.closeCo);

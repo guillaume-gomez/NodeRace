@@ -17,9 +17,10 @@
     <script src="js/smartphone-controls.js"></script>
     <script src="public/constants.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css"></link>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
 </head>
 
 <body>
@@ -198,7 +199,10 @@
     });
 
     socket.on(jaws.constants.instanceNotFound, function() {
-        alert('no game found');
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_WARNING,
+            message: 'no game found'
+        });
     });
 
     socket.on(jaws.constants.id, function(id) {
@@ -236,12 +240,18 @@
         var valid = true;
 
         if (!emptyPattern.test(log)) {
-            alert("Please set the login");
+            BootstrapDialog.alert({
+                type: BootstrapDialog.TYPE_PRIMARY,
+                message: "Please set the login"
+            });
             valid = false;
         }
 
         if(!emptyPattern.test(carName)) {
-            alert("Please select a car")
+            BootstrapDialog.alert({
+                type: BootstrapDialog.TYPE_PRIMARY,
+                message: "Please select a car"
+            })
             valid = false;
         }
 
@@ -273,15 +283,28 @@
     });
 
     socket.on(jaws.constants.instanceDisconnection, function(message) {
-        alert(message);
+        BootstrapDialog.alert(message);
     });
 
     socket.on(jaws.constants.isExist, function() {
-        alert('There is already an ongoing game with this password');
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_WARNING,
+            message:'There is already an ongoing game with this password'
+        });
     });
 
+    socket.on(jaws.constants.hostIsLeaving, function() {
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_DANGER,
+            message: "Game is over, host has leaving the game. Refresh the page"
+        });
+    })
+
     $(window).unload(function() {
-        alert("Handler for .unload() called.");
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_DANGER,
+            message: "Handler for .unload() called."
+        });
         socket.emit(jaws.constants.disconnection, 'disconnection');
     });
 
