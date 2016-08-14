@@ -25,6 +25,9 @@ var Constants = (function() {
     Constants.prototype.startGame = "startGame";
     Constants.prototype.switchTrack = "switchTrack";
     Constants.prototype.trackPosition = "trackPosition";
+    Constants.prototype.hostIsLeaving = "hostIsLeaving";
+
+    Constants.prototype.notifyNewPlayerMessage = " is connected";
 
 
     Constants.prototype.DelayFinishMessageTimer = 150;

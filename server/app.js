@@ -12,10 +12,10 @@ app.use(express.static(__dirname + '/../client'));
 app.use('/tracks', express.static(config.tracksDirectory));
 
 var gameModel = require('./js/levelModel')
-
 var gameEngine = require('./js/engine');
 var tools = require('./js/tools');
 var chatF = require('./js/chat');
+var intervalManager = require('./js/intervalManager');
 
 var io = require('socket.io')(server);
 
@@ -23,13 +23,9 @@ var io = require('socket.io')(server);
 app.use('/public', express.static('public'));
 var constants = require('./public/constants.js');
 constants = new constants();
-
-
-//les variables
 var instances = {};
 
 function tick(socket, carInfos) {
-
     //update server date
     if (instances[socket.uid] && instances[socket.uid] !== undefined) {
         var currentDate = new Date();
@@ -39,12 +35,14 @@ function tick(socket, carInfos) {
             console.log("{ " + socket.login + "}:  disconnection : ping too high   " + socket.id);
             car = tools.findCar(instances[socket.uid], socket.id);
             if (car != -1 && car.isHost) {
+                tools.hostIsLeaving(socket, instances[socket.uid]);
                 tools.disconnectEveryone(socket, instances[socket.uid]);
                 tools.disconnect(socket, instances, chatF);
                 return;
             }
             instances[socket.uid].nbCars--;
-            socket.conn.close();
+            intervalManager.removeTimer(car.sock);
+            return;
         }
 
         elapsedTime = (currentDate.getTime() - carInfos.lastTimeUpdate) / 1000;
@@ -56,7 +54,7 @@ function tick(socket, carInfos) {
         gameModel.getTrackPosition(instances[socket.uid], io);
 
         if (gameModel.isFinish(instances[socket.uid])) {
-            tools.notifyGameIsFinish(instances, socket, chatF);
+            tools.notifyGameIsFinish(instances, socket, chatF, intervalManager);
         }
         var infos = {
             id: carInfos.id,
@@ -74,8 +72,7 @@ function tick(socket, carInfos) {
 
 io.on(constants.connection, function(socket) {
 
-    chatF.getChatMessage(socket);
-
+    chatF.addNewMessage(socket);
 
     socket.on(constants.login, function(message) {
 
@@ -97,10 +94,6 @@ io.on(constants.connection, function(socket) {
 
                 }
             }
-
-            // console.log("message.track :");
-            // console.log(message.track);
-
             var newInstance = {
                 host: socket.id,
                 room: new Date().toString(),
@@ -163,7 +156,6 @@ io.on(constants.connection, function(socket) {
 
         var car = {
                 id: id,
-
                 sock: socket.id,
                 uid: socket.uid,
                 nickname: message.login,
@@ -186,6 +178,9 @@ io.on(constants.connection, function(socket) {
                 isHost: (id == 0)
             }
             //add car in the right instance
+        //car.tick = setInterval(tick, 8, socket, car);
+        intervalManager.addTimer(car.sock, function() {return tick(socket, car)}, 8);
+        
         instances[socket.uid].cars.push(car);
         console.log("information room " + JSON.stringify(instances[socket.uid].nbCars));
 
@@ -193,11 +188,9 @@ io.on(constants.connection, function(socket) {
         //check if the game will start
         var instanceModified = tools.checkLaunch(instances[socket.uid], socket);
         instances[socket.uid] = instanceModified;
-
-        socket.tick = setInterval(tick, 8, socket, car);
-
         //handle chat
         socket.login = message.login;
+        chatF.notifyNewPlayer(socket);
         chatF.getOldMessages(socket);
     });
 
@@ -232,13 +225,14 @@ io.on(constants.connection, function(socket) {
             //get info from the recipient
             car = tools.findCar(instances[socket.uid], socket.id);
             if (car != -1 && car.isHost) {
+                tools.hostIsLeaving(socket, instances[socket.uid]);
                 tools.disconnectEveryone(socket, instances[socket.uid]);
                 tools.disconnect(socket, instances, chatF);
                 return;
             }
             instances[socket.uid].nbCars--;
-            clearInterval(socket.tick);
-
+            console.log("disconnection");
+            intervalManager.removeTimer(car.sock);
             socket.emit(constants.closeCo);
         }
     });
