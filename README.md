@@ -48,6 +48,8 @@ Here are the packages you may want to add to [sublime-text](https://www.sublimet
 
 - [HTML-CSS-JS Prettify](https://packagecontrol.io/packages/HTML-CSS-JS%20Prettify) **used to follow a clean coding style**
 
+![Game](./preview.png "ScreenShot")
+
 ## Authors :
 - [Gomez Guillaume](https://github.com/guillaume-gomez)
 - [Jarretier Adrien](https://github.com/AdrienJarretier)
