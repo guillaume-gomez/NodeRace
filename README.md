@@ -3,6 +3,8 @@ A Network video game to learn basic NodeJs Skills.
 
 This application is an example of what it is possible to do with html5 and websockets.
 
+![Game](./preview.png "ScreenShot")
+
 ## Dependancies :
 
 - We are using **Nodejs** to run the server : https://github.com/nodejs/node
@@ -48,7 +50,6 @@ Here are the packages you may want to add to [sublime-text](https://www.sublimet
 
 - [HTML-CSS-JS Prettify](https://packagecontrol.io/packages/HTML-CSS-JS%20Prettify) **used to follow a clean coding style**
 
-![Game](./preview.png "ScreenShot")
 
 ## Authors :
 - [Gomez Guillaume](https://github.com/guillaume-gomez)
